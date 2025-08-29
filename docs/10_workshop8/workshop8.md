@@ -21,6 +21,11 @@
 | `socket`   | ใช้ทำงาน TCP/UDP communication เช่น HTTP server, WebSocket |
 
 
+![](./images/STM32H7.png)
+
+![](./images/stm32.jpg)
+
+
 ## เรียนรู้ และทำความคุ้นเคยกับโมเดล FOMO Face Detection
 ก่อนอื่นเรามาทำความรู้จักและสร้างความคุ้นเคย กับ Fomo Face Detection ของ OpenMV กันก่อนนะครับ คือ 
     - โมเดลตรวจจำวัตถุ มีขนาดเล็กสามารถทำงานได้อย่างรวดเร็ว ที่ทำงานอยู่บน microcontroller ของ OpenMV โดยเราไม่จำเป็นจะต้องทำการ Train Model  ด้วยตัวเอง
