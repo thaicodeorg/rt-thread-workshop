@@ -9,7 +9,7 @@
 
 </div>
 
-#ยินดีต้อนรับทุกท่าน
+## สวัสดีครับ ยินดีต้อนรับทุกท่าน
 
 ![](./01_rt-thread/images/brochour-rtthread.jpg)
 
@@ -30,20 +30,21 @@
 ![](./assets/rt-thread.jpg){ width="300" }
 
 ## :file_folder:{style="color: orange; font-size: 30px;"}   Workshop: RT-Thread 
-  - [Workshop1 RT-Thread IDE Basic](./03_workshop1/workshop1.md)
-  - [Workshop2 GPIO - Interupt](./04_workshop2/workshop2.md)
-  - [Workshop3 Dummy Device](./05_workshop3/workshop3.md)
-  - [Workshop4 WiFi RW007](./06_workshop4/workshop4.md)
-  - [Workshop5 IoT Programing](./07_workshop5/workshop5.md)
-  - [Workshop6 OpenMV](./08_workshop6/workshop6.md)
+  - [Workshop 1 : RT-Thread IDE Basic](./03_workshop1/workshop1.md)
+  - [Workshop 2 : GPIO - Interupt](./04_workshop2/workshop2.md)
+  - [Workshop 3 : Dummy Device](./05_workshop3/workshop3.md)
+  - [Workshop 4 : WiFi RW007](./06_workshop4/workshop4.md)
+  - [Workshop 5 : IoT Programing](./07_workshop5/workshop5.md)
+  - [Workshop 6 : OpenMV](./08_workshop6/workshop6.md)
 
 ![](./assets/micropython-logo.png){ width="300" }
 
 ---
 
 ## :file_folder:{style="color: orange; font-size: 30px;"}  Workshop:  Micropython บน OpenMV
-  - [Workshop7 Micropython](./09_workshop7/workshop7.md)
-  - [Workshop8 Face Detection](./10_workshop8/workshop8.md) 
+  - [Workshop 7 : Micropython](./09_workshop7/workshop7.md)
+  - [Workshop 8 : Face Detection](./10_workshop8/workshop8.md) 
+  - [Workshop 9 : Edge Impulse](./11_workshop9/workshop9.md)
 ---
 
 ## :material-git:{style="color: orange; font-size: 30px;"} Source Code 
