@@ -13,13 +13,18 @@
 
 ![](./01_rt-thread/images/brochour-rtthread.jpg)
 
-## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread
+
+## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread  
+    (9.00-10.30 น)
   - [พื้นฐาน RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
   - [พื้นฐาน kernel](./01_rt-thread/01.2_basic_kernel.md)
+  - [แนะนำ STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
+  - [แนะนำ Reneses Vision Board](./01_rt-thread/01.4_vision_board.md)
 
 ---
 
 ## :fontawesome-solid-list:{style="color: orange; font-size: 30px;"}  การเตรียมการ
+    (10.40-12.00)
   - [ติดตั้ง RT-Thread Ide](./02_Preparation/02.1_install_rt_thread_ide.md)
   - [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
   - [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
@@ -30,6 +35,7 @@
 ![](./assets/rt-thread.jpg){ width="300" }
 
 ## :file_folder:{style="color: orange; font-size: 30px;"}   Workshop: RT-Thread 
+    (13.00-14.30 น)
   - [Workshop 1 : RT-Thread IDE Basic](./03_workshop1/workshop1.md)
   - [Workshop 2 : GPIO - Interupt](./04_workshop2/workshop2.md)
   - [Workshop 3 : Dummy Device](./05_workshop3/workshop3.md)
@@ -42,6 +48,7 @@
 ---
 
 ## :file_folder:{style="color: orange; font-size: 30px;"}  Workshop:  Micropython บน OpenMV
+    (14.40-16.30 น)
   - [Workshop 7 : Micropython](./09_workshop7/workshop7.md)
   - [Workshop 8 : Face Detection](./10_workshop8/workshop8.md) 
   - [Workshop 9 : Edge Impulse](./11_workshop9/workshop9.md)
