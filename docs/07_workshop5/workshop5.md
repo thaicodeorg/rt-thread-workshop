@@ -232,3 +232,11 @@ void hal_entry(void) {
 
 **Screen:**
 ![](./images/publish_mqtt.gif)
+
+
+!!! note
+    Fix MQTT connect
+
+![](./images/Fix_mqtt1.png)
+
+![](./images/Fix_mqtt2.png)
