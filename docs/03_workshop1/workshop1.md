@@ -158,8 +158,6 @@ Compile โค้ดให้เป็นไฟล์ binary (.elf/.hex) เพ�
 
 2. **ดูผล**
 
-   ![Terminal แสดง Hello RT-Thread](./images/3_terminal1.gif){ width="600" }
-
    คุณจะเห็นข้อความ:
    ```
    Hello RT-Thread!

@@ -66,8 +66,6 @@ description: "Lab Guide — เขียนโปรแกรมด้วย Mic
 
 4. กด **Connect** → กด **Run**
 
-   ![](./images/9_run_lab_python01.gif){ width="500" }
-
    !!! success "Checkpoint 7.1"
        ✅ LED กระพริบสีแดง → เขียว → น้ำเงิน
        ✅ Terminal ใน IDE แสดงข้อความ Debug (ถ้ามี `print`)

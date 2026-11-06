@@ -228,8 +228,6 @@ void hal_entry(void)
    IRQ10 triggered
    ```
 
-   ![ทดสอบ Interrupt](./images/4_TestInterrupt.gif){ width="500" }
-
 !!! success "Checkpoint 2.7"
     ✅ Terminal แสดง "IRQ10 triggered" ทุกครั้งที่กด K1
 

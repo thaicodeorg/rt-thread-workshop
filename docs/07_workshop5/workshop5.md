@@ -252,8 +252,6 @@ Diagram การสื่อสาร:
 
 **Screen ผลลัพธ์:**
 
-![](./images/publish_mqtt.gif){ width="600" }
-
 ---
 
 ## สรุปผลลัพธ์

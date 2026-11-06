@@ -153,8 +153,6 @@ description: "Lab Guide — ตรวจจับวัตถุด้วย Ope
 
 3. กด **Run Script** (ปุ่ม Play)
 
-   ![](../09_workshop7/images/9_run_lab_python01.gif){ width="500" }
-
    !!! success "Checkpoint 6.5"
        ✅ LED กระพริบสลับสีแดง → เขียว → น้ำเงิน
        ✅ ภาพจากกล้องแสดงใน IDE
