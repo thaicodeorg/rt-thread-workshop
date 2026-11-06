@@ -1,150 +1,193 @@
 ---
 title: "Workshop 8: Face Detection"
-description: "ตรวจจับใบหน้าด้วย OpenMV และ TensorFlow Lite"
+description: "Lab Guide — ตรวจจับใบหน้าด้วย TensorFlow Lite บน OpenMV"
 ---
 
-# TensorFlow ร่วมกับ OpenMV
+# Workshop 8: Face Detection
 
-![](./images/8_tensorflow_openmv.png){ width="500" }
+<span class="md-tag">Advanced</span> <span class="md-tag">AI</span> <span class="md-tag">60 นาที</span>
 
-**การเชื่อมต่ออุปกรณ์**  
-- ให้เชื่อมต่อกับ port USB-OTG นะครับ
-  
-!!! note "แหล่งข้อมูลอ้างอิง"
-    - [https://docs.openmv.io/library/omv.tf.html](https://docs.openmv.io/library/omv.tf.html)
-    - [https://github.com/openmv/openmv/tree/master/scripts/examples](https://github.com/openmv/openmv/tree/master/scripts/examples)
+## ก่อนเริ่ม Lab
 
-**ตารางสรุป moddole ที่ใช้ใน OpenVM**
+- [ ] ทำ [Workshop 7](../09_workshop7/workshop7.md) เสร็จแล้ว (MicroPython พื้นฐาน)
+- [ ] OpenMV IDE พร้อมใช้งาน
+- [ ] บอร์ด Vision Board พร้อมกล้อง
 
-| โมดูล      | คำอธิบาย |
-|------------|-----------|
-| `sensor`   | ใช้ควบคุมกล้อง เช่น `reset()`, `set_pixformat()`, `set_framesize()`, `snapshot()` |
-| `image`    | สำหรับจัดการภาพ เช่น `draw_rectangle()`, `draw_string()`, `find_features()` |
-| `time`     | ใช้จับเวลา / FPS / delay เช่น `time.clock()`, `time.sleep_ms()` |
-| `network`  | ใช้เชื่อมต่อ Wi-Fi ทั้งในโหมด STA (client) หรือ AP (access point) |
-| `socket`   | ใช้ทำงาน TCP/UDP communication เช่น HTTP server, WebSocket |
+## เมื่อทำเสร็จ คุณจะได้
 
-![](./images/STM32H7.png){ width="500" }
+- [ ] โหลดโมเดล FOMO Face Detection บน OpenMV
+- [ ] ตรวจจับใบหน้าแบบ Real-time
+- [ ] ปรับค่า Confidence Threshold
 
-![](./images/stm32.jpg){ width="500" }
+---
 
-## เรียนรู้ และทำความคุ้นเคยกับโมเดล FOMO Face Detection
-ก่อนอื่นเรามาทำความรู้จักและสร้างความคุ้นเคย กับ Fomo Face Detection ของ OpenMV กันก่อนนะครับ คือ 
-    - โมเดลตรวจจำวัตถุ มีขนาดเล็กสามารถทำงานได้อย่างรวดเร็ว ที่ทำงานอยู่บน microcontroller ของ OpenMV โดยเราไม่จำเป็นจะต้องทำการ Train Model  ด้วยตัวเอง
-    - input ภาพมีขนาด 240x240 RGB
-    - output ของโมเดลจะเป็น List ของ กล่องที่ล้อมรอบภาพ (bounding boxes) ที่สามารถตรวจจำได้
-    - แยกตาม Class  "background" และ "face"
+## TensorFlow Lite บน Microcontroller?
 
-## Unit Test
-### ทดสอบย่อย 1 สำหรับการเรียนรู้
-```python   title="tensorflowlite_check_fomo.py" linenums="1"
-import tf
-labels, net = tf.load_builtin_model("fomo_face_detection")
-print(labels)
-```
-![](./images/8_detect_fomo.png){ width="500" }
+**TensorFlow Lite** = เวอร์ชันเล็กของ TensorFlow สำหรับอุปกรณ์ที่มีทรัพยากรจำกัด
 
-- โมเดล FOMO Face Detection ของ OpenMV จะมี 2 class: ["background", "face"]
-- ดังนั้น i=0 คือ background, i=1 คือ face → ใน loop ของคุณมี if i == 0: continue ถูกต้องแล้ว
+- โมเดลถูก **Quantize** (ลดความละเอียดตัวเลข) เพื่อให้รันบน MCU ได้
+- OpenMV มีโมเดล **FOMO Face Detection** ติดมาให้แล้ว
 
-### ทดสอบย่อย 2 ทดสอบค่าความมั่นใจ
-```python   title="tensorflowlite_check_fomo.py" linenums="1"
-import  tf, math
-labels, net = tf.load_builtin_model("fomo_face_detection")
-print(labels)
+!!! info "FOMO คืออะไร?"
+    **FOMO** = Faster Objects, More Objects
+    - โมเดลตรวจจับวัตถุขนาดเล็ก รันเร็วบน MCU
+    - Input: 240×240 RGB
+    - Output: Bounding boxes ที่ล้อมหน้า + ค่าความมั่นใจ
 
-min_confidence = 0.4   # ค่าความมั่นใจขั้นต่ำ
-thresholds=[(math.ceil(min_confidence * 255), 255)]
+---
 
-```
-- OpenMV FOMO ใช้ 0–255 scale  
-- min_confidence = 0.4 → 102  
-- ถ้า threshold สูงเกินไป อาจจะไม่ detect หน้า ให้ลองลดเป็น 0.3 (≈77)  
+## Lab 8.1: โหลดโมเดลและตรวจสอบ
 
-![](./images/8_checkthreshold.png){ width="500" }
+### ขั้นตอน
 
-## Workshop 8 ทดสอบการ Run model
-```python   title="tensorflowlite_face_detect.py" linenums="1"
-import sensor, time, math, tf
+1. เปิด **OpenMV IDE** → เชื่อมต่อกล้อง
 
-# -----------------------------
-# ตั้งค่าเซนเซอร์ของกล้อง OpenMV
-# -----------------------------
-print("[INFO] Initializing sensor...")  # Debug
-sensor.reset()                      # รีเซ็ตเซนเซอร์
-sensor.set_vflip(True)              # กลับภาพในแนวตั้ง (ใช้กรณีกล้องกลับหัว)
-sensor.set_pixformat(sensor.RGB565) # ตั้งค่าเป็น RGB565 (โหมดสี)
-sensor.set_framesize(sensor.QVGA)   # ใช้ความละเอียด QVGA (320x240)
-sensor.set_windowing((240, 240))    # ตัดภาพให้เป็นสี่เหลี่ยมจัตุรัส 240x240 (ตรงตาม input ของโมเดล)
-print("[INFO] Sensor initialized (240x240 window, RGB565)")
-# -----------------------------
-# โหลดโมเดลที่มีในเฟิร์มแวร์ OpenMV
-# -----------------------------
-min_confidence = 0.3   # ค่าความมั่นใจขั้นต่ำ
-labels, net = tf.load_builtin_model("fomo_face_detection")
-# "fomo_face_detection" เป็นโมเดลตัวอย่าง FOMO ที่ติดมากับ OpenMV IDE
-# return: labels = ป้ายชื่อ, net = โมเดล
+2. สร้างไฟล์ใหม่: `test_fomo.py`
 
-# -----------------------------
-# กำหนดสีที่จะใช้วาด Bounding Box
-# -----------------------------
-colors = [
-    (255, 0, 0),      # แดง
-    (0, 255, 0),      # เขียว
-    (255, 255, 0),    # เหลือง
-    (0, 0, 255),      # น้ำเงิน
-    (255, 0, 255),    # ม่วง
-    (0, 255, 255),    # ฟ้า
-    (255, 255, 255),  # ขาว
-]
+3. เขียนโค้ดโหลดโมเดล:
 
-clock = time.clock()  # ใช้นับ FPS
+   ```python title="test_fomo.py" linenums="1"
+   import tf
+   
+   labels, net = tf.load_builtin_model("fomo_face_detection")
+   print(labels)
+   ```
 
-# -----------------------------
-# วนลูปหลัก
-# -----------------------------
-print("[INFO] Entering main loop...")
-while True:
-    clock.tick()
-    img = sensor.snapshot()  # จับภาพจากกล้อง
+4. กด **Run**
 
-    # ใช้โมเดลตรวจจับวัตถุ
-    # thresholds = กำหนดความมั่นใจขั้นต่ำ (0.4 → แปลงเป็น scale 0–255)
-    for i, detection_list in enumerate(
-        net.detect(img, thresholds=[(math.ceil(min_confidence * 255), 255)])
-    ):
-        print("Detection lists:", detection_list)
-        if i == 0:
-            continue  # i=0 มักจะเป็น background class → ข้ามไป
-        if len(detection_list) == 0:
-            continue  # ไม่มีการตรวจจับ → ข้ามไป
+   !!! success "Checkpoint 8.1"
+       ✅ Terminal แสดง: `['background', 'face']`
+       ✅ มี 2 class: `background` และ `face`
 
-        # แสดงชื่อคลาส
-        print("********** %s **********" % labels[i])
+   ![](./images/8_detect_fomo.png){ width="500" }
 
-        # loop ผ่านวัตถุที่ตรวจพบ
-        for d in detection_list:
-            [x, y, w, h] = d.rect()  # พิกัดสี่เหลี่ยมที่ตรวจพบ
-            center_x = math.floor(x + (w / 2))  # หาจุดกึ่งกลาง
-            center_y = math.floor(y + (h / 2))
+---
 
-            # แสดงพิกัดใน Serial
-            print(f"x {center_x}\ty {center_y}")
+## Lab 8.2: ตรวจสอบค่า Threshold
 
-            # วาดวงกลมตรงกลางวัตถุ
-            img.draw_circle((center_x, center_y, 12),
-                            color=colors[i % len(colors)], thickness=2)
+### ทำอะไร
+ปรับค่าความมั่นใจขั้นต่ำ เพื่อกรอง false positive
 
-```
+### ขั้นตอน
 
-### Run code
+1. เขียนโค้ด:
 
-- กดปุ่ม Connect และ Play 
-- วิธีการทดสอบ ให้ใช้วธีการเปิด Browser เพื่อทำการค้นหา รูปภาพที่หน้าบุคคล แล้วจึงใช้ กล้องส่องไปยังรูป ดังกล่าว
-- การแปลผลให้ดูที่ Terminal ที่มีการแสดงผลออกมา
-- หรือท่านสามารถใช้รูปตัวอย่าง 
-![](./images/8_muict_board.png){ width="500" }
+   ```python title="threshold_test.py" linenums="1"
+   import tf, math
+   
+   labels, net = tf.load_builtin_model("fomo_face_detection")
+   print(labels)
+   
+   min_confidence = 0.4  # ค่าขั้นต่ำ 40%
+   thresholds = [(math.ceil(min_confidence * 255), 255)]
+   print("Threshold:", thresholds)
+   ```
 
-![](./images/detect.png){ width="500" }
+2. กด **Run**
 
-ใน Workshop ต่อไป จะได้ทำการสร้าง Model ของเราเอง แล้วจึงนำมา Deploy ใน OpenMV
+   !!! success "Checkpoint 8.2"
+       ✅ รู้ว่า FOMO ใช้ scale 0-255 (ไม่ใช่ 0.0-1.0)
+       ✅ `0.4 × 255 = 102` → threshold เป็น `(102, 255)`
+
+   !!! tip "ปรับค่า"
+       - Threshold สูงเกินไป → ไม่ detect หน้า (กลัว false positive)
+       - Threshold ต่ำเกินไป → จับทุกอย่างเป็นหน้า (false positive เยอะ)
+       - ลองเริ่มที่ `0.3` (≈77) แล้วค่อยปรับ
+
+   ![](./images/8_checkthreshold.png){ width="500 "}
+
+---
+
+## Lab 8.3: รันตรวจจับใบหน้าแบบ Real-time
+
+### ขั้นตอน
+
+1. สร้างไฟล์: `face_detect.py`
+
+2. เขียนโค้ด:
+
+   ```python title="face_detect.py" linenums="1"
+   import sensor, time, math, tf, image
+   
+   # ตั้งค่ากล้อง
+   sensor.reset()
+   sensor.set_vflip(True)
+   sensor.set_pixformat(sensor.RGB565)
+   sensor.set_framesize(sensor.QVGA)
+   sensor.set_windowing((240, 240))
+   sensor.skip_frames(time=2000)
+   
+   # โหลดโมเดล
+   labels, net = tf.load_builtin_model("fomo_face_detection")
+   
+   min_confidence = 0.3
+   thresholds = [(math.ceil(min_confidence * 255), 255)]
+   
+   # สีวาดกรอบ
+   colors = [(255, 0, 0), (0, 255, 0)]
+   
+   clock = time.clock()
+   while True:
+       clock.tick()
+       img = sensor.snapshot()
+       
+       for i, detection_list in enumerate(net.detect(img, thresholds=thresholds)):
+           if i == 0:  # background → ข้าม
+               continue
+           
+           if len(detection_list) == 0:
+               continue
+           
+           for d in detection_list:
+               # วาดกรอบสี่เหลี่ยมรอบใบหน้า
+               img.draw_rectangle(d.rect(), color=colors[i % len(colors)])
+               img.draw_string(d.x(), d.y(), labels[i], color=colors[i % len(colors)])
+       
+       print("FPS:", clock.fps())
+   ```
+
+3. กด **Run**
+
+4. เอาหน้าเข้าใกล้กล้อง
+
+   !!! success "Checkpoint 8.3"
+       ✅ เห็นกรอบสี่เหลี่ยมวาดรอบใบหน้า
+       ✅ Terminal แสดง FPS (Frames Per Second)
+       ✅ FPS > 5 = ใช้งานได้
+
+   ![](./images/8_detect_fomo.png){ width="500" }
+
+---
+
+## สรุป: คุณทำอะไรสำเร็จแล้ว
+
+- [x] โหลดโมเดล FOMO Face Detection จาก OpenMV
+- [x] เข้าใจค่า Confidence Threshold
+- [x] ตรวจจับใบหน้าแบบ Real-time บนบอร์ด RA8D1
+- [x] วาด Bounding Box รอบใบหน้า
+
+---
+
+## เตรียมไป Workshop 9
+
+Workshop 9 จะใช้ **Edge Impulse** เพื่อ **Train โมเดลเอง** ด้วยข้อมูลที่เราถ่ายเอง
+
+---
+
+??? failure "แก้ปัญหาเบื้องต้น"
+    **"โมเดลหาไม่เจอ / load ไม่ได้"**
+    - ตรวจสอบ Vision-Board Firmware เป็นเวอร์ชันล่าสุด
+    - ตรวจสอบ OpenMV IDE เป็นเวอร์ชันล่าสุด
+
+    **"ไม่ detect หน้าเลย"**
+    - ลด threshold จาก `0.4` เป็น `0.2`
+    - ตรวจสอบว่าแสงสว่างพอ
+    - หันหน้าตรงกล้อง (ไม่เอียงมาก)
+
+    **"FPS ต่ำมาก"**
+    - ลด `framesize` เล็กลง (เช่น `QQVGA`)
+    - ใช้ Window ที่เล็กกว่า (เช่น `(120, 120)`)
+
+    **"False Positive เยอะ"**
+    - เพิ่ม threshold เป็น `0.5` หรือ `0.6`
+    - ลองเพิ่มการตั้งค่า `sensor.set_auto_gain(False)`

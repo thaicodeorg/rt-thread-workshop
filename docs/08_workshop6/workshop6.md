@@ -1,294 +1,219 @@
 ---
 title: "Workshop 6: OpenMV"
-description: "ตรวจจับวัตถุด้วย OpenMV และ Computer Vision"
+description: "Lab Guide — ตรวจจับวัตถุด้วย OpenMV และ Computer Vision บนบอร์ด Vision"
 ---
 
-# Workshop OpenMV
-- **Ref Source Code ของ OpenMV Board** 
-    - ตัวอย่าง OpenMV  Board  [https://github.com/openmv/openmv/tree/master/scripts/examples](https://github.com/openmv/openmv/tree/master/scripts/examples)
-    - ตัวอย่าง Vision Board [https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board/tree/master/projects/vision_board_openmv/firmware/omv_example](https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board/tree/master/projects/vision_board_openmv/firmware/omv_example)
-  
-  ![](./images/6_openmv_architect.png){ width="500" }
+# Workshop 6: OpenMV
 
-- เตรียมความพร้อม install Keil µVision
-    - ติดตั้ง Keil MDK (Microcontroller Development Kit) คือ ชุดเครื่องมือพัฒนาโปรแกรมสำหรับไมโครคอนโทรลเลอร์ตระกูล ARM [https://www.keil.com/download/product/](https://www.keil.com/download/product/) เลือก MDK-ARM
-    - Click MDR-Arm icon ลงทะเบียน ให้เรียบร้อย แล้วจะได้ Link สำหรับการ Download
-    ![](./images/6_armkeil.png){ width="500" }  
+<span class="md-tag">Advanced</span> <span class="md-tag">60 นาที</span>
 
-    - Link Download  
-    ![](./images/6_mdk-arm.png){ width="500" }  
+## ก่อนเริ่ม Lab
 
-    - Double click เพื่อทำการ install
-    ![](./images/6_armkeil2.png){ width="500" }
+- [ ] ติดตั้ง [Keil MDK](../02_Preparation/02.4_install_OpenMV.md) เรียบร้อย
+- [ ] ติดตั้ง [Git](../02_Preparation/02.3_install_env_tool.md) เรียบร้อย
+- [ ] มีบอร์ด Vision พร้อมสาย USB-DBG และ USB-OTG
 
-    - ยอมรับ Licence แล้วกด Next
-    ![](./images/6_armkeil3.png){ width="500" }
+## เมื่อทำเสร็จ คุณจะได้
 
-    - เลือก Destination  แทนค่า ``C:\Users\sysadmin\AppData\Local`` ด้วย  ``C:\Renesas`` กด Next  (เน้นอย่าให้ผิดนะครับ)
-    - ``C:\Renesas\Keil_v5`` และ ``C:\Renesas\Arm\Packs``
-    ![](./images/6_keil_destination.png){ width="500" }
+- [ ] Build OpenMV Firmware ลงบอร์ด RA8D1 ได้
+- [ ] ใช้ OpenMV IDE เชื่อมต่อกล้องได้
+- [ ] รัน Python Script ให้กล้องตรวจจับวัตถุได้
 
-    - กรอก Customer info  
-    ![](./images/6_customer_info.png){ width="500" }
+---
 
-    - install process  
-    ![](./images/6_keil_install.png){ width="500" }
+## OpenMV คืออะไร
 
-    - ติดตั้ง package 
-    ![](./images/6_install_package.png){ width="500" }
+**OpenMV** = แพลตฟอร์ม Computer Vision สำหรับ Microcontroller
 
-    - ติดตั้ง Driver  
-    ![](./images/6_install_driver.png){ width="500" }
+- เขียนโค้ดด้วย **MicroPython**
+- ใช้กล้องบนบอร์ด Vision-Board (หรือต่อกล้องภายนอก)
+- รองรับ: ตรวจจับใบหน้า, สี, QR Code, อ่านตัวเลข, Machine Learning
 
-    - ติดตั้งเรียบร้อย   
-    ![](./images/6_keil_setupcomplete.png){ width="500" }
-
-    - Package installer  
-    ![](./images/6_keil_package_installer.png){ width="500" }
-    
-## ความสำคัญการติดตั้ง โปรแกรม MDK (Microctroller Development Kit) 
-    - คือหลังจากตั้ง MDK จะได้ file UV4.exe ที่ ``C:\Renesas\Keil_v5\UV4\UV4.exe`` ที่เราจะต้องเอาไปใช้ ใน workshop
-    ![](./images/6_uv4_location.png){ width="500" }
-    - ให้เพิ่ม  ``C:\Renesas\Keil_v5\UV4`` ใน Windows Environment ให้เรียบร้อย ด้วยการ พิมพ์ คำว่า env ใน ช่อง Search windows
-    - กด ``Environment Variables``  
-    ![](./images/6_add_path1.png){ width="500" }  
-
-    ![](./images/6_add_path2.png){ width="500" }
-
-## Workshop  OpenMV firmware
-
-- **ขั้นตอน 1 Clone project** 
-    - Clone ด้วย Git command ไปที่ C:\Reneses
-    ```
-    git clone https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board.git
-    ```
-    - File Structure   ``C:\Renesas\sdk-bsp-ra8d1-vision-board\projects\vision_board_openmv``
-```
-$ tree -L 2
-    .
-├── Kconfig
-├── README.md
-├── SConscript
-├── SConstruct
-├── board
-│   ├── Kconfig
-│   ├── SConscript
-│   ├── board.h
-│   ├── ports
-│   ├── ra8_it.c
-│   └── tinyusb
-├── buildinfo.gpdsc
-├── configuration.xml
-├── docs
-│   └── picture
-├── firmware
-│   ├── omv_example
-│   └── openmv.hex
-├── memory_regions.ld
-├── memory_regions.scat
-├── mklinks.bat
-├── mklinks.sh
-├── packages
-│   ├── CmBacktrace-v1.4.1
-│   ├── OpenMV-v4.5.0
-│   ├── SConscript
-│   ├── micropython-v1.13.0
-│   ├── rw007-v2.1.0
-│   └── tinyusb
-├── project.uvoptx
-├── project.uvprojx
-├── ra
-│   ├── SConscript
-│   ├── arm
-│   ├── board
-│   ├── fsp
-│   └── tes
-├── ra_cfg
-│   ├── SConscript
-│   └── fsp_cfg
-├── ra_gen
-│   ├── SConscript
-│   ├── bsp_clock_cfg.h
-│   ├── common_data.c
-│   ├── common_data.h
-│   ├── hal_data.c
-│   ├── hal_data.h
-│   ├── main.c
-│   ├── pin_data.c
-│   ├── vector_data.c
-│   └── vector_data.h
-├── rtconfig.h
-├── rtconfig.py
-├── script
-│   ├── ac6
-│   ├── fsp.ld
-│   ├── fsp.scat
-│   └── memory_regions.ld
-├── src
-│   └── hal_entry.c
-├── template.uvoptx
-└── template.uvprojx    (<- (MDK project file)>)
-
-25 directories, 38 files
+```text
+┌─────────────────────────┐
+│    OpenMV IDE (PC)      │
+│  - เขียน Python Script   │
+│  - ดูภาพ Real-time        │
+└───────────┬─────────────┘
+            │ USB
+┌───────────▼─────────────┐
+│   Vision-Board (RA8D1)  │
+│  - OpenMV Firmware        │
+│  - Camera Module          │
+│  - Python Runtime         │
+└─────────────────────────┘
 ```
 
-    - Click ไปที่ ปุ่ม ``code`` และให้ทำการ Copy link สำหรับนำมาใช้เพื่อการ Clone Source ให้เลือกเป็น Protocol https นะครับ
-    ![](./images/6_git_ra8d1.png){ width="500" }
+---
 
-    - เปิด Terminal ของ windows เพื่อทำการ Clone Repository 
-    ![](./images/6_gitclone1.png){ width="500" }
-    หากท่านใดในเครื่องไม่มีคำสั่ง git ให้ทำการติดตั้ง ให้เรียบร้อยก่อน โดยสำหรับ windows ก็ให้ Download ได้ที่ [https://git-scm.com/downloads](https://git-scm.com/downloads)
-    ![](./images/6_gitscm.png){ width="500" }
+## Lab 6.1: Clone OpenMV Project
 
-    - เมื่อ Download เรียบร้อย ต่อไปก็จะ ดำเนินการ import เข้าสู่ RT-Thread IDE ซื่งสามารถทได้ โดยไปยัง เมนู File > import และ ชี่ไปยัง Folder ``C:\Renesas\sdk-bsp-ra8d1-vision-board``   
-    ![](./images/6_fileimport1.png){ width="500" }
+### ขั้นตอน
 
-    - เลือก RT-Thread Studio Project
-    ![](./images/6_select_rt_project.png){ width="500" }
-    
-    - เลือก Location ``C:\Renesas\sdk-bsp-ra8d1-vision-board\projects\vision_board_openmv``
-    ![](./images/6_select_location2.png){ width="500" }
+1. เปิด **Git Bash** หรือ **CMD**
 
-    - ให้เปิด File Explore แล้วไปยัง project Folder ที่เลือกไว้นะครับ ให้ดูภายใน Folder จะพบว่ามีไฟล์ ชื่อ ``mklinks.bat`` ให้เรา Double Click ไฟล์นี้เพื่อให้ ไปสร้าง Folder ชื่อ libraries และ rt-thread
-    ![](./images/6_mklinks.png){ width="500" }  
+2. Clone project ไปที่ `C:\Renesas`:
 
-    **Screen**
-    ![](./images/6_mklink.gif){ width="500" }
+   ```bash
+   cd C:\Renesas
+   git clone https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board.git
+   ```
 
-    - ต่อมาให้เราเปลี่ยน Tool Chain เป็น version 13.2.1
-    ![](./images/6_toolchain13.png){ width="500" }
+   !!! success "Checkpoint 6.1"
+       ✅ มีโฟลเดอร์ `C:\Renesas\sdk-bsp-ra8d1-vision-board\projects\vision_board_openmv`
 
-    - หากมี Error แสดงว่า การเลือก toolchain ผิดพลาด ให้กลับไปเลือกใหม่
-    ![](./images/6_error1.png){ width="500" }
+---
 
-    - Build All และ Flash Download ไปยัง อุปกรณ์
-    ![](./images/6_buildall.png){ width="500" }
-    ไม่มี Error แต่ยังพบ Warning 
+## Lab 6.2: ตรวจสอบ Environment
 
-    - Flash upload
-    ![](./images/6_flashupload.png){ width="500" }
+### ขั้นตอน
 
-    - Terminal 
-    ![](./images/6_terminal.png){ width="500" }
+1. ตรวจสอบว่า **Keil MDK** ติดตั้งที่ `C:\Renesas\Keil_v5\UV4\UV4.exe`
 
-## เชื่อมต่อ Board ที่ได้ โปรแกรมเรียบร้อย กับ Programe OpenMV
+   ![](./images/6_uv4_location.png){ width="500" }
 
-- มีลำดับและขั้นดังต่อไปนี้:  
-      - การเชื่อมต่อ ให้สลับช่องเสียบ บนบอร์ด Vision ไปเป็น USB-OTG
-      - เมื่อสลับเรียบร้อย ให้เปิด โปรแกรม OpenMV IDE
-      - กดปุ่ม Connect เพื่อทำการเชื่อมต่อ โปรแกรม OpenMV IDE กับ Board
+2. เพิ่ม UV4 ไปยัง **Windows Environment Path**:
 
-    ![](./images/6_connect_openmv.png){ width="500" }
-    
-    หากมีความต้องการให้ update firemware เลือก เป็น No ไปก่อน
-    ![](./images/6_update_firmware.png){ width="500" }
+   - ค้นหา "env" ใน Windows Search
+   - เลือก **Environment Variables**
+   - เพิ่ม `C:\Renesas\Keil_v5\UV4` ใน PATH
 
-    กดปุ่ม Start เพื่อ ทำการ Run ภาษา Micropython ที่อยู่ใน code editor
-    ![](./images/6_start.png){ width="500" }
+   ![](./images/6_add_path1.png){ width="500" }
+   ![](./images/6_add_path2.png){ width="500 "}
 
-    กดปุ่ม Terminal เพื่อเปิด Serial Terminal 
-    ![](./images/6_output.png){ width="500" }
-    ขอแนะนำให้ หารูป ที่มีสีสันชัดเจน เพื่อให้ Sensors สามารถจัด ค่า Spectrum ของสีได้ชัดเจน
+   !!! success "Checkpoint 6.2"
+       ✅ พิมพ์ `uv4` ใน Command Prompt แล้วเปิด Keil ได้
 
-    **Screen:**
-    ![](./images/openmv.gif){ width="500" }
+---
 
-## Workshop  Lab Color Space
+## Lab 6.3: Build OpenMV Firmware
 
-- เปลี่ยน โหมด การอ่านภาพ Histograme ให้เป็น ``Lab Color Space``
-  ![](./images/6_labColor.png){ width="500" }
+### ขั้นตอน
 
-- ต่อไป ให้เลือก Tools > Machine Vision > Threshold Editor และ เลือก ``Frame Buffer as image source``
-  ![](./images/6_threshold.png){ width="500" }
+1. เปิด Project ใน RT-Thread Studio:
 
-  เลือก เป็น Framebuffer
-  ![](./images/6_framebuffer.png){ width="500" }
+   ```
+   File → Import → Existing Projects into Workspace
+   เลือก: C:\Renesas\sdk-bsp-ra8d1-vision-board\projects\vision_board_openmv
+   ```
 
-  ปรับค่า L,a,b จนกระทั้งสามารถตรวจวัตถุได้
-  ![](./images/6_detect_object.png){ width="500" }
+2. Build Project กด 🔨
 
-  **Screen:**
-  ![](./images/object_detect.gif){ width="500" }
+   !!! success "Checkpoint 6.3"
+       ✅ Build Success (อาจใช้เวลา 2-5 นาที)
 
-  - Copy ค่า Lab Threshold เอาไว้ใช้ใน Workshop ต่อไป
-  ![](./images/copy_lab_threshold.png){ width="500" }
-  ``(18, 78, -69, 39, 29, 32)``
+---
 
-## Workshop ปรับแต่ Micropython code
-- ให้เราทำ Workshop ต่อนะครับ ตอนนี้ ก็มาแก้ไข Code ของ Python โดยให้นำค่าที่ Copy เอาไว้ ไปใส่ในค่าตัวแปร ที่ชื่อว่า ``clr_threshold`` โดยเป็นการระบุตัวแปรชนิด tuple 
-```
-clr_threshold = (18, 78, -69, 39, 29, 32)
-```
-!!! note
-    **LAB Color Space Threshold**   -> (min_L, max_L, min_A, max_A, min_B, max_B)  
-    **รายละเอียดค่าใน tuple:**  
-        18, 78 → ช่วงค่าความสว่าง (L channel)  
-       -69, 39 → ช่วงค่า green-red (A channel)  
-       -29, 32 → ช่วงค่า blue-yellow (B channel)  
+## Lab 6.4: Flash Firmware และเชื่อมต่อ OpenMV IDE
 
-- สร้าง File > new ชื่อไฟล์ ``object-detection.py``
-  
-```python   title="helloworld1.py for Workshop6" linenums="1"
-# This work is licensed under the MIT license.
-# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
-# https://github.com/openmv/openmv/blob/master/LICENSE
-#
-# Hello World Example
-#
-# Welcome to the OpenMV IDE! Click on the green run arrow button below to run the script!
+### ขั้นตอน
 
+1. **Flash** firmware ลงบอร์ด (ใช้ USB-DBG)
+
+2. **เสียบสาย USB-OTG** เข้ากับคอมพิวเตอร์
+
+   !!! warning "สำคัญ"
+       USB-OTG ใช้สำหรับ OpenMV IDE (ส่งภาพ)
+       USB-DBG ใช้สำหรับดีบักและ Flash
+
+3. เปิด **OpenMV IDE**
+
+4. กดปุ่ม **Connect** (มุมซ้ายล่าง)
+
+   ![](./images/6_connect_openmv.png){ width="500" }
+
+   !!! success "Checkpoint 6.4"
+       ✅ OpenMV IDE เชื่อมต่อกับกล้องได้
+       ✅ เห็นภาพ Real-time ในหน้าต่าง IDE
+
+---
+
+## Lab 6.5: รัน Script ตัวอย่าง
+
+### ขั้นตอน
+
+1. สร้างไฟล์ใหม่ใน OpenMV IDE: `main.py`
+
+2. เขียนโค้ดตัวอย่าง (Blink LED):
+
+   ```python title="main.py" linenums="1"
+   import time
+   from pyb import LED
+   
+   red = LED(1)
+   green = LED(2)
+   blue = LED(3)
+   
+   while True:
+       for led in [red, green, blue]:
+           led.on()
+           time.sleep_ms(500)
+           led.off()
+   ```
+
+3. กด **Run Script** (ปุ่ม Play)
+
+   ![](../09_workshop7/images/9_run_lab_python01.gif){ width="500" }
+
+   !!! success "Checkpoint 6.5"
+       ✅ LED กระพริบสลับสีแดง → เขียว → น้ำเงิน
+       ✅ ภาพจากกล้องแสดงใน IDE
+
+---
+
+## Lab 6.6: ตรวจจับวัตถุพื้นฐาน
+
+### ขั้นตอน
+
+ลองเปลี่ยน script เป็นการตรวจจับสี/รูปร่าง:
+
+```python title="detect_color.py" linenums="1"
 import sensor
+import image
 import time
 
-clr_threshold =(18, 78, -69, 39, 29, 32)
-sensor.reset()  # Reset and initialize the sensor.
-sensor.set_pixformat(sensor.RGB565)  # Set pixel format to RGB565 (or GRAYSCALE)
-sensor.set_framesize(sensor.QVGA)  # Set frame size to QVGA (320x240)
-sensor.skip_frames(time=2000)  # Wait for settings take effect.
-clock = time.clock()  # Create a clock object to track the FPS.
+sensor.reset()
+sensor.set_pixformat(sensor.RGB565)
+sensor.set_framesize(sensor.QVGA)
+sensor.skip_frames(time=2000)
 
 while True:
-    clock.tick()  # Update the FPS clock.
-    img = sensor.snapshot()  # Take a picture and return the image.
-    blobs = img.find_blobs([clr_threshold])
-    if blobs:
-        for b in blobs:
-            img.draw_rectangle(b[0:4])
-            img.draw_cross(b[5], b[6])
-            print(b[5], b[6])
-    print(clock.fps())  # Note: OpenMV Cam runs about half as fast when connected
-    # to the IDE. The FPS should increase once disconnected.
-
+    img = sensor.snapshot()
+    # ตรวจจับสีแดง
+    for blob in img.find_blobs([(30, 100, 15, 127, 15, 127)]):
+        img.draw_rectangle(blob.rect())
+        img.draw_cross(blob.cx(), blob.cy())
 ```
-- กดปุ่ม Start อีกครั้ง
 
-![](./images/6_detection.png){ width="500" }
+!!! tip "ทดลองด้วยตัวเอง"
+    เปลี่ยนค่าสีใน `find_blobs` แล้ววัตถุอื่น ๆ ที่มีในห้อง
 
-**Backup ไฟล์เก่าเก็บไว้สำหรับเอาไว้อ่านค่า Threshold
+---
 
-```python  title="origin.py" linenums="1"
-# This work is licensed under the MIT license.
-# Copyright (c) 2013-2023 OpenMV LLC. All rights reserved.
-# https://github.com/openmv/openmv/blob/master/LICENSE
-#
-# Hello World Example
-#
-# Welcome to the OpenMV IDE! Click on the green run arrow button below to run the script!
+## สรุป: คุณทำอะไรสำเร็จแล้ว
 
-import sensor
-import time
+- [x] Build OpenMV Firmware สำหรับ RA8D1
+- [x] Flash และเชื่อมต่อกับ OpenMV IDE
+- [x] รัน Python Script ให้กล้องทำงานได้
+- [x] ตรวจจับวัตถุพื้นฐานด้วย Computer Vision
 
-sensor.reset()  # Reset and initialize the sensor.
-sensor.set_pixformat(sensor.RGB565)  # Set pixel format to RGB565 (or GRAYSCALE)
-sensor.set_framesize(sensor.QVGA)  # Set frame size to QVGA (320x240)
-sensor.skip_frames(time=2000)  # Wait for settings take effect.
-clock = time.clock()  # Create a clock object to track the FPS.
+---
 
-while True:
-    clock.tick()  # Update the FPS clock.
-    img = sensor.snapshot()  # Take a picture and return the image.
-    print(clock.fps())  # Note: OpenMV Cam runs about half as fast when connected
-    # to the IDE. The FPS should increase once disconnected.
+## เตรียมไป Workshop 8
 
-```
-  
+Workshop 8 จะใช้ **TensorFlow Lite** บน OpenMV เพื่อ **ตรวจจับใบหน้า** (Face Detection)
+
+---
+
+??? failure "แก้ปัญหาเบื้องต้น"
+    **"OpenMV IDE หา Camera ไม่เจอ"**
+    - ตรวจสอบว่าเสียบสาย **USB-OTG** (ไม่ใช่ USB-DBG)
+    - ลองกด Reset บนบอร์ดแล้ว Connect ใหม่
+
+    **"Build Error: หา Keil ไม่เจอ"**
+    - ตรวจสอบว่าเพิ่ม `C:\Renesas\Keil_v5\UV4` ใน Environment PATH
+    - รีสตาร์ท RT-Thread Studio
+
+    **"ภาพใน IDE เป็นสีดำ"**
+    - ตรวจสอบว่า Camera Module เสียบแน่น
+    - ลองเปลี่ยนสาย USB-OTG

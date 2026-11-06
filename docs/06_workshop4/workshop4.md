@@ -1,127 +1,232 @@
 ---
 title: "Workshop 4: WiFi RW007"
-description: "เชื่อมต่อ WiFi ด้วยโมดูล RW007 บน RT-Thread"
+description: "Lab Guide — เชื่อมต่อ WiFi ด้วยโมดูล RW007 บน RT-Thread"
 ---
 
-# เรียนรู้ WiFi Experiment ด้วย RW007
+# Workshop 4: WiFi RW007
+
+<span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
+
+## ก่อนเริ่ม Lab
+
+- [ ] ทำ [Workshop 1](../03_workshop1/workshop1.md) ให้เสร็จ (รู้วิธี Build + Flash)
+- [ ] มี WiFi Access Point แบบ **2.4 GHz** (ไม่ใช่ 5 GHz)
+- [ ] รู้ SSID และ Password ของ WiFi
+
+## เมื่อทำเสร็จ คุณจะได้
+
+- [ ] สร้างโปรเจกต์ `vision_board_wifi` ได้
+- [ ] อัปโหลด `rw007` Package เสร็จ
+- [ ] เห็น WiFi Scan ผ่าน Terminal
+- [ ] เชื่อมต่อ WiFi สำเร็จ (`wifijoin`)
 
 ![](./images/4_Wifi_RW007.png){ width="500" }
 
-# การเชื่อมต่อ WiFi
+---
 
-## 🖧 MCU Pins และฟังก์ชัน
+## ทำความเข้าใจ: RW007 คืออะไร
+
+**RW007** = โมดูล Wi-Fi + BLE ความเร็วสูงที่ติดมากับบอร์ด Vision-Board
+
+- เชื่อมต่อผ่าน **SPI Bus** (CLK, MISO, MOSI, CS)
+- ใช้ขาเพิ่มอีก 2 ขา: INT + RESET
+- ทั้งหมด **8 ขา** (รวมพลังงาน)
+
 | MCU Pin | Function |
 |---------|----------|
-| P412    | CLK      |
-| P410    | MISO     |
-| P411    | MOSI     |
-| P413    | CS       |
-| P800    | INT      |
-| P504    | RESET    |
+| P412 | CLK (นาฬิกา) |
+| P410 | MISO (ขาข้อมูลเข้า) |
+| P411 | MOSI (ขาข้อมูลออก) |
+| P413 | CS (เลือกอุปกรณ์) |
+| P800 | INT (แจ้งเตือน Interrupt) |
+| P504 | RESET (รีเซ็ต) |
 
 ---
 
-## 🌍 บทบาทของ Wi-Fi
-Wi-Fi มีบทบาทสำคัญพื้นฐานในการผลักดันนวัตกรรมด้าน **IoT** โดยมอบการเชื่อมต่อที่แพร่หลาย เพื่อเชื่อมโยงอุปกรณ์เข้าด้วยกัน เข้าสู่อินเทอร์เน็ต และเชื่อมกับอุปกรณ์ Wi-Fi กว่า **19.5 พันล้านเครื่อง** ทั่วโลก  
+## Lab 4.1: สร้างโปรเจกต์ WiFi
 
-- ใช้ทำให้บ้านกลายเป็นบ้านอัจฉริยะ  
-- เชื่อมต่ออุปกรณ์ในครัวเรือนที่หลากหลาย  
-- ตรวจสอบห่วงโซ่อุปทานและการทำงานที่สำคัญแบบเรียลไทม์ในโรงงานอุตสาหกรรม  
-- สร้างคุณค่าทางธุรกิจโดยเพิ่ม **ผลิตภาพ** และ **ประสิทธิภาพ** สำหรับองค์กรและการทำงานแบบ **Hybrid Work**  
+### ทำอะไร
+สร้างโปรเจกต์จากเทมเพลต `vision_board_wifi`
 
----
+### ขั้นตอน
 
-## ⚙️ โหมดการทำงานของอุปกรณ์ Wi-Fi
+1. **File → New → RT-Thread Project**
 
-### 1. Access Point (AP) Mode
-- อุปกรณ์ (เช่น เราเตอร์ไร้สาย) จะสร้างเครือข่ายท้องถิ่นสำหรับอุปกรณ์ Wi-Fi  
-- จัดการลูกข่าย, กำหนด IP Address, ควบคุมการเข้าถึงเครือข่ายแบบมีสาย  
+2. เลือก:
+   - Project Name: `vision_board_wifi`
+   - Type: **Example**
+   - ตัวอย่าง: **`vision_board_wifi`**
 
-### 2. Station Mode (STA) หรือ Client Mode
-- อุปกรณ์เชื่อมเข้ากับเครือข่ายที่มีอยู่แล้ว  
-- ทำงานคล้ายกับที่สมาร์ทโฟนเชื่อมต่อ Wi-Fi ภายในบ้าน  
+   ![](./images/4_Wifi_create_project.png){ width="500" }
+   ![](./images/4_createproject.png){ width="500" }
 
----
+3. กด **Finish**
 
-## 📡 โหมดอื่น ๆ ของ Wi-Fi AP
-อุปกรณ์ Wi-Fi AP สามารถทำงานได้หลายโหมด แต่ละโหมดออกแบบมาสำหรับการใช้งานที่ต่างกัน:  
-
-- Local Mode  
-- Bridge Mode  
-- Client Mode  
-- Sniffer Mode  
-- Rogue Detector Mode  
-- Repeater Mode  
+   !!! success "Checkpoint 4.1"
+       ✅ Project Explorer แสดง `vision_board_wifi` พร้อม `applications/` และ `packages/rw007/`
+       ❌ ไม่เห็น = ตรวจสอบว่าติดตั้ง BSP Vision-Board แล้ว
 
 ---
 
-## 🔌 โมดูล RW007
-- โมดูล **Wi-Fi/BLE ความเร็วสูง** (SPI/UART)  
-- พัฒนาโดย **Shanghai Ruiside Electronic Technology Co., Ltd.**  
-- ใช้ชิป **Cortex-M4 Wi-Fi SoC**  
-- โหมด SPI ต้องใช้:  
-  - สัญญาณ SPI 1 ชุด  
-  - ขา Interrupt 1 ขา  
-  - ขา IO 1 ขา  
-- รวมทั้งหมด **8 ขา** (รวมพลังงานและกราวด์)  
+## Lab 4.2: เปิดใช้งาน RW007
 
-## Workshop
-- **ขั้นตอนที่ 1 สร้าง Project**
-    - สร้าง Project ใหม่ให้ชื่อว่า ``vision_board_wifi`` ด้วยวิธีการเดิม
-    - แต่ครั้งนี้เราจะเลือก ชนิดของโปรเจคให้เป็น ``example`` และ เลือกตัวอย่างชื่อว่า ``vision_board_wifi``
-    ![](./images/4_Wifi_create_project.png){ width="500" }
+### ทำอะไร
+เปิด Software Package `rw007` และตั้งค่า WiFi
 
-    ![](./images/4_createproject.png){ width="500" }
+### ขั้นตอน
 
-- **ขั้นตอนที่ 2 Enable Module**  
-    - คลิกเลือกที่ RT-Thread Settings และ เลือก rw007
-    ![](./images/4_add_rw007.png){ width="500" }
+1. เปิด **RT-Thread Settings** (icon เฟือง)
 
-    - rw007 เป็นกลุ่มของ Software package สามารถปรับแต่งได้อย่างยืดหยุ่น เช่น
-    ![](./images/4_config_rw007.png){ width="500" }
+2. หา **rw007** ใน Software Packages → เปิดใช้งาน
 
-- **ขั้นตอนที่ 3** ตรวจสอบ hardware configuration ผ่านทาง RA Smart Configurator
-    - กด เลือก RA Smart Configurator
-    ![](./images/4_ra1.png){ width="500" }
+   ![](./images/4_add_rw007.png){ width="500" }
 
-    ![](./images/4_ra_stack.png){ width="500" }
+3. ตั้งค่า rw007:
+   - เลือก Interface: **SPI**
+   - ตรวจสอบ SPI Bus ตรงกับบอร์ด
 
- - **ขั้นตอนที่ 4** 
-     - ใช้ ปุ่ม Build Project หรือ เลือกไปยัง Menu Project -> Build All
-    ![](./images/4_build_project.png){ width="500" }
+   ![](./images/4_config_rw007.png){ width="500" }
 
-    ![](./images/4_wifibuild.png){ width="500" }
+   !!! info "rw007 ตั้งค่าอะไรได้บ้าง?"
+       - SPI Bus ที่ใช้เชื่อมต่อ
+       - CS Pin, INT Pin, RESET Pin
+       - โหมด WiFi (STA/AP)
 
-     - ใช้ ปุ่ม Flash Download สำหรับการ Programe ไปยัง Board
-    ![](./images/4_flush.png){ width="500" }
+4. กด **Save** → RT-Thread Studio จะดาวน์โหลดและติดตั้ง Package
 
- - **ขั้นตอนที่ 5** 
-     - Connect Serial ด้วย terminal
-     ![](./images/4_terminal.png){ width="500" }
+   !!! success "Checkpoint 4.2"
+       ✅ ใน Project Explorer เห็นโฟลเดอร์ `packages/rw007-v2.1.0/`
+       ✅ ไม่มี Error ตอน Download
 
-     ![](./images/4_msh.png){ width="500" }
+---
 
-     - ทดสอบคำสั่ง 
-```
-msh />wifi
-wifi
-wifi help
-wifi scan [SSID]
-wifi join [SSID] [PASSWORD]
-wifi ap SSID [PASSWORD]
-wifi disc
-wifi ap_stop
-wifi status
-wifi smartconfig
-msh />wifi scan
-             SSID                      MAC            security    rssi chn Mbps
-------------------------------- -----------------  -------------- ---- --- ----
-roborock-vacuum-s5_miap657D     40:31:3c:a8:65:7d  OPEN           -54    6    0
-TrueGigatexFiber_uS7_2.4G       d4:4f:67:11:e9:0c  WPA2_AES_PSK   -58    2    0
-```
-output:
-     ![](./images/4_wificommand.png){ width="500" }
+## Lab 4.3: ตั้งค่าฮาร์ดแวร์ผ่าน RA Smart Configurator
 
-    - **ขั้นตอนที่ 5** ทดสอบการเชื่อมต่อ 
-        - คำสั่งที่ ใช้ ``wifi join [ssid] [passward]
-        ![](./images/4_wificonnect.png){ width="500" }
+### ทำอะไร
+ตรวจสอบ/ตั้งค่า SPI Pins ให้ตรงกับบอร์ด
+
+### ขั้นตอน
+
+1. **Double-click** ที่ **RA Smart Configurator**
+
+   ![](./images/4_ra1.png){ width="500" }
+
+2. ตรวจสอบ SPI Configuration ในหน้า Stacks
+
+   ![](./images/4_ra_stack.png){ width="500" }
+
+3. กด **Generate Project Content**
+
+   !!! success "Checkpoint 4.3"
+       ✅ RASC Generate สำเร็จไม่มี Error
+       ✅ `ra_gen/hal_data.h` มีการตั้งค่า SPI Pins ถูกต้อง
+
+---
+
+## Lab 4.4: Build และ Flash
+
+### ขั้นตอน
+
+1. **Build Project** (กด 🔨 หรือ ++ctrl+b++)
+
+   ![](./images/4_build_project.png){ width="500" }
+
+   รอ Build เสร็จ
+
+   ![](./images/4_wifibuild.png){ width="500" }
+
+2. **Flash Download** (กด ⬇️)
+
+   ![](./images/4_flush.png){ width="500" }
+
+   !!! success "Checkpoint 4.4"
+       ✅ Build Success (0 errors)
+       ✅ Flash Download สำเร็จ
+
+---
+
+## Lab 4.5: ทดสอบ WiFi ผ่าน Terminal
+
+### ขั้นตอน
+
+1. เปิด **Serial Terminal** (Baud 115200)
+
+   ![](./images/4_terminal.png){ width="500" }
+
+2. รอจนบูตเสร็จ จะเห็น prompt:
+   ```
+   msh>
+   ```
+
+3. **สแกนหา WiFi** รอบ ๆ:
+   ```bash
+   msh>wifiscan
+   ```
+
+   !!! success "ผลลัพธ์ที่ควรเห็น"
+       ```
+       SSID             MAC                Security    RSSI
+       MyHomeWiFi       AB:CD:EF:12:34:56  WPA2        -45
+       Office-Guest     11:22:33:44:55:66  OPEN        -62
+       ```
+       ✅ เห็น WiFi รอบตัว
+
+4. **เชื่อมต่อ WiFi**:
+   ```bash
+   msh>wifijoin MyHomeWiFi MyPassword
+   ```
+
+   !!! success "ผลลัพธ์"
+       ```
+       Joining MyHomeWiFi...
+       Got IP: 192.168.1.123
+       ```
+       ✅ ได้ IP Address = เชื่อมต่อสำเร็จ!
+
+5. **ตรวจสอบสถานะ**:
+   ```bash
+   msh>ifconfig
+   ```
+
+   ![](./images/4_msh.png){ width="500" }
+
+   !!! success "Checkpoint 4.5"
+       ✅ `wifiscan` เห็น WiFi รอบตัว
+       ✅ `wifijoin` ได้ IP Address
+       ✅ `ifconfig` แสดง IP ที่ได้รับ
+
+---
+
+## สรุป: คุณทำอะไรสำเร็จแล้ว
+
+- [x] สร้างโปรเจกต์ WiFi จากเทมเพลต
+- [x] ติดตั้งและตั้งค่า `rw007` Package
+- [x] ตั้งค่า SPI Pins ผ่าน RA Smart Configurator
+- [x] Build และ Flash สำเร็จ
+- [x] Scan WiFi และเชื่อมต่อได้
+
+---
+
+## เตรียมไป Workshop 5
+
+หลังจาก Workshop 4 จะต่อ **MQTT** (Workshop 5) โดยใช้ WiFi ที่เชื่อมต่ออยู่นี้ส่งข้อมูลไปยัง **EMQX Broker**
+
+---
+
+??? failure "แก้ปัญหาเบื้องต้น"
+    **"rw007 not found"**
+    - ตรวจสอบว่าเปิดใช้งาน `rw007` ใน RT-Thread Settings
+    - ตรวจสอบว่าตั้งค่า SPI Bus ถูกต้อง
+
+    **"wifiscan ไม่เห็น WiFi"**
+    - ตรวจสอบว่า Antenna เสียบถูกต้อง (บางบอร์ดต้องต่อ External Antenna)
+    - ตรวจสอบว่าไม่ได้อยู่ใกล้ตู้เหล็กหนา
+
+    **"wifijoin แล้วไม่ได้ IP"**
+    - ตรวจสอบว่า WiFi เป็น **2.4 GHz** (RW007 ไม่รองรับ 5 GHz)
+    - ตรวจสอบ SSID/Password ถูกต้อง
+    - ลองใช้ WiFi ที่ไม่มี Captive Portal
+
+    **"Build Error: rw007 package missing"**
+    - ไปที่ RT-Thread Settings → Packages → กด Refresh
+    - ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต (ดาวน์โหลด Package)

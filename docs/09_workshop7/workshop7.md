@@ -1,245 +1,175 @@
 ---
 title: "Workshop 7: MicroPython"
-description: "เขียนโปรแกรมด้วย MicroPython บน RT-Thread"
+description: "Lab Guide — เขียนโปรแกรมด้วย MicroPython บน OpenMV"
 ---
 
-#Micropython Coding
+# Workshop 7: MicroPython บน OpenMV
 
-![](./images/7_micropythoncoding.png){ width="500" }
+<span class="md-tag">Intermediate</span> <span class="md-tag">30 นาที</span>
 
-# MicroPython
+## ก่อนเริ่ม Lab
 
-## ภาพรวม
-MicroPython มีโมดูลในตัวที่ออกแบบมาให้คล้ายกับ **Python Standard Library** (เช่น `os`, `time`)  
-และยังมีโมดูลเฉพาะของ MicroPython เอง (เช่น `bluetooth`, `machine`)  
+- [ ] ทำ [Workshop 6](../08_workshop6/workshop6.md) เสร็จแล้ว (OpenMV IDE พร้อมใช้)
+- [ ] OpenMV IDE เชื่อมต่อกับบอร์ดได้
 
-- โมดูลจาก Python มาตรฐาน มักมีเพียง **บางฟังก์ชัน** ที่เทียบเท่าใน Python จริง  
-- บางโมดูลอาจมี **ฟีเจอร์เพิ่มเติม** ที่เป็นเฉพาะของ MicroPython (เช่น `array`, `os`)  
-- เนื่องจากข้อจำกัดของทรัพยากรหรือเวอร์ชันเฟิร์มแวร์ บางพอร์ต/เฟิร์มแวร์ **อาจไม่รองรับฟังก์ชันทั้งหมด**  
+## เมื่อทำเสร็จ คุณจะได้
 
----
-
-## Libraries
-
-### ไลบรารีเฉพาะของ **OpenMV Cam**
-
-- **pyb** – ฟังก์ชันที่เกี่ยวข้องกับบอร์ด  
-- **cpufreq** – การควบคุมความถี่ของ CPU  
-- **sensor** – โมดูลกล้อง (Camera Sensor)  
-- **buzzer** – ไดรเวอร์ควบคุมเสียง Buzzer  
-- **image** – การประมวลผลภาพ (Machine Vision)  
-- **rpc** – ไลบรารีสำหรับ Remote Procedure Call (RPC)  
-- **ml** – โมดูล Machine Learning  
-- **rtsp** – ไลบรารี RTSP (Real-Time Streaming Protocol)  
-- **audio** – โมดูลสำหรับการประมวลผลเสียง  
-- **omv** – ข้อมูลของ OpenMV Cam  
-- **display** – ไดรเวอร์แสดงผล (Display Driver)  
-- **mjpeg** – การบันทึกวิดีโอแบบ MJPEG  
-- **imu** – เซ็นเซอร์ IMU (ตรวจจับความเร่ง/ทิศทาง/การหมุน)  
-
-## แนะนำส่วนต่างของ Editor
-
-![](./images/7_ide.png){ width="500" }
-
-## ส่วนประกอบหลักของ OpenMV IDE
-
-จากภาพหน้าจอก่อนหน้านี้ พื้นที่สำคัญที่ถูกระบุไว้ ได้แก่:
-
-- **Code Editor** – พื้นที่สำหรับเขียน/แก้ไขโค้ด  
-- **Terminal Window** – หน้าต่างเทอร์มินัลสำหรับแสดงผลข้อความ  
-- **Image Preview** – หน้าต่างตัวอย่างภาพจากกล้อง  
-- **Image Histogram** – กราฟฮิสโตแกรมของภาพ  
+- [ ] เข้าใจ MicroPython บน OpenMV
+- [ ] ควบคุม GPIO, LED, Button ด้วย Python
+- [ ] อ่านค่าเซ็นเซอร์แบบง่าย ๆ
 
 ---
 
-### ปุ่มที่มุมซ้ายล่างของหน้าจอ
-- ปุ่มสำหรับ **เชื่อมต่อกับกล้อง OpenMV**  
-- ปุ่มสำหรับ **รันสคริปต์ (Run Script)** ที่เปิดอยู่ใน IDE  
+## MicroPython คืออะไร
+
+**MicroPython** = Python 3 สำหรับ Microcontroller
+
+| Python บน PC | MicroPython บน OpenMV |
+|-------------|---------------------|
+| รันบน OS | รันบน Firmware โดยตรง |
+| มี Library ครบ | มีเฉพาะที่จำเป็น |
+| จอง RAM ไม่จำกัด | จอง RAM จำกัด |
+
+!!! info "OpenMV vs MicroPython"
+    OpenMV IDE รัน **MicroPython Script** บน Vision-Board
+    สคริปต์ถูกส่งจาก PC → รันบนบอร์ด → ส่งภาพกลับมา PC
 
 ---
 
-### หมายเหตุ
-เมื่อเปิด **OpenMV IDE** ขึ้นมาเป็นครั้งแรก  
-ระบบจะโหลดสคริปต์ตัวอย่าง **`hello_world.py`** โดยอัตโนมัติ
+## Lab 7.1: Blink LED ด้วย Python
 
-## Lab 01: Blink LED
+### ขั้นตอน
 
-- เปิด โปรแกรม OpenMV 
-- สร้าง File ใหม่ชื่อ lab_python01.py
-  
-    ![](./images/7_lab_python01.png){ width="500" }
+1. เปิด **OpenMV IDE**
 
-```python title="lab_python01.py for Workshop6" linenums="1"
-import time
-from pyb import LED
+2. สร้างไฟล์ใหม่ชื่อ `lab_python01.py`
 
-red_led = LED(1)
-green_led = LED(2)
-blue_led = LED(3)
+   ![](./images/7_lab_python01.png){ width="500" }
 
-while True:
-    for led in [red_led, green_led, blue_led]:
-        led.on()
-        time.sleep_ms(1000)
-        led.off()
-    time.sleep_ms(1000)
-```
-- กดปุ่ม Connect และ กดปุ่ม Run
-- ดูผลลัพท์ ที่ อุปกรณ์ จะเห็นไฟ กระพริบ สีแดง เขียว น้ำเงินสลับกัน
+3. เขียนโค้ด:
 
-**Screen: Run lab_python01.py**
-![](./images/9_run_lab_python01.gif){ width="500" }
+   ```python title="lab_python01.py" linenums="1"
+   import time
+   from pyb import LED
+   
+   red = LED(1)
+   green = LED(2)
+   blue = LED(3)
+   
+   while True:
+       for led in [red, green, blue]:
+           led.on()
+           time.sleep_ms(1000)
+           led.off()
+       time.sleep_ms(1000)
+   ```
 
-**Screen: Output lab_python01.py**
-![](./images/9_output_lab_python01.gif){ width="500" }
+4. กด **Connect** → กด **Run**
 
-## Lab 02: button input
+   ![](./images/9_run_lab_python01.gif){ width="500" }
 
-```python title="lab_python02.py for Workshop6" linenums="1"
-from machine import Pin
-import time
-
-# กำหนดค่าพินของปุ่ม KEY0
-PIN_KEY0 = 0x907                # ที่อยู่หรือหมายเลขพินของปุ่ม
-key_0 = Pin(("key_0", PIN_KEY0)) # สร้างออบเจ็กต์ Pin สำหรับปุ่ม
-
-# ตัวแปรสถานะปุ่ม
-key_flag = 0
-
-# ฟังก์ชัน callback เรียกเมื่อปุ่มถูกกด (Interrupt Handler)
-def btn_func(v):
-    global key_flag
-    key_flag = 1                # เปลี่ยนค่า flag เมื่อมีการกดปุ่ม
-
-# ตั้งค่า interrupt เมื่อเกิด "ขอบขาขึ้น" (RISING EDGE)
-# คือเมื่อปุ่มเปลี่ยนจาก '0' เป็น '1'
-key_0.irq(trigger=Pin.IRQ_RISING, handler=btn_func)
-
-# วนลูปรอเหตุการณ์
-while True:
-    if key_flag == 1:           # ตรวจสอบว่ามีการกดปุ่มหรือไม่
-        key_flag = 0            # รีเซ็ตค่า flag
-        print("user key pressed")  # แสดงข้อความเมื่อกดปุ่ม
-```
-
-## Lab 3 การจัดการหน่วยความจำ (Memory Management) และ การสำรวจโมดูลใน MicroPython
-
-```python title="lab_python03.py for Workshop6" linenums="1"
-# ตัวอย่างโค้ด MicroPython: การจัดการหน่วยความจำและการสำรวจโมดูล
-
-```python
-import micropython 
-import gc 
-
-# แสดงฟังก์ชันและคุณสมบัติทั้งหมดที่มีในโมดูล micropython
-print(dir(micropython))
-
-# แสดงฟังก์ชันและคุณสมบัติทั้งหมดในโมดูล gc (Garbage Collector)
-print(dir(gc))
-
-# แสดงข้อมูลหน่วยความจำ (เปิดโหมดละเอียดด้วย True)
-micropython.mem_info(True)
-
-# สั่งให้ Garbage Collector เก็บกวาดหน่วยความจำทันที
-gc.collect()
-
-# ตรวจสอบจำนวนหน่วยความจำที่ถูกจัดสรรไปแล้ว (Allocated)
-print("Memory Allocated:", gc.mem_alloc())
-
-# ตรวจสอบจำนวนหน่วยความจำที่ยังว่างอยู่ (Free)
-print("Memory Free:", gc.mem_free())
-
-# แสดงรายชื่อโมดูลทั้งหมดที่มีให้ใช้งานในปัจจุบัน
-help('modules')
-
-```
-
-# คำอธิบาย MicroPython Module และ Garbage Collector
-
-## 1. `import micropython`
-
-- โมดูล `micropython` ใช้สำหรับเข้าถึงฟังก์ชันภายในของ MicroPython
-- ใช้ตรวจสอบ/ควบคุมการทำงานระดับล่าง เช่น memory info, การ optimize
+   !!! success "Checkpoint 7.1"
+       ✅ LED กระพริบสีแดง → เขียว → น้ำเงิน
+       ✅ Terminal ใน IDE แสดงข้อความ Debug (ถ้ามี `print`)
 
 ---
 
-## 2. `import gc`
+## Lab 7.2: อ่านค่าปุ่มกด (Button Input)
 
-- `gc` = Garbage Collector
-- ทำหน้าที่จัดการหน่วยความจำอัตโนมัติ (คล้าย Python ปกติ)
-- ใน MicroPython อุปกรณ์มี RAM จำกัด จึงควบคุม `gc` สำคัญมาก
+### ขั้นตอน
 
----
+1. เขียนโค้ดใหม่ `lab_python02.py`:
 
-## 3. `print(dir(micropython))`
+   ```python title="lab_python02.py" linenums="1"
+   from machine import Pin
+   import time
+   
+   # ขา P907 = ปุ่ม K1
+   button = Pin("P907", Pin.IN, Pin.PULL_UP)
+   led = Pin("P101", Pin.OUT)
+   
+   while True:
+       if button.value() == 0:  # กดปุ่ม = LOW (Pull-up)
+           led.on()
+           print("Button pressed!")
+       else:
+           led.off()
+       time.sleep_ms(100)
+   ```
 
-- ใช้ `dir()` เพื่อดูรายชื่อฟังก์ชัน/แอตทริบิวต์ทั้งหมดที่อยู่ในโมดูล `micropython`
-- ตัวอย่างฟังก์ชันสำคัญ:
-  - `micropython.alloc_emergency_exception_buf()` → จัด buffer สำรองสำหรับ exception
-  - `micropython.mem_info()` → ดูสถานะ memory
+2. กด **Run**
 
----
+3. กดปุ่ม **K1** บนบอร์ด
 
-## 4. `print(dir(gc))`
-
-- ใช้ `dir()` เพื่อดูฟังก์ชันของ `gc`
-- ตัวอย่างฟังก์ชันสำคัญ:
-  - `gc.collect()` → เก็บกวาดหน่วยความจำที่ไม่ได้ใช้งาน
-  - `gc.mem_alloc()` → ตรวจสอบ RAM ที่ถูกใช้
-  - `gc.mem_free()` → ตรวจสอบ RAM ที่เหลืออยู่
-
----
-
-## 5. `micropython.mem_info(True)`
-
-- แสดงข้อมูลเชิงลึกของหน่วยความจำ
-- ถ้าใส่ `True` จะได้รายละเอียดมากขึ้น เช่น การแบ่ง heap, stack
-
----
-
-## 6. `gc.collect()`
-
-- บังคับให้ Garbage Collector เคลียร์หน่วยความจำที่ไม่ใช้งาน
-- มีประโยชน์มากบนบอร์ดที่มี RAM น้อย เพื่อป้องกัน Out-of-Memory
+   !!! success "Checkpoint 7.2"
+       ✅ กด K1 → LED ติด
+       ✅ ปล่อย K1 → LED ดับ
+       ✅ Terminal แสดง "Button pressed!"
 
 ---
 
-## 7. `gc.mem_alloc()` / `gc.mem_free()`
+## Lab 7.3: อ่านค่า Sensor (Analog)
 
-- `gc.mem_alloc()` → จำนวน byte ของ RAM ที่ถูกใช้แล้ว
-- `gc.mem_free()` → จำนวน byte ของ RAM ที่ยังว่าง
-- ใช้ตรวจสอบว่าโปรแกรมเราใช้ RAM ไปเท่าไร เหมาะกับการ optimize
+### ขั้นตอน
+
+1. เขียนโค้ดอ่านค่าแรงดันไฟฟ้า:
+
+   ```python title="sensor_adc.py" linenums="1"
+   from machine import ADC, Pin
+   import time
+   
+   adc = ADC(Pin("P014"))  # ขา ADC ตัวอย่าง
+   
+   while True:
+       val = adc.read()
+       print("ADC Value:", val)
+       time.sleep_ms(500)
+   ```
+
+2. กด **Run**
+
+   !!! success "Checkpoint 7.3"
+       ✅ Terminal แสดงค่า ADC เปลี่ยนไปเรื่อย ๆ
+       ✅ ลองหมุน Potentiometer (ถ้ามี) → ค่าเปลี่ยน
 
 ---
 
-## 8. `help('modules')`
+## สรุป: MicroPython vs Arduino-style
 
-- แสดงรายชื่อโมดูลทั้งหมดที่สามารถ `import` ได้
-- ขึ้นอยู่กับว่า firmware/บอร์ดรองรับอะไรบ้าง
-- ตัวอย่างโมดูลที่พบบ่อย: `os`, `time`, `machine`, `network`, `bluetooth`, `sensor`, `image` ฯลฯ
+| คุณสมบัติ | Arduino (ESP32) | MicroPython (OpenMV) |
+|----------|----------------|---------------------|
+| ภาษา | C++ | Python |
+| ติดตั้ง Library | ลงผ่าน Arduino IDE | มีมาให้ใน Firmware |
+| แก้ไขโค้ด | คอมไพล์ใหม่ทุกครั้ง | รัน Script ทันที |
+| Debug | Serial Monitor | Terminal ใน IDE |
 
-## Lab 4 ทดสอบการเชื่อมต่อ Connect wifi
+!!! tip "สำหรับคนมีพื้นฐาน ESP32"
+    ถ้าคุณเคยใช้ `digitalWrite()`, `analogRead()` บน Arduino:
+    - `digitalWrite(pin, HIGH)` → `pin.on()` หรือ `pin.value(1)`
+    - `analogRead(pin)` → `adc.read()`
+    - `delay(1000)` → `time.sleep_ms(1000)`
 
-```python title="lab_python04.py for Workshop6" linenums="1"
-import network  # โมดูลสำหรับจัดการการเชื่อมต่อเครือข่าย Wi-Fi
-import time     # โมดูลสำหรับหน่วงเวลา หรือใช้ฟังก์ชันเวลาต่างๆ
+---
 
-# สร้างวัตถุ WLAN สำหรับโหมด Station (STA) 
-# STA = บอร์ดเป็น client เชื่อมต่อกับ Access Point
-sta_if = network.WLAN(network.STA_IF) 
+## สรุป: คุณทำอะไรสำเร็จแล้ว
 
-# เปิดใช้งาน Wi-Fi
-sta_if.active(True)  
+- [x] รัน MicroPython Script บน OpenMV
+- [x] ควบคุม LED ด้วย Python
+- [x] อ่านค่าปุ่มกด (Digital Input)
+- [x] อ่านค่า Sensor (Analog Input)
 
-# เชื่อมต่อกับ Wi-Fi โดยใส่ SSID และ Password
-sta_if.connect("WIFI_SSID", "WIFI_PASSWD")  
+---
 
-# ตรวจสอบว่าเชื่อมต่อสำเร็จหรือยัง (True = เชื่อมต่อแล้ว)
-print(sta_if.isconnected())  
+## เตรียมไป Workshop 8
 
-# แสดงค่าระดับสัญญาณ Wi-Fi (RSSI) 
-print(sta_if.status('rssi'))  
+Workshop 8 จะใช้ **TensorFlow Lite** บน OpenMV เพื่อ **ตรวจจับใบหน้าอัตโนมัติ**
 
-# แสดงค่าการตั้งค่า IP ของบอร์ด (IP, Netmask, Gateway, DNS)
-print(sta_if.ifconfig())  
-```
+---
+
+??? failure "แก้ปัญหาเบื้องต้น"
+    **"Script รันแล้ว Error: Pin not found"**
+    - ตรวจสอบชื่อ Pin ว่าตรงกับบอร์ด Vision-Board (เช่น `"P907"`, `"P101"`)
+    - ดู Pin Map ในบอร์ด Vision-Board
+
+    **"LED ไม่ติด"**
+    - ตรวจสอบว่าใช้ `Pin.OUT` (Output) ไม่ใช่ `Pin.IN`
