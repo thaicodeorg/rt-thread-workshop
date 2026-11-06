@@ -9,9 +9,10 @@
 
 </div>
 
-## สวัสดีครับ ยินดีต้อนรับทุกท่าน
+## สวัสดีครับ ยินดีต้อนรับทุกท่าน  
+#### (update Sep 2026)
 
-![](./01_rt-thread/images/brochour-rtthread.jpg)
+![](./01_rt-thread/images/3-Poster_RT-Thread%202569.jpg)
 
 
 ## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread  
