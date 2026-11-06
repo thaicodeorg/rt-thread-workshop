@@ -8,6 +8,7 @@ strict: true
 nav:
   - หน้าหลัก: index.md
   - พื้นฐาน RT-Thread:
+      - 01_rt-thread/01.0_rtthread_boot_flow.md
       - 01_rt-thread/01.1_rtthread_kernel.md
       - 01_rt-thread/01.2_basic_kernel.md
       - 01_rt-thread/01.3_stm_arm.md
