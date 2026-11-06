@@ -52,9 +52,11 @@ description: "Lab Guide — ตั้งค่า GPIO Interrupt ด้วย FS
 
    ![](./images/4_ra_start.png){ width="500" }
 
-   !!! success "Checkpoint 2.1"
-       ✅ RASC เปิดขึ้นและแสดง Block Diagram ของ MCU
-       ❌ เปิดไม่ได้ = ตรวจสอบว่าติดตั้ง FSP แล้ว หรือเลือกผิด Path
+!!! success "Checkpoint 2.1"
+    ✅ RASC เปิดขึ้นและแสดง Block Diagram ของ MCU
+
+    ❌ เปิดไม่ได้ = ตรวจสอบว่าติดตั้ง FSP แล้ว หรือเลือกผิด Path
+
 
 ---
 
@@ -69,17 +71,21 @@ description: "Lab Guide — ตั้งค่า GPIO Interrupt ด้วย FS
 2. หา Pin **P907** ในแผนที่ → คลิกเลือก
 3. เลือกฟังก์ชัน **InterruptIRQ** → **IRQ10**
 
-   !!! info "IRQ10 คืออะไร?"
-       IRQ = Interrupt ReQuest คือ "บรรทัดขัดจังหวะ" หมายเลข 10
-       มี IRQ0–IRQ15 ให้เลือก เราเลือก 10 เพราะเชื่อมกับ Pin P907 ได้
+!!! info "IRQ10 คืออะไร?"
+    IRQ = Interrupt ReQuest คือ "บรรทัดขัดจังหวะ" หมายเลข 10
+
+    มี IRQ0–IRQ15 ให้เลือก เราเลือก 10 เพราะเชื่อมกับ Pin P907 ได้
+
 
 4. ไปที่ Tab **FSP Visualization** ด้านขวา → กรอกชื่อ `P907`
 
    ![](./images/4_setpin.png){ width="600" }
 
-   !!! success "Checkpoint 2.3"
-       ✅ ด้านขวาเห็น Pin P907 ถูก mark ว่าใช้งานแล้ว
-       ❌ ไม่เห็น = ย้อนกลับไปตรวจสอบว่าเลือก IRQ10 ถูกต้อง
+!!! success "Checkpoint 2.3"
+    ✅ ด้านขวาเห็น Pin P907 ถูก mark ว่าใช้งานแล้ว
+
+    ❌ ไม่เห็น = ย้อนกลับไปตรวจสอบว่าเลือก IRQ10 ถูกต้อง
+
 
 ---
 
@@ -96,9 +102,11 @@ description: "Lab Guide — ตั้งค่า GPIO Interrupt ด้วย FS
 
 2. Double-Click Stack ที่สร้าง → เปลี่ยน **Trigger** จาก Rising → **Falling**
 
-   !!! info "ทำไม Falling?"
-       ปุ่ม K1 เป็น Active-High (ปกติ HIGH เมื่อไม่กด) ตอนกดจะเปลี่ยนเป็น LOW
-       Falling Edge = จับตอนที่สัญญาณลงจาก HIGH → LOW = ตอนกดปุ่ม
+!!! info "ทำไม Falling?"
+    ปุ่ม K1 เป็น Active-High (ปกติ HIGH เมื่อไม่กด) ตอนกดจะเปลี่ยนเป็น LOW
+
+    Falling Edge = จับตอนที่สัญญาณลงจาก HIGH → LOW = ตอนกดปุ่ม
+
 
 3. กด **Generate Project Content** (ปุ่มสีฟ้าด้านบน)
 
@@ -108,10 +116,13 @@ description: "Lab Guide — ตั้งค่า GPIO Interrupt ด้วย FS
 
    ![](./images/4_externalconfig.png){ width="500" }
 
-   !!! success "Checkpoint 2.4"
-       ✅ RASC ปิดลง หรือแจ้งว่า Generate สำเร็จ
-       ✅ ใน Project Explorer มีไฟล์ `hal_data.h` ถูกสร้าง/แก้ไข
-       ❌ ไม่ Generate = ตรวจสอบว่ามี Error สีแดงใน RASC หรือไม่
+!!! success "Checkpoint 2.4"
+    ✅ RASC ปิดลง หรือแจ้งว่า Generate สำเร็จ
+
+    ✅ ใน Project Explorer มีไฟล์ `hal_data.h` ถูกสร้าง/แก้ไข
+
+    ❌ ไม่ Generate = ตรวจสอบว่ามี Error สีแดงใน RASC หรือไม่
+
 
 ---
 
@@ -183,8 +194,11 @@ void hal_entry(void)
 
 !!! success "Checkpoint 2.5"
     ✅ โค้ดมี `irq_callback_test()` ที่ print ข้อความ
+
     ✅ มี `rt_pin_attach_irq()` และ `rt_pin_irq_enable()`
+
     ❌ Build Error = ตรวจสอบว่า `hal_data.h` ถูก Generate จาก RASC แล้ว
+
 
 ---
 
@@ -216,10 +230,13 @@ void hal_entry(void)
 
    ![ทดสอบ Interrupt](./images/4_TestInterrupt.gif){ width="500" }
 
-   !!! success "Checkpoint 2.7"
-       ✅ Terminal แสดง "IRQ10 triggered" ทุกครั้งที่กด K1
-       ✅ LED ยังกะพริบต่อเนื่อง (ไม่สะดุด)
-       ❌ ไม่เห็นข้อความ = ตรวจสอบ Trigger เป็น Falling / Pin ถูกต้อง
+!!! success "Checkpoint 2.7"
+    ✅ Terminal แสดง "IRQ10 triggered" ทุกครั้งที่กด K1
+
+    ✅ LED ยังกะพริบต่อเนื่อง (ไม่สะดุด)
+
+    ❌ ไม่เห็นข้อความ = ตรวจสอบ Trigger เป็น Falling / Pin ถูกต้อง
+
 
 ---
 
@@ -249,15 +266,26 @@ Interrupt:             [กดปุ่ม K1] → หยุดชั่วค�
 
 ??? failure "แก้ปัญหาเบื้องต้น"
     **กดปุ่มแล้วไม่มีอะไรเกิดขึ้น**
+
     1. ตรวจสอบว่าเลือก Pin **P907** (ไม่ใช่ P907 คืออะไรอื่น)
+
     2. ตรวจสอบว่า Trigger เป็น **Falling** (ไม่ใช่ Rising)
+
     3. ตรวจสอบว่า `rt_pin_irq_enable(pin, PIN_IRQ_ENABLE)` อยู่ในโค้ด
+
     4. ลองกดปุ่มค้างไว้ 1 วินาทีแล้วปล่อย
 
+
     **"attach irq failed"**
+
     - Pin ไม่ถูกต้อง ลอง `rt_kprintf("pin = 0x%04X\n", pin);` ดูค่า
+
     - ตรวจสอบว่า RASC Generate แล้ว (มี `hal_data.h` อัปเดต)
 
+
     **Build Error หลัง Generate**
+
     - ตรวจสอบ Toolchain Version เป็น 13.2.1
+
     - Clean Project แล้ว Build ใหม่ (Project → Clean → Build)
+

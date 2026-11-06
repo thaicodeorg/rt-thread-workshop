@@ -31,8 +31,9 @@ description: "Lab Guide — สร้างโปรเจคแรก บน Vi
 
 1. **เสียบสาย USB-DBG** (สายสีน้ำเงิน หรือสายที่ติดมากับบอร์ด) เข้ากับ USB ของคอมพิวเตอร์
 
-   !!! info "USB-DBG คืออะไร?"
-       คือช่องสำหรับดีบักและโปรแกรมเฟิร์มแวร์ ไม่ใช่ช่อง USB ธรรมดาบนบอร์ด
+!!! info "USB-DBG คืออะไร?"
+    คือช่องสำหรับดีบักและโปรแกรมเฟิร์มแวร์ ไม่ใช่ช่อง USB ธรรมดาบนบอร์ด
+
 
 2. **เปิด Device Manager** โดยกด ++win+x++ แล้วเลือก "Device Manager"
 
@@ -40,9 +41,11 @@ description: "Lab Guide — สร้างโปรเจคแรก บน Vi
 
    ![Device Manager แสดง ART-Link](./images/3_devicemanager.png){ width="500" }
 
-   !!! success "Checkpoint 1.1"
-       ✅ เห็น "ART-Link CMSIS-DAP" ใน Device Manager = พร้อมเริ่ม
-       ❌ ไม่เห็น = ลองเปลี่ยน USB Port / สาย USB / ตรวจสอบว่าเสียบถูกช่อง
+!!! success "Checkpoint 1.1"
+    ✅ เห็น "ART-Link CMSIS-DAP" ใน Device Manager = พร้อมเริ่ม
+
+    ❌ ไม่เห็น = ลองเปลี่ยน USB Port / สาย USB / ตรวจสอบว่าเสียบถูกช่อง
+
 
 ---
 
@@ -74,9 +77,11 @@ description: "Lab Guide — สร้างโปรเจคแรก บน Vi
 
 4. **กด Finish** รอสร้าง Project (ประมาณ 10-20 วินาที)
 
-   !!! success "Checkpoint 1.2"
-       ✅ ด้านซ้าย Project Explorer แสดง `Hello-World` พร้อม folder `src`, `rt-thread`, `libraries`
-       ❌ ไม่เห็น = ตรวจสอบ SDK Manager ว่าติดตั้ง BSP Vision-Board แล้ว
+!!! success "Checkpoint 1.2"
+    ✅ ด้านซ้าย Project Explorer แสดง `Hello-World` พร้อม folder `src`, `rt-thread`, `libraries`
+
+    ❌ ไม่เห็น = ตรวจสอบ SDK Manager ว่าติดตั้ง BSP Vision-Board แล้ว
+
 
 ---
 
@@ -99,9 +104,11 @@ Compile โค้ดให้เป็นไฟล์ binary (.elf/.hex) เพ�
 
    ![Build Success](./images/3-successcompile.png){ width="600" }
 
-   !!! success "Checkpoint 1.3"
-       ✅ Console แสดง `Build Finished. 0 errors, 0 warnings`
-       ❌ มี Error = ตรวจสอบว่า Toolchain Version ถูกต้อง (ดู Troubleshooting ด้านล่าง)
+!!! success "Checkpoint 1.3"
+    ✅ Console แสดง `Build Finished. 0 errors, 0 warnings`
+
+    ❌ มี Error = ตรวจสอบว่า Toolchain Version ถูกต้อง (ดู Troubleshooting ด้านล่าง)
+
 
 ---
 
@@ -124,9 +131,11 @@ Compile โค้ดให้เป็นไฟล์ binary (.elf/.hex) เพ�
 
    ![LED กะพริบ](./images/3_blinking.png){ width="400" }
 
-   !!! success "Checkpoint 1.4"
-       ✅ LED สีฟ้าด้านหน้าบอร์ดกะพริบทุก ๆ 500 มิลลิวินาที
-       ❌ LED ไม่กะพริบ = ตรวจสอบว่า Download สำเร็จ / สาย USB-DBG เสียบแน่น
+!!! success "Checkpoint 1.4"
+    ✅ LED สีฟ้าด้านหน้าบอร์ดกะพริบทุก ๆ 500 มิลลิวินาที
+
+    ❌ LED ไม่กะพริบ = ตรวจสอบว่า Download สำเร็จ / สาย USB-DBG เสียบแน่น
+
 
 ---
 
@@ -141,9 +150,11 @@ Compile โค้ดให้เป็นไฟล์ binary (.elf/.hex) เพ�
 
    ![](./images/3-terminal.png){ width="500" }
 
-   !!! tip "เลือก Port ยังไง?"
-       ดูใน Device Manager → Ports (COM & LPT) → เลือก COM ที่มี "ART-Link" หรือ "J-Link"
-       Baud rate: 115200 (default)
+!!! tip "เลือก Port ยังไง?"
+    ดูใน Device Manager → Ports (COM & LPT) → เลือก COM ที่มี "ART-Link" หรือ "J-Link"
+
+    Baud rate: 115200 (default)
+
 
 2. **ดูผล**
 
@@ -154,9 +165,11 @@ Compile โค้ดให้เป็นไฟล์ binary (.elf/.hex) เพ�
    Hello RT-Thread!
    ```
 
-   !!! success "Checkpoint 1.5"
-       ✅ Terminal แสดง "Hello RT-Thread!" ซ้ำ ๆ พร้อม LED กะพริบ
-       ❌ ไม่เห็นข้อความ = ตรวจสอบ Baud rate / Port / กด Reset บอร์ด
+!!! success "Checkpoint 1.5"
+    ✅ Terminal แสดง "Hello RT-Thread!" ซ้ำ ๆ พร้อม LED กะพริบ
+
+    ❌ ไม่เห็นข้อความ = ตรวจสอบ Baud rate / Port / กด Reset บอร์ด
+
 
 ---
 
@@ -212,17 +225,30 @@ void hal_entry(void)
 
 ??? failure "แก้ปัญหาเบื้องต้น (Troubleshooting)"
     **"Build Failed: Toolchain not found"**
+
     - ไปที่ **Project → Properties → Toolchain**
+
     - เลือก **GNU Tools for ARM → 13.2.1**
+
     - ถ้าไม่มี เปิด SDK Manager ติดตั้งเพิ่ม
 
+
     **"Download Failed: No device found"**
+
     - ตรวจสอบ Device Manager → ART-Link CMSIS-DAP
+
     - เปลี่ยน USB Port / ลองสาย USB อื่น
+
     - กดปุ่ม Reset บนบอร์ดแล้วลองใหม่
 
+
     **"Terminal ไม่แสดงข้อความ"**
+
     - ตรวจสอบ Baud rate = 115200
+
     - ตรวจสอบเลือก COM Port ถูกต้อง
+
     - ปิด Terminal แล้วเปิดใหม่
+
     - กด Reset บนบอร์ด
+

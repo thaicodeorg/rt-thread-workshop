@@ -43,8 +43,8 @@ Workshop 1-2 คุณใช้ `rt_pin_write()` ควบคุม LED โด�
 
    ![](./images/5_dummy2.png){ width="500" }
 
-   !!! info "Ulog คืออะไร?"
-       Ulog เป็นระบบ log ของ RT-Thread แทนที่ `rt_kprintf()` ธรรมดา รองรับ level (DBG/INFO/WARN/ERROR) และ tag เพื่อกรอง log ได้ง่าย
+!!! info "Ulog คืออะไร?"
+    Ulog เป็นระบบ log ของ RT-Thread แทนที่ `rt_kprintf()` ธรรมดา รองรับ level (DBG/INFO/WARN/ERROR) และ tag เพื่อกรอง log ได้ง่าย
 
 ---
 
