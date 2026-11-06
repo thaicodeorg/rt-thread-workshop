@@ -1,34 +1,39 @@
+---
+title: "EMQX MQTT Broker"
+description: "คู่มือการใช้งาน EMQX MQTT Broker"
+---
+
 # ตั้งค่า การใช้งาน EMQX 
 - เปิด Browser ไปที่ [https://www.emqx.com/en](https://www.emqx.com/en)
-![](./images/5_emqx1.png)
+![](./images/5_emqx1.png){ width="500" }
 
 - Click ปุ่ม ``Sign In`` และ เลือกการ การ login ด้วย Accout Gmail หรือ อื่นๆ
-![](./images/5_emqx2.png)
+![](./images/5_emqx2.png){ width="500" }
 
-![](./images/5_emqx3.png)
+![](./images/5_emqx3.png){ width="500" }
 
 - Click New Deplyment
-![](./images/5_emqx4.png)
+![](./images/5_emqx4.png){ width="500" }
 
-![](./images/5_emqx5.png)
+![](./images/5_emqx5.png){ width="500" }
 
 - เลื่อน ลงมาด้านล่าง ตั้งชื่อ โปรเจค ``mqtt-muict-server``  ท่านสามารถตั้งชื่อตามที่ต้องการได้เลย พร้อมแล้วก็กด Deploy ได้เลย
-![](./images/5_emqx6.png)
+![](./images/5_emqx6.png){ width="500" }
 
 - โดยการใช้งาน emqx จะเป็นการใช้บริการในรูปแบบเป็น server less (login แล้วสามารถใช้งานเลย) Click ตามรูปด้านล่าง
-![](./images/5_emqx7.png)
+![](./images/5_emqx7.png){ width="500" }
 
-![](./images/5_emqx8.png)
+![](./images/5_emqx8.png){ width="500" }
 
 - **Add Authorization** ตั้งชื่อ Client ID ชื่อ muict-001
 - Add Topic ``rt-thread-node1/pub/test``
   
-![](./images/5_emqx9.png)
+![](./images/5_emqx9.png){ width="500" }
 
-![](./images/5_emqx10.png)
+![](./images/5_emqx10.png){ width="500" }
 
 - **Add Authentication**
-![](./images/5_emqx11.png)
+![](./images/5_emqx11.png){ width="500" }
 
 - **กลับ ไปยัง Overview** เพื่อ ทำการ Copy ค่าของ Address เอาไว้
 - จากตัวอย่าง  
@@ -36,43 +41,40 @@
   - MQTT Over TLS/SSL Port:  8883
   - WebSocket over TLS/SSL Poro: 8084
   - API Endpoint ``https://o08e80f7.ala.asia-southeast1.emqxsl.com:8443/api/v5``
-![](./images/5_emqx12.png)
+![](./images/5_emqx12.png){ width="500" }
   
 ## เชื่อมต่อไปยัง Serverless ใช้ MQTTX  [https://mqttx.app/](https://mqttx.app/)
-![](./images/5_emqx13.png)
+![](./images/5_emqx13.png){ width="500" }
 
-![](./images/5_emqx14.png)
+![](./images/5_emqx14.png){ width="500" }
 
-![](./images/5_emqx15.png)
+![](./images/5_emqx15.png){ width="500" }
 
-![](./images/5_emqx16.png)
+![](./images/5_emqx16.png){ width="500" }
 
-![](./images/5_emqx17.png)
+![](./images/5_emqx17.png){ width="500" }
 
 ## Application start 
 - กด ``+New Connection`` เพื่อสร้าง Connection
-![](./images/5_emqx18.png)
+![](./images/5_emqx18.png){ width="500" }
 
-![](./images/5_emqx19.png)
+![](./images/5_emqx19.png){ width="500" }
 
 - เชื่อมต่อประสบความสำเร็จ
 
-![](./images/5_emqx20.png)
+![](./images/5_emqx20.png){ width="500" }
 
 ## Add Subsubscription 
 - เราสร้าง topic ``rt-thread-node1/pub/test``  ไว้เรียบร้อยแล้ว
 - จาก ui เราต้องสร้าง subscript ไว้ที่ ``rt-thread-node1/#``
 - กดยืนยัน
-![](./images/5_emqx21.png)
+![](./images/5_emqx21.png){ width="500" }
 
 ## Finish
-![](./images/5_emqx22.png)
+![](./images/5_emqx22.png){ width="500" }
 
 - Diagrame การสื่อสาร
-![](./images/5_emqx23.png)
-
-
-
+![](./images/5_emqx23.png){ width="500" }
 
 <div class="grid" markdown>
 [<- กลับไปยัง IoT programing](./workshop5.md)

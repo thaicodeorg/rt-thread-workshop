@@ -1,21 +1,82 @@
-site_name: RT Thread Workshop MUICT 2025
+site_name: RT Thread Workshop MUICT 2026
 site_url: https://thaicodeorg.github.io/rt-thread-workshop/
+repo_url: https://github.com/thaicodeorg/rt-thread-workshop
+repo_name: thaicodeorg/rt-thread-workshop
+edit_uri: edit/main/docs/
+strict: true
+
+nav:
+  - หน้าหลัก: index.md
+  - พื้นฐาน RT-Thread:
+      - 01_rt-thread/01.1_rtthread_kernel.md
+      - 01_rt-thread/01.2_basic_kernel.md
+      - 01_rt-thread/01.3_stm_arm.md
+      - 01_rt-thread/01.4_vision_board.md
+  - การเตรียมการ:
+      - 02_Preparation/02.1_install_rt_thread_ide.md
+      - 02_Preparation/02.2_install_fsp.md
+      - 02_Preparation/02.3_install_env_tool.md
+      - 02_Preparation/02.4_install_OpenMV.md
+  - "Workshop 1: RT-Thread IDE Basic": 03_workshop1/workshop1.md
+  - "Workshop 2: GPIO - Interrupt": 04_workshop2/workshop2.md
+  - "Workshop 3: Dummy Device":
+      - 05_workshop3/workshop3.md
+      - 05_workshop3/msh.md
+  - "Workshop 4: WiFi RW007": 06_workshop4/workshop4.md
+  - "Workshop 5: IoT Programming":
+      - 07_workshop5/workshop5.md
+      - 07_workshop5/mqwx.md
+  - "Workshop 6: OpenMV": 08_workshop6/workshop6.md
+  - "Workshop 7: MicroPython": 09_workshop7/workshop7.md
+  - "Workshop 8: Face Detection": 10_workshop8/workshop8.md
+  - "Workshop 9: Edge Impulse": 11_workshop9/workshop9.md
+
 theme:
+  custom_dir: overrides
   logo: assets/logo.png
-  name: material
+  name: materialx
   palette:
-    primary: teal
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   font:
-    text: IBM Plex Sans Thai Looped
+    text: Noto Sans Thai
+  language: th
   features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.top
     - navigation.footer
+    - navigation.indexes
     - content.code.copy
+    - content.code.annotate
+    - content.footnote.tooltips
+    - header.autohide
+    - search.suggest
+    - search.highlight
+    - search.share
   icon:
     previous: fontawesome/solid/angle-left
     next: fontawesome/solid/angle-right
+
+plugins:
+  - search
+
 markdown_extensions:
   - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -23,11 +84,32 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
-  - attr_list
-  - md_in_html
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - def_list
+  - toc:
+      permalink: true
 
+extra_javascript:
+  - javascripts/glightbox-lib.min.js
+  - javascripts/glightbox.js
 
-copyright: Copyright &copy; 2025 Sawangpong muadphet <sawangpongm@gmail.com>
+extra_css:
+  - stylesheets/zoom.css
+  - stylesheets/glightbox.min.css
+
+extra:
+  generator: true
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/thaicodeorg/rt-thread-workshop
+
+copyright: Copyright &copy; 2025-2026 Sawangpong muadphet <sawangpongm@gmail.com>

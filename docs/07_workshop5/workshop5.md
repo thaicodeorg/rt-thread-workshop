@@ -1,92 +1,106 @@
-# IoT programing
+---
+title: "Workshop 5: IoT Programming"
+description: "ส่งข้อมูลผ่าน MQTT ไปยัง EMQX Broker"
+---
 
-![](./images/5_diagrame1.png)
+# IoT Programming
 
-## อินเทอร์เน็ตของสรรพสิ่ง (Internet of Things - IoT)
+<span class="md-tag">Advanced</span> <span class="md-tag">60 นาที</span>
 
-**โปรโตคอล IoT** คือชุดของกฎและมาตรฐานที่กำหนดว่าการแลกเปลี่ยนข้อมูลและการทำงานร่วมกันระหว่างอุปกรณ์ในระบบ IoT ควรทำอย่างไร พวกมันกำหนดวิธีการแลกเปลี่ยนข้อมูล รูปแบบของข้อมูล และวิธีการเข้ารหัสและยืนยันตัวตนเพื่อความปลอดภัย  
+## วัตถุประสงค์
 
-โปรโตคอล IoT ที่ได้รับความนิยมมากที่สุด ได้แก่ **REST API** และ **MQTT**
+- [x] เข้าใจโปรโตคอล IoT: REST API และ MQTT
+- [x] ติดตั้ง Package pahoMQTT และ cJSON
+- [x] เชื่อมต่อ WiFi และ MQTT Broker
+- [x] ส่งข้อมูลแบบ Real-time
+
+![](./images/5_diagrame1.png){ width="600" }
 
 ---
 
-### REST API
-**REST API** หรือ **RESTful API** คืออินเทอร์เฟซที่ช่วยให้ซอฟต์แวร์แอปพลิเคชันต่าง ๆ สามารถสื่อสารกันได้  
-- REST (Representational State Transfer) เป็นสถาปัตยกรรมที่ใช้โปรโตคอลการสื่อสารแบบไร้สถานะ (stateless) โดยทั่วไปจะใช้ **HTTP**  
-- REST API ทำงานโดยใช้ **HTTP methods มาตรฐาน** ได้แก่:
-  - **GET** – ดึงข้อมูล  
-  - **POST** – สร้างข้อมูล  
-  - **PUT** – แทนที่ข้อมูล  
-  - **PATCH** – อัปเดตข้อมูลบางส่วน  
-  - **DELETE** – ลบข้อมูล  
+## อินเทอร์เน็ตของสรรพสิ่ง (IoT)
 
-วิธีการเหล่านี้ตรงกับการทำงานแบบ **CRUD (Create, Read, Update, Delete)**  
+**โปรโตคอล IoT** คือชุดของกฎและมาตรฐานที่กำหนดการแลกเปลี่ยนข้อมูลระหว่างอุปกรณ์
 
-ทุกคำขอ (request) จาก client ไปยัง server เป็นแบบไร้สถานะ (stateless) หมายความว่าในคำขอมีข้อมูลครบถ้วนสำหรับให้ server ดำเนินการได้เอง  
-การตอบกลับ (response) จาก server มักมาในรูปแบบของ resource เช่น **HTML, XML, JSON** หรือ **plain text**
+โปรโตคอลที่ได้รับความนิยมมากที่สุด ได้แก่ **REST API** และ **MQTT**
+
+=== "REST API"
+    **REST API** หรือ **RESTful API** คืออินเทอร์เฟซที่ช่วยให้ซอฟต์แวร์สื่อสารกันได้
+
+    - ใช้โปรโตคอล **HTTP** แบบไร้สถานะ (stateless)
+    - HTTP Methods มาตรฐาน:
+        - **GET** – ดึงข้อมูล
+        - **POST** – สร้างข้อมูล
+        - **PUT** – แทนที่ข้อมูล
+        - **PATCH** – อัปเดตข้อมูลบางส่วน
+        - **DELETE** – ลบข้อมูล
+    - ตรงกับการทำงานแบบ **CRUD**
+    - Response มักเป็น **JSON** หรือ **plain text**
+
+=== "MQTT"
+    **MQTT** เป็นโปรโตคอลสำหรับอุปกรณ์ IoT ที่มี **ความหน่วงสูง** และ **แบนด์วิดท์ต่ำ**
+
+    - ทำงานบน **TCP**
+    - โมเดล **Publish/Subscribe**
+    - เหมาะสำหรับอุปกรณ์ที่ใช้ **โค้ดขนาดเล็ก**
+    - รองรับ **device-to-cloud** และ **cloud-to-device**
+    - หัวใจสำคัญคือ **MQTT Broker**
 
 ---
 
-### MQTT
-**MQTT (Message Queuing Telemetry Transport)** เป็นโปรโตคอลการสื่อสารที่ถูกออกแบบมาสำหรับอุปกรณ์ IoT ที่มี **ความหน่วงสูง (high latency)** และ **แบนด์วิดท์ต่ำ**  
-- เป็นโปรโตคอลที่ทำงานบน **TCP**  
-- ใช้โมเดลการส่งข้อความแบบ **publish/subscribe**  
-- เหมาะสำหรับการเชื่อมต่ออุปกรณ์ระยะไกลที่ใช้ **โค้ดขนาดเล็ก** และ **แบนด์วิดท์จำกัด**  
+## Workshop IoT: MQTT with EMQX
 
-MQTT รองรับการส่งข้อความทั้งจาก **อุปกรณ์ไปยังคลาวด์ (device-to-cloud)** และจาก **คลาวด์ไปยังอุปกรณ์ (cloud-to-device)** ซึ่งทำให้สามารถส่งข้อความไปยังกลุ่มของอุปกรณ์ได้ง่าย  
+### ขั้นตอนที่ 1: สร้าง Project
 
-หัวใจสำคัญของ MQTT คือ **MQTT broker**  
-- การสื่อสารทั้งหมดจะต้องผ่าน broker  
-- broker จะทำหน้าที่รับข้อความ  
-- ตรวจสอบว่าใครเป็นผู้สมัครรับ (subscriber)  
-- จากนั้นส่งข้อความไปยัง client ที่เกี่ยวข้อง
+สร้าง Project ชื่อ `iot-workshop1`
 
-## Workshop IoT
-- **ขั้นตอน 1**  สร้าง Project "iot-workshop1" อีกครั้ง
-  ![](./images/5_create_project.png)
+![](./images/5_create_project.png){ width="500" }
 
-- **ขั้นตอน 2**  เปิดไปยัง RT-Thread Settings  >  SoftwarePackage  และเลือกทำการติดตั้ง ``pahomqtt`` และ ``cJson`` packages
-  ![](./images/5_add_software_package.png)
+### ขั้นตอนที่ 2: ติดตั้ง Packages
 
-  ![](./images/5_package_center.png)
+1. เปิด **RT-Thread Settings → Software Package**
 
-    - เลือกค้นหา pahomqtt
-  ![](./images/5_add_pahomqtt.png)
+   ![](./images/5_add_software_package.png){ width="500" }
 
-    - เลือกค้นหา cJon
-  ![](./images/5_add_cJson.png)
+2. ค้นหาและติดตั้ง `pahomqtt` และ `cJSON`
 
-    - กดปิด ที่ tab เพื่อ save แล้ว RT-Thread IDE จะทำการ Download -> Update Project -> Precompire 
-  ![](./images/5_save_package.png)
+   ![](./images/5_package_center.png){ width="500" }
+   ![](./images/5_add_pahomqtt.png){ width="500" }
+   ![](./images/5_add_cJson.png){ width="500" }
 
-    - หลังการ update เรียบร้อยให้เปิด Folder package จะเป็นว่ามี Package ที่เราได้เลือกติดตั้ง
-  ![](./images/5_update_project.png)
+3. กดปิด Tab เพื่อ Save → RT-Thread IDE จะทำการ Download → Update Project → Precompile
 
-- **ขั้นตอน 3**  Clear Error   
-    ลองกด Compile , Build All ว่ามี Error อะไรบ้าง หากไม่มีก็ทำในส่วนต่อไปได้ อาจมี error ไม่เหมือนกัน จากรูปด้านบน ก็สามารถแก้โดย ลอง ลบ folder rw007-v2.0.1  เอาออก 1 folder  
-    ![](./images/5_err_project.png)
+   ![](./images/5_save_package.png){ width="500" }
 
-    ลบ rw007-v2.0 ออก  แล้ว  Build all ใหม่  
-    ![](./images/5_remove_rw007.png)
+4. หลัง Update เรียบร้อยเปิด Folder Package ตรวจสอบ
 
-    ลบ netutils ออก  แล้ว build ใหม่
-    ![](./images/5_remove_netutils.png)
+   ![](./images/5_update_project.png){ width="500" }
 
-    ![](./images/5_remove_netutils2.png)
+### ขั้นตอนที่ 3: แก้ไข Errors
 
-    หลังการ Build อีกรอบ
-    ![](./images/5_build_success.png)
+ลอง **Compile → Build All** หากพบ Error ให้แก้ไขดังนี้
 
-- **ขั้นตอน 4**  copy code ชื่อ ``hal_entry_02.c`` จาก folder /ex_03 มาแทนที่ ``hal_entry.c``
-``` C title="hal_entry_02.c for Workshop3" linenums="1"
-    /*
+1. ลบ folder `rw007-v2.0.1` ออก 1 folder
+
+   ![](./images/5_err_project.png){ width="500" }
+
+2. ลบ `netutils` ออกแล้ว Build ใหม่
+
+   ![](./images/5_remove_rw007.png){ width="500" }
+   ![](./images/5_remove_netutils.png){ width="500" }
+   ![](./images/5_remove_netutils2.png){ width="500" }
+
+3. หลัง Build อีกรอบควรสำเร็จ
+
+   ![](./images/5_build_success.png){ width="500" }
+
+### ขั้นตอนที่ 4: เขียน Code
+
+Copy Code จาก `hal_entry_02.c` ใน folder `/ex_03` มาแทนที่ `hal_entry.c`
+
+``` C title="hal_entry_02.c — Workshop 5" linenums="1"
+/*
  * Copyright (c) 2006-2023, RT-Thread Development Team
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Change Logs:
- * Date           Author        Notes
- * 2023-12-17     Rbb666        first version
  */
 
 #include <rtthread.h>
@@ -110,9 +124,7 @@ MQTT รองรับการส่งข้อความทั้งจา
 #define MQTT_PUB_TOPIC  "<MQTT PUB TOPIC>"
 #define MQTT_SUB_TOPIC  "<MQTT SUB TOPIC>"
 
-
 static MQTTClient   mqttClient;
-
 static bool wifiConnected = false;
 
 void wifi_event_handler(int event, struct rt_wlan_buff *buff, void *parameter) {
@@ -122,9 +134,11 @@ void wifi_event_handler(int event, struct rt_wlan_buff *buff, void *parameter) {
 static void mqtt_msg_cb(MQTTClient *client, MessageData *msg_data) {
     char topic_txt[256];
     char payload_txt[256];
-    memcpy(topic_txt, msg_data->topicName->lenstring.data, strlen(msg_data->topicName->lenstring.data));
+    memcpy(topic_txt, msg_data->topicName->lenstring.data,
+           strlen(msg_data->topicName->lenstring.data));
     topic_txt[msg_data->topicName->lenstring.len] = 0;
-    memcpy(payload_txt, msg_data->message->payload, strlen((char*)msg_data->message->payload));
+    memcpy(payload_txt, msg_data->message->payload,
+           strlen((char*)msg_data->message->payload));
     payload_txt[msg_data->message->payloadlen] = 0;
     rt_kprintf("Got msg %s from %s\n", payload_txt, topic_txt);
 }
@@ -142,10 +156,11 @@ static void mqtt_offline_cb(MQTTClient *client) {
     rt_kprintf("\nDevice offline\n");
 }
 
-void hal_entry(void) {
+void hal_entry(void)
+{
     rt_kprintf("\nHello RT-Thread!\n");
 
-    // WiFi
+    // WiFi // (1)!
     rt_wlan_set_mode(RT_WLAN_DEVICE_STA_NAME, RT_WLAN_STATION);
     rt_wlan_register_event_handler(RT_WLAN_EVT_READY, wifi_event_handler, RT_NULL);
     rt_wlan_connect(WIFI_SSID, WIFI_PASSWD);
@@ -156,7 +171,7 @@ void hal_entry(void) {
     }
     rt_kprintf("\nWiFi connected!\n");
 
-    // MQTT
+    // MQTT // (2)!
     mqttClient.uri = MQTT_BROKER;
 
     MQTTPacket_connectData mqttCfg = MQTTPacket_connectData_initializer;
@@ -193,50 +208,72 @@ void hal_entry(void) {
         rt_kprintf("\nMQTT published\n");
     }
 }
-
 ```
-  ![](./images/5_build_new_hal_entry.png)
 
-- **ขั้นตอน 5**  ถ้าหากไม่มี Error ก็จะเป็นขั้นตอนการ ใส่ค่า Config
-  
-!!! info
-    หากท่านยังไม่มี Account ของ emqx.io ให้ สามารถไปทำตามที่ ["ตั้งค่า emqx"](./mqwx.md)
+1. เริ่มต้น WiFi STA mode เชื่อมต่อกับ Access Point
+2. ตั้งค่า MQTT Broker และ Callback functions
 
-```
+![](./images/5_build_new_hal_entry.png){ width="500" }
+
+### ขั้นตอนที่ 5: ตั้งค่า Config
+
+!!! info "ยังไม่มี EMQX Account?"
+    [ไปตั้งค่าที่นี่ → EMQX Setup Guide](./mqwx.md)
+
+แก้ไขค่าใน Code:
+
+```c
 #define WIFI_SSID       "<WIFI_SSID>"
 #define WIFI_PASSWD     "<WIFI_PASSWD>"
-
 #define MQTT_BROKER     "tcp://broker.emqx.io:1883"
-#define MQTT_CLIENT_ID  "<MQTT CLIENT ID>"
-#define MQTT_PUB_TOPIC  "<MQTT PUB TOPIC>"
-#define MQTT_SUB_TOPIC  "<MQTT SUB TOPIC>"
-
+#define MQTT_CLIENT_ID  "<CLIENT_ID>"
+#define MQTT_PUB_TOPIC  "<PUB_TOPIC>"
+#define MQTT_SUB_TOPIC  "<SUB_TOPIC>"
 ```
-![](./images/5_change_mqttconfig.png)
 
-    - การเชื่อมต่อจะเชื่อมต่อ ไปยัง Broker ที่ ``tcp://broker.emqx.io:1883``
-    - แก้ไขค่าของ  ``<WIFI_SSID>, <WIFI_PASSWD>, <MQTT_CLIENT_ID>, <MQTT_PUB_TOPIC>, และ <MQTT_SUB_TOPIC>``
-     
-!!! Note
-    WiFi ต้องเป็น 2.4G ไม่ใช่ 5G
+![](./images/5_change_mqttconfig.png){ width="500" }
 
-- **ขั้นตอน 6**  เตรียมพร้อมการทดสอบ  
-    - **Build** ให้เรา Build All และ Flash Download 
-![](./images/5_emqx25.png)
+!!! warning "ระวัง"
+    WiFi ต้องเป็น **2.4 GHz** ไม่ใช่ 5 GHz
 
-    - **Terminal** เปิด Terminal สำหรับการเชื่อมต่อ ดูผลลัพท์การเชื่อมต่อ
-  ![](./images/5_emqx26.png)
+### ขั้นตอนที่ 6: Build และทดสอบ
 
-- Diagrame การสื่อสาร
-![](./images/5_emqx23.png)
+1. **Build All** และ **Flash Download**
 
-**Screen:**
-![](./images/publish_mqtt.gif)
+   ![](./images/5_emqx25.png){ width="500" }
 
+2. เปิด **Terminal** ดูผลลัพธ์
 
-!!! note
-    Fix MQTT connect
+   ![](./images/5_emqx26.png){ width="500" }
 
-![](./images/Fix_mqtt1.png)
+Diagram การสื่อสาร:
 
-![](./images/Fix_mqtt2.png)
+![](./images/5_emqx23.png){ width="600" }
+
+**Screen ผลลัพธ์:**
+
+![](./images/publish_mqtt.gif){ width="600" }
+
+---
+
+## สรุปผลลัพธ์
+
+- [x] ติดตั้ง Package MQTT และ JSON
+- [x] เชื่อมต่อ WiFi STA สำเร็จ
+- [x] Publish/Subscribe ผ่าน EMQX Broker
+- [x] เห็นข้อมูลแบบ Real-time ใน Terminal
+
+---
+
+??? failure "พบปัญหา? (Troubleshooting)"
+    **Error: MQTT connection failed**
+    - ตรวจสอบ WiFi ว่าเป็น 2.4 GHz
+    - ตรวจสอบ SSID/Password ว่าถูกต้อง
+    - ตรวจสอบ Broker URL `tcp://broker.emqx.io:1883`
+
+    **Error: Package not found**
+    - เปิด RT-Thread Settings → กด Refresh Package Index
+
+    **Fix MQTT Connect จากรุ่นก่อน:**
+    ![](./images/Fix_mqtt1.png){ width="400" }
+    ![](./images/Fix_mqtt2.png){ width="400" }

@@ -1,11 +1,16 @@
+---
+title: "Workshop 3: Dummy Device"
+description: "สร้าง Dummy Device Driver บน RT-Thread"
+---
+
 # Dummy Driver
 
 - ขั้นตอน 1 
   - สร้าง Project ใหม่ ให้ชื่อ ว่า ``dummy-driver``
   - กด เลือก RT-Thread Setting  จะเป็นการเปิด config ในส่วน RT-Thread setting
-    ![](./images/5_dummy1.png)
+    ![](./images/5_dummy1.png){ width="500" }
   - ในส่วนของ component Service เลือก Ulog icon  และ กด Configs 
-    ![](./images/5_dummy2.png)
+    ![](./images/5_dummy2.png){ width="500" }
   - copy code  ``hal_entry.c`` จาก Folder  /ex_02 มาใช้ โดย ทำการ Copy ใส่ไว้ใน ``src``
 
     ``` C title="hal_entry.c for Workshop3" linenums="1"
@@ -105,13 +110,12 @@
     }
     MSH_CMD_EXPORT(drv_test_app, enable test drv app);
 
-
     ```
     - จากนั้น Build Project แนะนำให้ clean ก่อนก็ดี
     - หากไม่มี Error ก็ให้ทำการ Flash Download ไปยัง Board
     - Connect Serial ด้วย Terminal เหมือนเดิม
     - พิมพ์คำสั่งเรียกใช้งาน function ใน msh>
-    ![](./images/5_dummy3.png)
+    ![](./images/5_dummy3.png){ width="500" }
 
 ## ทดสอบคำสั่งเบื่องต้น
 - msh> เป็นเสมือน Shell ของ RT-Thread ที่จะรอรับการสื่อสารจาก user 
@@ -143,6 +147,5 @@ free             - Show the memory usage in the system.
 pin              - pin [option]
 reboot           - Reboot System
 ```
-
 
   

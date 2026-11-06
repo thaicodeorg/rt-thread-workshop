@@ -1,6 +1,11 @@
+---
+title: "Workshop 4: WiFi RW007"
+description: "เชื่อมต่อ WiFi ด้วยโมดูล RW007 บน RT-Thread"
+---
+
 # เรียนรู้ WiFi Experiment ด้วย RW007
 
-![](./images/4_Wifi_RW007.png)
+![](./images/4_Wifi_RW007.png){ width="500" }
 
 # การเชื่อมต่อ WiFi
 
@@ -60,42 +65,41 @@ Wi-Fi มีบทบาทสำคัญพื้นฐานในการ�
   - ขา IO 1 ขา  
 - รวมทั้งหมด **8 ขา** (รวมพลังงานและกราวด์)  
 
-
 ## Workshop
 - **ขั้นตอนที่ 1 สร้าง Project**
     - สร้าง Project ใหม่ให้ชื่อว่า ``vision_board_wifi`` ด้วยวิธีการเดิม
     - แต่ครั้งนี้เราจะเลือก ชนิดของโปรเจคให้เป็น ``example`` และ เลือกตัวอย่างชื่อว่า ``vision_board_wifi``
-    ![](./images/4_Wifi_create_project.png)
+    ![](./images/4_Wifi_create_project.png){ width="500" }
 
-    ![](./images/4_createproject.png)
+    ![](./images/4_createproject.png){ width="500" }
 
 - **ขั้นตอนที่ 2 Enable Module**  
     - คลิกเลือกที่ RT-Thread Settings และ เลือก rw007
-    ![](./images/4_add_rw007.png)
+    ![](./images/4_add_rw007.png){ width="500" }
 
     - rw007 เป็นกลุ่มของ Software package สามารถปรับแต่งได้อย่างยืดหยุ่น เช่น
-    ![](./images/4_config_rw007.png)
+    ![](./images/4_config_rw007.png){ width="500" }
 
 - **ขั้นตอนที่ 3** ตรวจสอบ hardware configuration ผ่านทาง RA Smart Configurator
     - กด เลือก RA Smart Configurator
-    ![](./images/4_ra1.png)
+    ![](./images/4_ra1.png){ width="500" }
 
-    ![](./images/4_ra_stack.png)
+    ![](./images/4_ra_stack.png){ width="500" }
 
  - **ขั้นตอนที่ 4** 
      - ใช้ ปุ่ม Build Project หรือ เลือกไปยัง Menu Project -> Build All
-    ![](./images/4_build_project.png)
+    ![](./images/4_build_project.png){ width="500" }
 
-    ![](./images/4_wifibuild.png)
+    ![](./images/4_wifibuild.png){ width="500" }
 
      - ใช้ ปุ่ม Flash Download สำหรับการ Programe ไปยัง Board
-    ![](./images/4_flush.png)
+    ![](./images/4_flush.png){ width="500" }
 
  - **ขั้นตอนที่ 5** 
      - Connect Serial ด้วย terminal
-     ![](./images/4_terminal.png)
+     ![](./images/4_terminal.png){ width="500" }
 
-     ![](./images/4_msh.png)
+     ![](./images/4_msh.png){ width="500" }
 
      - ทดสอบคำสั่ง 
 ```
@@ -116,8 +120,8 @@ roborock-vacuum-s5_miap657D     40:31:3c:a8:65:7d  OPEN           -54    6    0
 TrueGigatexFiber_uS7_2.4G       d4:4f:67:11:e9:0c  WPA2_AES_PSK   -58    2    0
 ```
 output:
-     ![](./images/4_wificommand.png)
+     ![](./images/4_wificommand.png){ width="500" }
 
     - **ขั้นตอนที่ 5** ทดสอบการเชื่อมต่อ 
         - คำสั่งที่ ใช้ ``wifi join [ssid] [passward]
-        ![](./images/4_wificonnect.png)
+        ![](./images/4_wificonnect.png){ width="500" }

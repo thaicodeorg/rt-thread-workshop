@@ -1,6 +1,11 @@
+---
+title: "Workshop 8: Face Detection"
+description: "ตรวจจับใบหน้าด้วย OpenMV และ TensorFlow Lite"
+---
+
 # TensorFlow ร่วมกับ OpenMV
 
-![](./images/8_tensorflow_openmv.png)
+![](./images/8_tensorflow_openmv.png){ width="500" }
 
 **การเชื่อมต่ออุปกรณ์**  
 - ให้เชื่อมต่อกับ port USB-OTG นะครับ
@@ -8,7 +13,6 @@
 !!! note "แหล่งข้อมูลอ้างอิง"
     - [https://docs.openmv.io/library/omv.tf.html](https://docs.openmv.io/library/omv.tf.html)
     - [https://github.com/openmv/openmv/tree/master/scripts/examples](https://github.com/openmv/openmv/tree/master/scripts/examples)
-
 
 **ตารางสรุป moddole ที่ใช้ใน OpenVM**
 
@@ -20,11 +24,9 @@
 | `network`  | ใช้เชื่อมต่อ Wi-Fi ทั้งในโหมด STA (client) หรือ AP (access point) |
 | `socket`   | ใช้ทำงาน TCP/UDP communication เช่น HTTP server, WebSocket |
 
+![](./images/STM32H7.png){ width="500" }
 
-![](./images/STM32H7.png)
-
-![](./images/stm32.jpg)
-
+![](./images/stm32.jpg){ width="500" }
 
 ## เรียนรู้ และทำความคุ้นเคยกับโมเดล FOMO Face Detection
 ก่อนอื่นเรามาทำความรู้จักและสร้างความคุ้นเคย กับ Fomo Face Detection ของ OpenMV กันก่อนนะครับ คือ 
@@ -40,7 +42,7 @@ import tf
 labels, net = tf.load_builtin_model("fomo_face_detection")
 print(labels)
 ```
-![](./images/8_detect_fomo.png)
+![](./images/8_detect_fomo.png){ width="500" }
 
 - โมเดล FOMO Face Detection ของ OpenMV จะมี 2 class: ["background", "face"]
 - ดังนั้น i=0 คือ background, i=1 คือ face → ใน loop ของคุณมี if i == 0: continue ถูกต้องแล้ว
@@ -59,8 +61,7 @@ thresholds=[(math.ceil(min_confidence * 255), 255)]
 - min_confidence = 0.4 → 102  
 - ถ้า threshold สูงเกินไป อาจจะไม่ detect หน้า ให้ลองลดเป็น 0.3 (≈77)  
 
-![](./images/8_checkthreshold.png)
-
+![](./images/8_checkthreshold.png){ width="500" }
 
 ## Workshop 8 ทดสอบการ Run model
 ```python   title="tensorflowlite_face_detect.py" linenums="1"
@@ -142,8 +143,8 @@ while True:
 - วิธีการทดสอบ ให้ใช้วธีการเปิด Browser เพื่อทำการค้นหา รูปภาพที่หน้าบุคคล แล้วจึงใช้ กล้องส่องไปยังรูป ดังกล่าว
 - การแปลผลให้ดูที่ Terminal ที่มีการแสดงผลออกมา
 - หรือท่านสามารถใช้รูปตัวอย่าง 
-![](./images/8_muict_board.png)
+![](./images/8_muict_board.png){ width="500" }
 
-![](./images/detect.png)
+![](./images/detect.png){ width="500" }
 
 ใน Workshop ต่อไป จะได้ทำการสร้าง Model ของเราเอง แล้วจึงนำมา Deploy ใน OpenMV

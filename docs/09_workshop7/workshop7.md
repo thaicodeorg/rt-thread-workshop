@@ -1,6 +1,11 @@
+---
+title: "Workshop 7: MicroPython"
+description: "เขียนโปรแกรมด้วย MicroPython บน RT-Thread"
+---
+
 #Micropython Coding
 
-![](./images/7_micropythoncoding.png)
+![](./images/7_micropythoncoding.png){ width="500" }
 
 # MicroPython
 
@@ -34,7 +39,7 @@ MicroPython มีโมดูลในตัวที่ออกแบบม�
 
 ## แนะนำส่วนต่างของ Editor
 
-![](./images/7_ide.png)
+![](./images/7_ide.png){ width="500" }
 
 ## ส่วนประกอบหลักของ OpenMV IDE
 
@@ -57,13 +62,12 @@ MicroPython มีโมดูลในตัวที่ออกแบบม�
 เมื่อเปิด **OpenMV IDE** ขึ้นมาเป็นครั้งแรก  
 ระบบจะโหลดสคริปต์ตัวอย่าง **`hello_world.py`** โดยอัตโนมัติ
 
-
 ## Lab 01: Blink LED
 
 - เปิด โปรแกรม OpenMV 
 - สร้าง File ใหม่ชื่อ lab_python01.py
   
-    ![](./images/7_lab_python01.png)
+    ![](./images/7_lab_python01.png){ width="500" }
 
 ```python title="lab_python01.py for Workshop6" linenums="1"
 import time
@@ -84,11 +88,10 @@ while True:
 - ดูผลลัพท์ ที่ อุปกรณ์ จะเห็นไฟ กระพริบ สีแดง เขียว น้ำเงินสลับกัน
 
 **Screen: Run lab_python01.py**
-![](./images/9_run_lab_python01.gif)
+![](./images/9_run_lab_python01.gif){ width="500" }
 
 **Screen: Output lab_python01.py**
-![](./images/9_output_lab_python01.gif)
-
+![](./images/9_output_lab_python01.gif){ width="500" }
 
 ## Lab 02: button input
 
@@ -214,7 +217,6 @@ help('modules')
 - แสดงรายชื่อโมดูลทั้งหมดที่สามารถ `import` ได้
 - ขึ้นอยู่กับว่า firmware/บอร์ดรองรับอะไรบ้าง
 - ตัวอย่างโมดูลที่พบบ่อย: `os`, `time`, `machine`, `network`, `bluetooth`, `sensor`, `image` ฯลฯ
-
 
 ## Lab 4 ทดสอบการเชื่อมต่อ Connect wifi
 

@@ -1,55 +1,59 @@
+---
+title: "Workshop 6: OpenMV"
+description: "ตรวจจับวัตถุด้วย OpenMV และ Computer Vision"
+---
+
 # Workshop OpenMV
 - **Ref Source Code ของ OpenMV Board** 
     - ตัวอย่าง OpenMV  Board  [https://github.com/openmv/openmv/tree/master/scripts/examples](https://github.com/openmv/openmv/tree/master/scripts/examples)
     - ตัวอย่าง Vision Board [https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board/tree/master/projects/vision_board_openmv/firmware/omv_example](https://github.com/RT-Thread-Studio/sdk-bsp-ra8d1-vision-board/tree/master/projects/vision_board_openmv/firmware/omv_example)
   
-  ![](./images/6_openmv_architect.png)
+  ![](./images/6_openmv_architect.png){ width="500" }
 
 - เตรียมความพร้อม install Keil µVision
     - ติดตั้ง Keil MDK (Microcontroller Development Kit) คือ ชุดเครื่องมือพัฒนาโปรแกรมสำหรับไมโครคอนโทรลเลอร์ตระกูล ARM [https://www.keil.com/download/product/](https://www.keil.com/download/product/) เลือก MDK-ARM
     - Click MDR-Arm icon ลงทะเบียน ให้เรียบร้อย แล้วจะได้ Link สำหรับการ Download
-    ![](./images/6_armkeil.png)  
+    ![](./images/6_armkeil.png){ width="500" }  
 
     - Link Download  
-    ![](./images/6_mdk-arm.png)  
+    ![](./images/6_mdk-arm.png){ width="500" }  
 
     - Double click เพื่อทำการ install
-    ![](./images/6_armkeil2.png)
+    ![](./images/6_armkeil2.png){ width="500" }
 
     - ยอมรับ Licence แล้วกด Next
-    ![](./images/6_armkeil3.png)
+    ![](./images/6_armkeil3.png){ width="500" }
 
     - เลือก Destination  แทนค่า ``C:\Users\sysadmin\AppData\Local`` ด้วย  ``C:\Renesas`` กด Next  (เน้นอย่าให้ผิดนะครับ)
     - ``C:\Renesas\Keil_v5`` และ ``C:\Renesas\Arm\Packs``
-    ![](./images/6_keil_destination.png)
+    ![](./images/6_keil_destination.png){ width="500" }
 
     - กรอก Customer info  
-    ![](./images/6_customer_info.png)
+    ![](./images/6_customer_info.png){ width="500" }
 
     - install process  
-    ![](./images/6_keil_install.png)
+    ![](./images/6_keil_install.png){ width="500" }
 
     - ติดตั้ง package 
-    ![](./images/6_install_package.png)
+    ![](./images/6_install_package.png){ width="500" }
 
     - ติดตั้ง Driver  
-    ![](./images/6_install_driver.png)
+    ![](./images/6_install_driver.png){ width="500" }
 
     - ติดตั้งเรียบร้อย   
-    ![](./images/6_keil_setupcomplete.png)
+    ![](./images/6_keil_setupcomplete.png){ width="500" }
 
     - Package installer  
-    ![](./images/6_keil_package_installer.png)
+    ![](./images/6_keil_package_installer.png){ width="500" }
     
 ## ความสำคัญการติดตั้ง โปรแกรม MDK (Microctroller Development Kit) 
     - คือหลังจากตั้ง MDK จะได้ file UV4.exe ที่ ``C:\Renesas\Keil_v5\UV4\UV4.exe`` ที่เราจะต้องเอาไปใช้ ใน workshop
-    ![](./images/6_uv4_location.png)
+    ![](./images/6_uv4_location.png){ width="500" }
     - ให้เพิ่ม  ``C:\Renesas\Keil_v5\UV4`` ใน Windows Environment ให้เรียบร้อย ด้วยการ พิมพ์ คำว่า env ใน ช่อง Search windows
     - กด ``Environment Variables``  
-    ![](./images/6_add_path1.png)  
+    ![](./images/6_add_path1.png){ width="500" }  
 
-    ![](./images/6_add_path2.png)
-
+    ![](./images/6_add_path2.png){ width="500" }
 
 ## Workshop  OpenMV firmware
 
@@ -129,43 +133,43 @@ $ tree -L 2
 ```
 
     - Click ไปที่ ปุ่ม ``code`` และให้ทำการ Copy link สำหรับนำมาใช้เพื่อการ Clone Source ให้เลือกเป็น Protocol https นะครับ
-    ![](./images/6_git_ra8d1.png)
+    ![](./images/6_git_ra8d1.png){ width="500" }
 
     - เปิด Terminal ของ windows เพื่อทำการ Clone Repository 
-    ![](./images/6_gitclone1.png)
+    ![](./images/6_gitclone1.png){ width="500" }
     หากท่านใดในเครื่องไม่มีคำสั่ง git ให้ทำการติดตั้ง ให้เรียบร้อยก่อน โดยสำหรับ windows ก็ให้ Download ได้ที่ [https://git-scm.com/downloads](https://git-scm.com/downloads)
-    ![](./images/6_gitscm.png)
+    ![](./images/6_gitscm.png){ width="500" }
 
     - เมื่อ Download เรียบร้อย ต่อไปก็จะ ดำเนินการ import เข้าสู่ RT-Thread IDE ซื่งสามารถทได้ โดยไปยัง เมนู File > import และ ชี่ไปยัง Folder ``C:\Renesas\sdk-bsp-ra8d1-vision-board``   
-    ![](./images/6_fileimport1.png)
+    ![](./images/6_fileimport1.png){ width="500" }
 
     - เลือก RT-Thread Studio Project
-    ![](./images/6_select_rt_project.png)
+    ![](./images/6_select_rt_project.png){ width="500" }
     
     - เลือก Location ``C:\Renesas\sdk-bsp-ra8d1-vision-board\projects\vision_board_openmv``
-    ![](./images/6_select_location2.png)
+    ![](./images/6_select_location2.png){ width="500" }
 
     - ให้เปิด File Explore แล้วไปยัง project Folder ที่เลือกไว้นะครับ ให้ดูภายใน Folder จะพบว่ามีไฟล์ ชื่อ ``mklinks.bat`` ให้เรา Double Click ไฟล์นี้เพื่อให้ ไปสร้าง Folder ชื่อ libraries และ rt-thread
-    ![](./images/6_mklinks.png)  
+    ![](./images/6_mklinks.png){ width="500" }  
 
     **Screen**
-    ![](./images/6_mklink.gif)
+    ![](./images/6_mklink.gif){ width="500" }
 
     - ต่อมาให้เราเปลี่ยน Tool Chain เป็น version 13.2.1
-    ![](./images/6_toolchain13.png)
+    ![](./images/6_toolchain13.png){ width="500" }
 
     - หากมี Error แสดงว่า การเลือก toolchain ผิดพลาด ให้กลับไปเลือกใหม่
-    ![](./images/6_error1.png)
+    ![](./images/6_error1.png){ width="500" }
 
     - Build All และ Flash Download ไปยัง อุปกรณ์
-    ![](./images/6_buildall.png)
+    ![](./images/6_buildall.png){ width="500" }
     ไม่มี Error แต่ยังพบ Warning 
 
     - Flash upload
-    ![](./images/6_flashupload.png)
+    ![](./images/6_flashupload.png){ width="500" }
 
     - Terminal 
-    ![](./images/6_terminal.png)
+    ![](./images/6_terminal.png){ width="500" }
 
 ## เชื่อมต่อ Board ที่ได้ โปรแกรมเรียบร้อย กับ Programe OpenMV
 
@@ -174,40 +178,40 @@ $ tree -L 2
       - เมื่อสลับเรียบร้อย ให้เปิด โปรแกรม OpenMV IDE
       - กดปุ่ม Connect เพื่อทำการเชื่อมต่อ โปรแกรม OpenMV IDE กับ Board
 
-    ![](./images/6_connect_openmv.png)
+    ![](./images/6_connect_openmv.png){ width="500" }
     
     หากมีความต้องการให้ update firemware เลือก เป็น No ไปก่อน
-    ![](./images/6_update_firmware.png)
+    ![](./images/6_update_firmware.png){ width="500" }
 
     กดปุ่ม Start เพื่อ ทำการ Run ภาษา Micropython ที่อยู่ใน code editor
-    ![](./images/6_start.png)
+    ![](./images/6_start.png){ width="500" }
 
     กดปุ่ม Terminal เพื่อเปิด Serial Terminal 
-    ![](./images/6_output.png)
+    ![](./images/6_output.png){ width="500" }
     ขอแนะนำให้ หารูป ที่มีสีสันชัดเจน เพื่อให้ Sensors สามารถจัด ค่า Spectrum ของสีได้ชัดเจน
 
     **Screen:**
-    ![](./images/openmv.gif)
+    ![](./images/openmv.gif){ width="500" }
 
 ## Workshop  Lab Color Space
 
 - เปลี่ยน โหมด การอ่านภาพ Histograme ให้เป็น ``Lab Color Space``
-  ![](./images/6_labColor.png)
+  ![](./images/6_labColor.png){ width="500" }
 
 - ต่อไป ให้เลือก Tools > Machine Vision > Threshold Editor และ เลือก ``Frame Buffer as image source``
-  ![](./images/6_threshold.png)
+  ![](./images/6_threshold.png){ width="500" }
 
   เลือก เป็น Framebuffer
-  ![](./images/6_framebuffer.png)
+  ![](./images/6_framebuffer.png){ width="500" }
 
   ปรับค่า L,a,b จนกระทั้งสามารถตรวจวัตถุได้
-  ![](./images/6_detect_object.png)
+  ![](./images/6_detect_object.png){ width="500" }
 
   **Screen:**
-  ![](./images/object_detect.gif)
+  ![](./images/object_detect.gif){ width="500" }
 
   - Copy ค่า Lab Threshold เอาไว้ใช้ใน Workshop ต่อไป
-  ![](./images/copy_lab_threshold.png)
+  ![](./images/copy_lab_threshold.png){ width="500" }
   ``(18, 78, -69, 39, 29, 32)``
 
 ## Workshop ปรับแต่ Micropython code
@@ -258,8 +262,7 @@ while True:
 ```
 - กดปุ่ม Start อีกครั้ง
 
-![](./images/6_detection.png)
-
+![](./images/6_detection.png){ width="500" }
 
 **Backup ไฟล์เก่าเก็บไว้สำหรับเอาไว้อ่านค่า Threshold
 
@@ -274,7 +277,6 @@ while True:
 
 import sensor
 import time
-
 
 sensor.reset()  # Reset and initialize the sensor.
 sensor.set_pixformat(sensor.RGB565)  # Set pixel format to RGB565 (or GRAYSCALE)

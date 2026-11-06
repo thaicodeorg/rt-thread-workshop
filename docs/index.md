@@ -1,3 +1,10 @@
+---
+title: "RT-Thread Workshop MUICT 2026"
+description: "Workshop อบรมการใช้งาน RT-Thread RTOS บนบอร์ด Renesas Vision Board สำหรับนักศึกษาและผู้สนใจ"
+---
+
+<span class="md-tag">Beginner Friendly</span> <span class="md-tag">Embedded Systems</span> <span class="md-tag">IoT</span>
+
 <div class="grid" markdown>
 
 ![](./01_rt-thread/images/mahidol_logo.jpg)
@@ -9,51 +16,56 @@
 
 </div>
 
-## สวัสดีครับ ยินดีต้อนรับทุกท่าน  
+## สวัสดีครับ ยินดีต้อนรับทุกท่าน
 #### (update Sep 2026)
 
-![](./01_rt-thread/images/3-Poster_RT-Thread%202569.jpg)
+![](./01_rt-thread/images/3-Poster_RT-Thread%202569.jpg){ width="600" }
 
+---
 
-## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread  
-    (9.00-10.30 น)
-  - [พื้นฐาน RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
-  - [พื้นฐาน kernel](./01_rt-thread/01.2_basic_kernel.md)
-  - [แนะนำ STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
-  - [แนะนำ Reneses Vision Board](./01_rt-thread/01.4_vision_board.md)
+## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread
+!!! info "ระยะเวลา"
+    9.00–10.30 น.
+
+- [พื้นฐาน RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
+- [พื้นฐาน Kernel](./01_rt-thread/01.2_basic_kernel.md)
+- [แนะนำ STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
+- [แนะนำ Renesas Vision Board](./01_rt-thread/01.4_vision_board.md)
 
 ---
 
 ## :fontawesome-solid-list:{style="color: orange; font-size: 30px;"}  การเตรียมการ
-    (10.40-12.00)
-  - [ติดตั้ง RT-Thread Ide](./02_Preparation/02.1_install_rt_thread_ide.md)
-  - [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
-  - [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
-  - [ติดตั้ง OpenMV](./02_Preparation/02.4_install_OpenMV.md)
-  
---- 
+!!! info "ระยะเวลา"
+    10.40–12.00 น.
+
+- [ติดตั้ง RT-Thread IDE](./02_Preparation/02.1_install_rt_thread_ide.md)
+- [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
+- [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
+- [ติดตั้ง OpenMV](./02_Preparation/02.4_install_OpenMV.md)
+
+---
 
 ![](./assets/rt-thread.jpg){ width="300" }
 
-## :file_folder:{style="color: orange; font-size: 30px;"}   Workshop: RT-Thread 
-    (13.00-14.30 น)
-  - [Workshop 1 : RT-Thread IDE Basic](./03_workshop1/workshop1.md)
-  - [Workshop 2 : GPIO - Interupt](./04_workshop2/workshop2.md)
-  - [Workshop 3 : Dummy Device](./05_workshop3/workshop3.md)
-  - [Workshop 4 : WiFi RW007](./06_workshop4/workshop4.md)
-  - [Workshop 5 : IoT Programing](./07_workshop5/workshop5.md)
-  - [Workshop 6 : OpenMV](./08_workshop6/workshop6.md)
+## :file_folder:{style="color: orange; font-size: 30px;"}   Workshop: RT-Thread
+!!! info "ระยะเวลา"
+    13.00–14.30 น.
+
+- [Workshop 1: RT-Thread IDE Basic](./03_workshop1/workshop1.md) <span class="md-tag">Beginner</span> <span class="md-tag">30 นาที</span>
+- [Workshop 2: GPIO - Interrupt](./04_workshop2/workshop2.md) <span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
+- [Workshop 3: Dummy Device](./05_workshop3/workshop3.md) <span class="md-tag">Intermediate</span>
+- [Workshop 4: WiFi RW007](./06_workshop4/workshop4.md) <span class="md-tag">Intermediate</span>
+- [Workshop 5: IoT Programming](./07_workshop5/workshop5.md) <span class="md-tag">Advanced</span>
+- [Workshop 6: OpenMV](./08_workshop6/workshop6.md) <span class="md-tag">Advanced</span>
 
 ![](./assets/micropython-logo.png){ width="300" }
 
 ---
 
-## :file_folder:{style="color: orange; font-size: 30px;"}  Workshop:  Micropython บน OpenMV
-    (14.40-16.30 น)
-  - [Workshop 7 : Micropython](./09_workshop7/workshop7.md)
-  - [Workshop 8 : Face Detection](./10_workshop8/workshop8.md) 
-  - [Workshop 9 : Edge Impulse](./11_workshop9/workshop9.md)
----
+## :fontawesome-solid-microchip:{style="color: orange; font-size: 30px;"} Workshop: AI & Edge
+!!! info "ระยะเวลา"
+    14.45–16.00 น.
 
-## :material-git:{style="color: orange; font-size: 30px;"} Source Code 
-  - [https://github.com/thaicodeorg/rt-thread-workshop/tree/main/workshop-code](https://github.com/thaicodeorg/rt-thread-workshop/tree/main/workshop-code)
+- [Workshop 7: MicroPython](./09_workshop7/workshop7.md) <span class="md-tag">Intermediate</span>
+- [Workshop 8: Face Detection](./10_workshop8/workshop8.md) <span class="md-tag">Advanced</span>
+- [Workshop 9: Edge Impulse](./11_workshop9/workshop9.md) <span class="md-tag">Advanced</span> <span class="md-tag">Machine Learning</span>
