@@ -1,0 +1,2481 @@
+
+<!doctype html>
+<html lang="th" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="แนวทางการใช้งาน Serial Communication — ตั้งค่า UART ผ่าน FSP, เขียนโค้ดใน hal_entry.c และเข้าใจ Include Paths">
+      
+      
+      
+        <link rel="canonical" href="https://thaicodeorg.github.io/rt-thread-workshop/01_rt-thread/01.8_uart_guide/">
+      
+      
+        <link rel="prev" href="../01.7_hal_entry_vs_main/">
+      
+      
+        <link rel="next" href="../01.9_i2c_sensor_lab/">
+      
+      
+        
+      
+      
+      
+      
+        
+        
+        
+          <link rel="icon" href="../../assets/images/favicon.png">
+        
+      
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.2.2">
+    
+    
+      
+        <title>ใช้งาน UART (Tx/Rx) บน RT-Thread - RT Thread Workshop MUICT 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d60cbd7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a45159b5.min.css">
+      
+    
+    
+
+    
+
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Thai";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/zoom.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/glightbox.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo" data-mx-topbar="glass">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__toc"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#uart-txrx-rt-thread" class="md-skip">
+          ข้ามไปที่เนื้อหา
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="หัวข้อ">
+    <a href="../.." title="RT Thread Workshop MUICT 2026" class="md-header__button md-logo" aria-label="RT Thread Workshop MUICT 2026" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RT Thread Workshop MUICT 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ใช้งาน UART (Tx/Rx) บน RT-Thread
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="ค้นหา" placeholder="ค้นหา" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="ค้นหา">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="แบ่งปัน" aria-label="แบ่งปัน" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 5.5a3.498 3.498 0 0 1-6.062 2.385l-5.112 3.021a3.5 3.5 0 0 1 0 2.188l5.112 3.021a3.5 3.5 0 1 1-.764 1.29l-5.112-3.02a3.499 3.499 0 1 1-3.843-5.642 3.5 3.5 0 0 1 3.843.872l5.112-3.021A3.5 3.5 0 1 1 20 5.5m-1.5 13a2 2 0 1 0-3.999-.001 2 2 0 0 0 3.999.001m0-13a2 2 0 1 0-3.999-.001A2 2 0 0 0 18.5 5.5M5.5 14a2 2 0 1 0 .001-3.999A2 2 0 0 0 5.5 14"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="ล้าง" aria-label="ล้าง" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result md-search-result--pagefind" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            กำลังเริ่มต้นการค้นหา
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/thaicodeorg/rt-thread-workshop" title="ไปที่พื้นที่เก็บข้อมูล" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thaicodeorg/rt-thread-workshop
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="ตัวนำทาง" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="RT Thread Workshop MUICT 2026" class="md-nav__button md-logo" aria-label="RT Thread Workshop MUICT 2026" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    RT Thread Workshop MUICT 2026
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/thaicodeorg/rt-thread-workshop" title="ไปที่พื้นที่เก็บข้อมูล" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thaicodeorg/rt-thread-workshop
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าหลัก
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    พื้นฐาน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    พื้นฐาน RT-Thread
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.0_rtthread_boot_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RT-Thread Boot Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.1_rtthread_kernel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RT-Thread Realtime Kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.2_basic_kernel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    พื้นฐาน RT-Thread Kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.3_stm_arm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    แนะนำ STM และ ARM Cortex-M
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.4_vision_board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    แนะนำ Renesas Vision Board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.5_bsp_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP Architecture: สถาปัตยกรรม BSP และ FSP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.6_i2c_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ใช้งาน I2C บน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.7_hal_entry_vs_main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hal_entry.c กับ main.c: โปรเจกต์แบบไหนใช้อันไหน
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ใช้งาน UART (Tx/Rx) บน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ใช้งาน UART (Tx/Rx) บน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สิ่งที่คุณจะเข้าใจหลังอ่านหน้านี้
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        โครงสร้างโปรเจกต์ที่เกี่ยวข้อง
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hal_entryc-ra_gen-ra_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hal_entry.c เข้าถึง ra_gen/ และ ra_cfg/ ได้อย่างไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="hal_entry.c เข้าถึง ra_gen/ และ ra_cfg/ ได้อย่างไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-hal_datah" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ผ่าน #include "hal_data.h"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ra_gen-ra_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ra_gen/ กับ ra_cfg/ คืออะไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ra_gen/ กับ ra_cfg/ คืออะไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        เปรียบเทียบเหมือนอะไร?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-uart-fsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 1: ตั้งค่า UART ผ่าน FSP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 1: ตั้งค่า UART ผ่าน FSP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ra-smart-configurator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 เปิด RA Smart Configurator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 ตั้งค่า UART
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-generate-project-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Generate Project Content
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hal_entryc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 2: เขียนโค้ดใน hal_entry.c
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 2: เขียนโค้ดใน hal_entry.c">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rt-thread-serial-device-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 1: ใช้ RT-Thread Serial Device Framework (แนะนำ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fsp-api-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 2: ใช้ FSP API โดยตรง (Low-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-uart-driver-rt-thread-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 3: เปิดใช้งาน UART Driver ใน RT-Thread Settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-paths-rt-thread-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ดู Include Paths ใน RT-Thread Studio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ดู Include Paths ใน RT-Thread Studio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 1: ผ่าน Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-build-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 2: ผ่าน Build Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flow-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สรุป Flow การทำงาน UART
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ตารางสรุป: ไฟล์ไหน ทำอะไร อยู่ที่ไหน
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-vs-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ตารางสรุป: วิธีที่ 1 vs วิธีที่ 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.9_i2c_sensor_lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I2C Sensor Lab (สำหรับคนมีพื้นฐาน ESP32/Arduino)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01.10_uart_max458/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UART MAX458 (Tx/Rx) Communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    การเตรียมการ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    การเตรียมการ
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Preparation/02.1_install_rt_thread_ide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง RT-Thread IDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Preparation/02.2_install_fsp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง FSP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Preparation/02.3_install_env_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง Env Tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Preparation/02.4_install_OpenMV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง OpenMV IDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_workshop1/workshop1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 1: RT-Thread IDE Basic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/workshop2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 2: GPIO - Interrupt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 3: Dummy Device
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 3: Dummy Device
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_workshop3/workshop3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 3: Dummy Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_workshop3/msh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    msh Shell Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_workshop4/workshop4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 4: WiFi RW007
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 5: IoT Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 5: IoT Programming
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_workshop5/workshop5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 5: IoT Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_workshop5/mqwx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EMQX MQTT Broker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_workshop6/workshop6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 6: OpenMV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_workshop7/workshop7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 7: MicroPython
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_workshop8/workshop8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 8: Face Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11_workshop9/workshop9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 9: Edge Impulse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_workshop10/squareline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 10: Squareline Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สิ่งที่คุณจะเข้าใจหลังอ่านหน้านี้
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        โครงสร้างโปรเจกต์ที่เกี่ยวข้อง
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hal_entryc-ra_gen-ra_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hal_entry.c เข้าถึง ra_gen/ และ ra_cfg/ ได้อย่างไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="hal_entry.c เข้าถึง ra_gen/ และ ra_cfg/ ได้อย่างไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#include-hal_datah" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ผ่าน #include "hal_data.h"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ra_gen-ra_cfg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ra_gen/ กับ ra_cfg/ คืออะไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ra_gen/ กับ ra_cfg/ คืออะไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        เปรียบเทียบเหมือนอะไร?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-uart-fsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 1: ตั้งค่า UART ผ่าน FSP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 1: ตั้งค่า UART ผ่าน FSP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-ra-smart-configurator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 เปิด RA Smart Configurator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 ตั้งค่า UART
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-generate-project-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Generate Project Content
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-hal_entryc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 2: เขียนโค้ดใน hal_entry.c
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 2: เขียนโค้ดใน hal_entry.c">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rt-thread-serial-device-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 1: ใช้ RT-Thread Serial Device Framework (แนะนำ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-fsp-api-low-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 2: ใช้ FSP API โดยตรง (Low-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-uart-driver-rt-thread-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 3: เปิดใช้งาน UART Driver ใน RT-Thread Settings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-paths-rt-thread-studio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ดู Include Paths ใน RT-Thread Studio
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ดู Include Paths ใน RT-Thread Studio">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 1: ผ่าน Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-build-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธีที่ 2: ผ่าน Build Settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flow-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สรุป Flow การทำงาน UART
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ตารางสรุป: ไฟล์ไหน ทำอะไร อยู่ที่ไหน
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-vs-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ตารางสรุป: วิธีที่ 1 vs วิธีที่ 2
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              
+              
+              <article class="md-content__inner md-typeset" data-pagefind-body>
+                
+                  
+  
+  
+
+
+<h1 id="uart-txrx-rt-thread">ใช้งาน UART (Tx/Rx) บน RT-Thread<a class="headerlink" href="#uart-txrx-rt-thread" title="Permanent link">&para;</a></h1>
+<p><span class="md-tag">Foundation</span> <span class="md-tag">UART</span> <span class="md-tag">Serial</span></p>
+<h2 id="_1">สิ่งที่คุณจะเข้าใจหลังอ่านหน้านี้<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ตั้งค่า UART บนชิป RA8D1 ผ่าน FSP (RA Smart Configurator)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> เขียนโค้ด <code>hal_entry.c</code> ส่ง/รับข้อมูลผ่าน Tx/Rx</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> เข้าใจว่า <code>#include "hal_data.h"</code> หาเจอได้ยังไง</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> รู้ว่า <code>ra_gen/</code> และ <code>ra_cfg/</code> คืออะไร ทำอะไร</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ดู Include Paths ใน RT-Thread Studio ได้</li>
+</ul>
+<hr />
+<h2 id="_2">โครงสร้างโปรเจกต์ที่เกี่ยวข้อง<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Hello-World/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── src/
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── hal_entry.c          ← เขียนโค้ด UART ที่นี่
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── ra_gen/
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── hal_data.h           ← ประตูเชื่อมกับ FSP
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   └── hal_data.c           ← ตัวแปรควบคุมที่ FSP สร้าง
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├── ra_cfg/
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── r_sci_uart_cfg.h     ← ค่าตั้งค่า UART (Baud, etc.)
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>├── libraries/
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   └── ra/fsp/src/r_sci_uart/ ← ไดรเวอร์ UART ระดับต่ำ
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>└── ...
+</span></code></pre></div>
+<hr />
+<h2 id="hal_entryc-ra_gen-ra_cfg"><code>hal_entry.c</code> เข้าถึง <code>ra_gen/</code> และ <code>ra_cfg/</code> ได้อย่างไร?<a class="headerlink" href="#hal_entryc-ra_gen-ra_cfg" title="Permanent link">&para;</a></h2>
+<h3 id="include-hal_datah">ผ่าน <code>#include "hal_data.h"</code><a class="headerlink" href="#include-hal_datah" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"hal_data.h"</span><span class="w">   </span><span class="c1">// ← ประตูเชื่อมกับ FSP</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>คำสั่ง</th>
+<th>ทำอะไร</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#include "xxx.h"</code></td>
+<td>ค้นหาในโฟลเดอร์เดียวกันก่อน แล้วค้นตาม Include Paths</td>
+</tr>
+<tr>
+<td><code>#include &lt;xxx.h&gt;</code></td>
+<td>ค้นหาเฉพาะใน Include Paths (ระบบ)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title"><code>hal_data.h</code> อยู่ที่ไหน?</p>
+<p>ตำแหน่งจริง: <strong><code>ra_gen/hal_data.h</code></strong></p>
+<p>แต่คอมไพเลอร์หาเจอเพราะ RT-Thread Studio <strong>เพิ่ม <code>ra_gen/</code> เป็น Include Path</strong> ตั้งแต่สร้างโปรเจกต์</p>
+</div>
+<hr />
+<h2 id="ra_gen-ra_cfg"><code>ra_gen/</code> กับ <code>ra_cfg/</code> คืออะไร?<a class="headerlink" href="#ra_gen-ra_cfg" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>โฟลเดอร์</th>
+<th>มาจากไหน</th>
+<th>มีอะไร</th>
+<th>ทำอะไร</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>ra_gen/</code></strong></td>
+<td>FSP สร้างอัตโนมัติ</td>
+<td><code>hal_data.h</code>, <code>hal_data.c</code>, <code>pin_data.c</code></td>
+<td>รวมตัวแปรควบคุมทั้งหมดที่ RASC สร้าง</td>
+</tr>
+<tr>
+<td><strong><code>ra_cfg/</code></strong></td>
+<td>FSP สร้างอัตโนมัติ</td>
+<td><code>r_xxx_cfg.h</code> (เช่น <code>r_sci_uart_cfg.h</code>)</td>
+<td>เก็บค่าคงที่ <code>#define</code> ตั้งค่าโมดูล</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_3">เปรียบเทียบเหมือนอะไร?<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>ra_gen/</code></strong> = <strong>บลูพริ้นท์ (Blueprint)</strong> — บอกว่ามีอะไรบ้าง (ตัวแปร, ฟังก์ชัน)</li>
+<li><strong><code>ra_cfg/</code></strong> = <strong>สเปก (Specification)</strong> — บอกว่าตั้งค่ายังไง (Baud rate, Pin, Mode)</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">อย่าแก้ด้วยมือ!</p>
+<p>ทั้งสองโฟลเดอร์ถูก <strong>สร้าง/อัปเดตอัตโนมัติ</strong> เมื่อกด <strong>Generate Project Content</strong> ใน RASC
+ถ้าแก้ด้วยมือ → กด Generate ใหม่ → โดนเขียนทับหมด!</p>
+</div>
+<hr />
+<h2 id="1-uart-fsp">ขั้นตอนที่ 1: ตั้งค่า UART ผ่าน FSP<a class="headerlink" href="#1-uart-fsp" title="Permanent link">&para;</a></h2>
+<h3 id="11-ra-smart-configurator">1.1 เปิด RA Smart Configurator<a class="headerlink" href="#11-ra-smart-configurator" title="Permanent link">&para;</a></h3>
+<ol>
+<li>ดับเบิลคลิก <strong>RA Smart Configurator</strong> ใน Project Explorer</li>
+<li>ไปที่แท็บ <strong>Stacks</strong></li>
+<li>กด <strong>New Stack</strong> → <strong>Driver → Connectivity → UART (r_sci_uart)</strong></li>
+</ol>
+<h3 id="12-uart">1.2 ตั้งค่า UART<a class="headerlink" href="#12-uart" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ค่า</th>
+<th>ค่าที่ตั้ง</th>
+<th>คำอธิบาย</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Channel</td>
+<td>SCI1 (หรือที่ต้องการ)</td>
+<td>เลือกช่อง UART</td>
+</tr>
+<tr>
+<td>Baud Rate</td>
+<td>115200</td>
+<td>ความเร็วส่งข้อมูล</td>
+</tr>
+<tr>
+<td>TX Pin</td>
+<td>P101</td>
+<td>ขาส่งข้อมูล</td>
+</tr>
+<tr>
+<td>RX Pin</td>
+<td>P100</td>
+<td>ขารับข้อมูล</td>
+</tr>
+<tr>
+<td>Data Bits</td>
+<td>8</td>
+<td>จำนวนบิตข้อมูล</td>
+</tr>
+<tr>
+<td>Stop Bits</td>
+<td>1</td>
+<td>จำนวนบิตหยุด</td>
+</tr>
+<tr>
+<td>Parity</td>
+<td>None</td>
+<td>ไม่ตรวจสอบคู่คี่</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-generate-project-content">1.3 Generate Project Content<a class="headerlink" href="#13-generate-project-content" title="Permanent link">&para;</a></h3>
+<p>กดปุ่ม <strong>Generate Project Content</strong> (มุมขวาบน)</p>
+<div class="admonition success">
+<p class="admonition-title">ผลลัพธ์</p>
+<p>FSP จะสร้าง/อัปเดต:
+- <code>ra_gen/hal_data.h</code> → เพิ่มตัวแปร <code>g_uart1_ctrl</code>, <code>g_uart1_cfg</code>
+- <code>ra_cfg/r_sci_uart_cfg.h</code> → เพิ่ม <code>#define</code> ค่า Baud rate</p>
+</div>
+<hr />
+<h2 id="2-hal_entryc">ขั้นตอนที่ 2: เขียนโค้ดใน <code>hal_entry.c</code><a class="headerlink" href="#2-hal_entryc" title="Permanent link">&para;</a></h2>
+<h3 id="1-rt-thread-serial-device-framework">วิธีที่ 1: ใช้ RT-Thread Serial Device Framework (แนะนำ)<a class="headerlink" href="#1-rt-thread-serial-device-framework" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rtthread.h&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;rtdevice.h&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"hal_data.h"</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cp">#define SAMPLE_UART_NAME    "uart1"   </span><span class="c1">// ชื่อตามที่ตั้งไว้</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="k">static</span><span class="w"> </span><span class="n">rt_device_t</span><span class="w"> </span><span class="n">serial</span><span class="p">;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">hal_entry</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">{</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">rt_kprintf</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">UART Test Start!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="c1">// 1. ค้นหา UART Device</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">serial</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rt_device_find</span><span class="p">(</span><span class="n">SAMPLE_UART_NAME</span><span class="p">);</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">serial</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="n">rt_kprintf</span><span class="p">(</span><span class="s">"Find %s failed!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">SAMPLE_UART_NAME</span><span class="p">);</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="c1">// 2. เปิดใช้งาน (โหมด Interrupt สำหรับ Tx/Rx)</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="n">rt_device_open</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span><span class="w"> </span><span class="n">RT_DEVICE_FLAG_INT_RX</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">RT_DEVICE_FLAG_INT_TX</span><span class="p">);</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="c1">// 3. ส่งข้อมูลออก Tx</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Hello from Vision-Board!</span><span class="se">\r\n</span><span class="s">"</span><span class="p">;</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="n">rt_device_write</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">rt_strlen</span><span class="p">(</span><span class="n">msg</span><span class="p">));</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">        </span><span class="c1">// 4. อ่านข้อมูลจาก Rx (ถ้ามี)</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">;</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rt_device_read</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">            </span><span class="n">rt_kprintf</span><span class="p">(</span><span class="s">"Received: %c</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">buf</span><span class="p">);</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">            </span><span class="c1">// Echo กลับไปที่ Tx</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">            </span><span class="n">rt_device_write</span><span class="p">(</span><span class="n">serial</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">        </span><span class="n">rt_thread_mdelay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="2-fsp-api-low-level">วิธีที่ 2: ใช้ FSP API โดยตรง (Low-level)<a class="headerlink" href="#2-fsp-api-low-level" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"hal_data.h"</span><span class="w">   </span><span class="c1">// มี g_uart1_ctrl, g_uart1_cfg</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">hal_entry</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">{</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="c1">// เปิดใช้งาน UART ด้วย FSP API</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">R_SCI_UART_Open</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_uart1_ctrl</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">g_uart1_cfg</span><span class="p">);</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="c1">// ส่งข้อมูล</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Hello FSP</span><span class="se">\r\n</span><span class="s">"</span><span class="p">;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">R_SCI_UART_Write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_uart1_ctrl</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">        </span><span class="n">rt_thread_mdelay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>วิธี</th>
+<th>ข้อดี</th>
+<th>ข้อเสีย</th>
+<th>เหมาะกับ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RT-Thread Serial</strong></td>
+<td>ใช้ Device Framework, Buffer จัดการให้, ใช้กับ Packages ได้</td>
+<td>ซับซ้อนกว่าเล็กน้อย</td>
+<td>โปรเจกต์ทั่วไป, ใช้กับ Shell/Console</td>
+</tr>
+<tr>
+<td><strong>FSP API ตรง</strong></td>
+<td>ควบคุมลึก, เร็ว, ใช้ DMA ได้</td>
+<td>ต้องจัดการ Buffer เอง, ไม่ผ่าน OS</td>
+<td>งานพิเศษที่ต้อง Performance สูง</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-uart-driver-rt-thread-settings">ขั้นตอนที่ 3: เปิดใช้งาน UART Driver ใน RT-Thread Settings<a class="headerlink" href="#3-uart-driver-rt-thread-settings" title="Permanent link">&para;</a></h2>
+<ol>
+<li>เปิด <strong>RT-Thread Settings</strong> (icon เฟือง)</li>
+<li>ไปที่ <strong>Device Drivers</strong></li>
+<li>เปิด <strong>Using serial device driver framework</strong></li>
+<li>เปิด <strong>Enable UART hardware driver</strong></li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">อย่าลืม!</p>
+<p>ถ้าไม่เปิดใน RT-Thread Settings → Kernel จะไม่คอมไพล์ Serial Framework → <code>rt_device_find("uart1")</code> หาไม่เจอ!</p>
+</div>
+<hr />
+<h2 id="include-paths-rt-thread-studio">ดู Include Paths ใน RT-Thread Studio<a class="headerlink" href="#include-paths-rt-thread-studio" title="Permanent link">&para;</a></h2>
+<h3 id="1-properties">วิธีที่ 1: ผ่าน Properties<a class="headerlink" href="#1-properties" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>คลิกขวา</strong> ที่ชื่อโปรเจกต์ → <strong>Properties</strong></li>
+<li>คลิก <strong>C/C++ General → Paths and Symbols</strong></li>
+<li>เลือกแท็บ <strong>Includes</strong> → ภาษา <strong>GNU C</strong></li>
+</ol>
+<p><img alt="ตัวอย่าง Include Paths" src="https://via.placeholder.com/600x300/f0f0f0/333?text=Project+Properties+→+C/C+++General+→+Paths+and+Symbols" /></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ตัวอย่างรายการที่จะเห็น:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── ${workspace_loc:/${ProjName}/ra_gen}      ← นี่แหละ!
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── ${workspace_loc:/${ProjName}/ra_cfg}
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>├── ${workspace_loc:/${ProjName}/src}
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>├── ${workspace_loc:/${ProjName}/libraries/ra/fsp/inc}
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>└── ...
+</span></code></pre></div>
+<h3 id="2-build-settings">วิธีที่ 2: ผ่าน Build Settings<a class="headerlink" href="#2-build-settings" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Properties</strong> → <strong>C/C++ Build → Settings</strong></li>
+<li>แท็บ <strong>Tool Settings</strong> → ขยาย <strong>Cross ARM C Compiler</strong></li>
+<li>เลือก <strong>Includes</strong></li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Include paths (-I):
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>-I"${workspace_loc:/${ProjName}/ra_gen}"
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>-I"${workspace_loc:/${ProjName}/ra_cfg}"
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>-I"${workspace_loc:/${ProjName}/libraries/ra/fsp/inc}"
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">ทำไมต้องรู้?</p>
+<p>ถ้าวันหนึ่งคุณย้ายไฟล์ <code>hal_data.h</code> หรือสร้าง Header เอง → ต้องมาเพิ่ม Path ที่นี่ ไม่งั้นคอมไพเลอร์หาไม่เจอ!</p>
+</div>
+<hr />
+<h2 id="flow-uart">สรุป Flow การทำงาน UART<a class="headerlink" href="#flow-uart" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>flowchart TD
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    A["RASC ตั้งค่า UART&lt;br/&gt;Channel, Baud, Pin"] --&gt;|กด Generate| B["FSP สร้าง/อัปเดต"]
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    B --&gt; C["ra_gen/hal_data.h&lt;br/&gt;g_uart1_ctrl, g_uart1_cfg"]
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    B --&gt; D["ra_cfg/r_sci_uart_cfg.h&lt;br/&gt;#define BAUD_RATE 115200"]
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    C --&gt; E["hal_entry.c&lt;br/&gt;#include hal_data.h"]
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    D --&gt; E
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    E --&gt;|วิธีที่ 1| F["RT-Thread Serial API&lt;br/&gt;rt_device_find, rt_device_write"]
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    E --&gt;|วิธีที่ 2| G["FSP API ตรง&lt;br/&gt;R_SCI_UART_Open, Write"]
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    F --&gt; H["UART Hardware&lt;br/&gt;Tx → ส่งออก / Rx → รับเข้า"]
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    G --&gt; H
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    style A fill:#f96,stroke:#333
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    style H fill:#9f6,stroke:#333
+</span></code></pre></div>
+<hr />
+<h2 id="_4">ตารางสรุป: ไฟล์ไหน ทำอะไร อยู่ที่ไหน<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ไฟล์/โฟลเดอร์</th>
+<th>อยู่ที่ไหน</th>
+<th>ทำอะไร</th>
+<th>ใครสร้าง</th>
+<th>แก้ได้ไหม</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hal_entry.c</code></td>
+<td><code>src/</code></td>
+<td>เขียนโค้ดแอปพลิเคชัน</td>
+<td>RT-Thread Studio</td>
+<td>✅ แก้ได้</td>
+</tr>
+<tr>
+<td><code>hal_data.h</code></td>
+<td><code>ra_gen/</code></td>
+<td>ประกาศตัวแปร FSP (g_uart_ctrl, etc.)</td>
+<td>RASC Generate</td>
+<td>❌ ห้ามแก้มือ</td>
+</tr>
+<tr>
+<td><code>hal_data.c</code></td>
+<td><code>ra_gen/</code></td>
+<td>กำหนดค่าเริ่มต้นตัวแปร FSP</td>
+<td>RASC Generate</td>
+<td>❌ ห้ามแก้มือ</td>
+</tr>
+<tr>
+<td><code>r_sci_uart_cfg.h</code></td>
+<td><code>ra_cfg/</code></td>
+<td><code>#define</code> ค่า Baud, Mode</td>
+<td>RASC Generate</td>
+<td>❌ ห้ามแก้มือ</td>
+</tr>
+<tr>
+<td><code>r_sci_uart.c</code></td>
+<td><code>libraries/ra/fsp/src/</code></td>
+<td>ไดรเวอร์ UART ระดับต่ำ</td>
+<td>Renesas</td>
+<td>❌ ห้ามแก้</td>
+</tr>
+<tr>
+<td><code>drv_uart.c</code></td>
+<td><code>libraries/HAL_Drivers/</code></td>
+<td>RT-Thread ห่อ FSP เป็น Device API</td>
+<td>RT-Thread</td>
+<td>❌ ห้ามแก้</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-vs-2">ตารางสรุป: วิธีที่ 1 vs วิธีที่ 2<a class="headerlink" href="#1-vs-2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>คุณสมบัติ</th>
+<th>วิธีที่ 1: RT-Thread Serial</th>
+<th>วิธีที่ 2: FSP API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ความง่าย</td>
+<td>⭐⭐⭐ ง่าย</td>
+<td>⭐⭐ ปานกลาง</td>
+</tr>
+<tr>
+<td>ควบคุมลึก</td>
+<td>⭐⭐ ปานกลาง</td>
+<td>⭐⭐⭐ ลึก</td>
+</tr>
+<tr>
+<td>มี Buffer จัดการ</td>
+<td>✅ มี</td>
+<td>❌ ต้องทำเอง</td>
+</tr>
+<tr>
+<td>ใช้กับ <code>finsh</code>/<code>msh</code></td>
+<td>✅ ได้</td>
+<td>❌ ไม่ได้</td>
+</tr>
+<tr>
+<td>ใช้ DMA</td>
+<td>⚠️ ต้องตั้งค่าเพิ่ม</td>
+<td>✅ รองรับโดยตรง</td>
+</tr>
+<tr>
+<td>ใช้ Software Package</td>
+<td>✅ สะดวก</td>
+<td>⚠️ ต้องดัดแปลง</td>
+</tr>
+<tr>
+<td>เหมาะกับ</td>
+<td>งานทั่วไป, Console, GPS, Bluetooth</td>
+<td>งาน High-speed, Custom protocol</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<details class="failure">
+<summary>พบปัญหาเบื้องต้น</summary>
+<p><strong>"<code>rt_device_find("uart1")</code> หาไม่เจอ"</strong>
+- ตรวจสอบว่าเปิด <strong>Using serial device driver framework</strong> ใน RT-Thread Settings
+- ตรวจสอบว่าเปิด <strong>Enable UART hardware driver</strong>
+- ตรวจสอบชื่อ UART (<code>uart0</code>, <code>uart1</code>, <code>uart2</code>) ว่าตรงกับที่ RASC ตั้ง</p>
+<p><strong>"ส่งข้อมูลออกไปแล้ว แต่ Terminal ไม่เห็น"</strong>
+- ตรวจสอบ Baud rate ตรงกันไหม (ตั้ง 115200 ทั้งบอร์ดและ Terminal)
+- ตรวจสอบ Tx Pin เสียบถูกหรือไม่
+- ตรวจสอบว่าเปิด <strong>Console</strong> ใน RT-Thread Settings (อาจ conflict)</p>
+<p><strong>"รับข้อมูลจาก Rx ไม่ได้"</strong>
+- ตรวจสอบว่าเปิด Flag <code>RT_DEVICE_FLAG_INT_RX</code>
+- ตรวจสอบ Pull-up resistor บน Rx line
+- ลองเปลี่ยน <code>rt_device_read(serial, -1, ...)</code> → <code>rt_device_read(serial, 0, ...)</code></p>
+<p><strong>"Generate แล้ว <code>hal_data.h</code> ไม่มี <code>g_uart1_ctrl</code>"</strong>
+- ตรวจสอบว่า RASC ตั้งค่า UART เสร็จและกด <strong>Generate</strong>
+- ตรวจสอบว่าเลือก Channel ถูกต้อง
+- ลอง Clean Project แล้ว Build ใหม่</p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+          <div class="md-top" data-md-component="top" hidden>
+  <div class="md-top__center">
+    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+      <span>กลับไปด้านบนสุด</span>
+    </button>
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-left" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+      </label>
+    
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-right" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></svg>
+      </label>
+    
+  </div>
+</div>
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="ส่วนท้าย" >
+        
+          
+          <a href="../01.7_hal_entry_vs_main/" class="md-footer__link md-footer__link--prev" aria-label="ก่อนหน้า: hal_entry.c กับ main.c: โปรเจกต์แบบไหนใช้อันไหน">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                ก่อนหน้า
+              </span>
+              <div class="md-ellipsis">
+                hal_entry.c กับ main.c: โปรเจกต์แบบไหนใช้อันไหน
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../01.9_i2c_sensor_lab/" class="md-footer__link md-footer__link--next" aria-label="ต่อไป: I2C Sensor Lab (สำหรับคนมีพื้นฐาน ESP32/Arduino)">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                ต่อไป
+              </span>
+              <div class="md-ellipsis">
+                I2C Sensor Lab (สำหรับคนมีพื้นฐาน ESP32/Arduino)
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025-2026 Sawangpong muadphet <sawangpongm@gmail.com>
+    </div>
+  
+  
+    Made with
+    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
+      MaterialX
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/thaicodeorg/rt-thread-workshop" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+          
+          
+        
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "code": null, "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.top", "navigation.footer", "navigation.indexes", "content.code.copy", "content.code.annotate", "content.footnote.tooltips", "header.autohide", "search.suggest", "search.highlight", "search.share"], "search": {"options": {"baseUrl": "../..", "bundleUrl": "../../search/", "highlight": true, "searchOptions": {}}, "provider": "pagefind"}, "tags": null, "translations": {"clipboard.copied": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e41\u0e25\u0e49\u0e27", "clipboard.copy": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01", "code.collapse": "Collapse", "code.download": "Download", "code.expand": "Expand remaining # lines", "code.select": "Toggle line selection", "search.offline": "Switch to Lunr for offline search", "search.result.more.one": "\u0e2d\u0e35\u0e01\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.more.other": "# \u0e40\u0e1e\u0e34\u0e48\u0e21\u0e40\u0e15\u0e34\u0e21\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.none": "\u0e44\u0e21\u0e48\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.one": "\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.other": "\u0e1e\u0e1a # \u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.placeholder": "\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e40\u0e23\u0e34\u0e48\u0e21\u0e04\u0e49\u0e19\u0e2b\u0e32", "search.result.term.missing": "\u0e44\u0e21\u0e48\u0e1e\u0e1a", "select.version": "\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e40\u0e27\u0e2d\u0e23\u0e4c\u0e0a\u0e31\u0e19"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.19ace10b.min.js"></script>
+      
+        <script src="../../javascripts/glightbox-lib.min.js"></script>
+      
+        <script src="../../javascripts/glightbox.js"></script>
+      
+    
+  </body>
+</html>
