@@ -1,141 +1,170 @@
 ---
-title: "Workshop 2: GPIO - Interrupt"
-description: "ตั้งค่า GPIO และ External Interrupt ด้วย FSP และ RT-Thread"
+title: "Workshop 2: GPIO Interrupt"
+description: "Lab Guide — ตั้งค่า GPIO Interrupt ด้วย FSP และ RT-Thread"
 ---
 
-# ทดสอบ GPIO และ Interrupt จากภายนอก
+# Workshop 2: GPIO Interrupt
 
 <span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
 
-## วัตถุประสงค์
+## ก่อนเริ่ม Lab
 
-- [x] สร้าง Interrupt เมื่อมีการกดปุ่ม K1
-- [x] ใช้ RA Smart Configurator กำหนดค่า Pin
-- [x] เข้าใจโหมด Trigger Falling Edge
+- [ ] ทำ [Workshop 1](../03_workshop1/workshop1.md) ให้เสร็จก่อน (รู้วิธี Build + Flash)
+- [ ] ติดตั้ง [FSP](../02_Preparation/02.2_install_fsp.md) เรียบร้อย
+- [ ] Toolchain 13.2.1 ใช้งานได้
 
-![](./images/4_interrupt_diagrame.png){ width="600" }
+## เมื่อทำเสร็จ คุณจะได้
 
----
-
-## RT-Thread GPIO คืออะไร
-
-RT-Thread GPIO คือระบบการจัดการและควบคุมขาพอร์ตอินพุต/เอาต์พุตทั่วไป (General Purpose Input/Output) บนไมโครคอนโทรลเลอร์ เป็นส่วนหนึ่งของ Hardware Driver ใน RT-Thread
-
-**เป้าหมาย:** ทำให้การควบคุมฮาร์ดแวร์ระดับล่างเป็นไปอย่างเป็นมาตรฐานและง่ายขึ้น
-
-### สิ่งที่ RT-Thread GPIO สามารถตั้งค่าได้
-
-| # | ฟังก์ชัน | รายละเอียด |
-|---|---------|-----------|
-| 1 | Pin Mode | Input, Output, Pull-up, Pull-down, Open-drain |
-| 2 | Read | อ่านสถานะลอจิก (0 หรือ 1) |
-| 3 | Write | ตั้งค่าสถานะลอจิก (0 หรือ 1) |
-| 4 | Interrupt | Rising Edge, Falling Edge, Both Edge |
+- [ ] กดปุ่ม K1 บนบอร์ดแล้วเห็นข้อความ "IRQ10 triggered" ใน Terminal
+- [ ] เข้าใจว่า Interrupt แตกต่างจาก Polling อย่างไร
+- [ ] ใช้ FSP (Flexible Software Package) ตั้งค่า Pin เป็น Interrupt ได้
 
 ---
 
-## ขั้นตอนที่ 1: เปิด RA Smart Configurator
+## Lab 2.1: ทำไมต้อง Interrupt?
 
-1. Double-Click ที่เมนู **RA Smart Configurator** (ต้องติดตั้ง FSP ก่อน)
+### Polling (วิธีเดิม)
+โปรแกรมคอยถามบอร์ดว่า "กดยัง? กดยัง? กดยัง?" ตลอดเวลา — เปลือง CPU
+
+### Interrupt (วิธีที่จะทำ)
+บอร์ดบอกเองว่า "มีคนกดฉัน!" — CPU ไปทำอย่างอื่นรอได้
+
+**สรุป:** Interrupt ตอบสนองไวกว่า ประหยัดพลังงาน
+
+---
+
+## Lab 2.2: เปิด RA Smart Configurator
+
+### ทำอะไร
+ตั้งค่า Pin P907 (ปุ่ม K1 บนบอร์ด) ให้เป็น External Interrupt หมายเลข IRQ10
+
+### ขั้นตอน
+
+1. **Double-Click ที่เมนู RA Smart Configurator** ใน Project Explorer
 
    ![](./images/4_ra_smart_config.png){ width="500" }
 
-2. เลือก Folder `C:\Renesas\RA\sc_v2023-10_fsp_v5.1.0`
+2. **เลือก Folder ที่ติดตั้ง FSP** (ปกติเป็น `C:\Renesas\RA\sc_v2023-10_fsp_v5.1.0`)
 
    ![](./images/4_ra_location.png){ width="500" }
 
-3. เลือก Folder ที่ติดตั้ง → เข้าสู่ Renesas Smart Configurator
+3. **รอจนหน้าต่าง RASC เปิดขึ้น**
 
    ![](./images/4_ra_start.png){ width="500" }
 
-4. รอจนกระทั้งแสดงผลหน้าหลัก
+   !!! success "Checkpoint 2.1"
+       ✅ RASC เปิดขึ้นและแสดง Block Diagram ของ MCU
+       ❌ เปิดไม่ได้ = ตรวจสอบว่าติดตั้ง FSP แล้ว หรือเลือกผิด Path
 
 ---
 
-## ขั้นตอนที่ 2: Config Pin P907 → IRQ10
+## Lab 2.3: ตั้งค่า Pin P907 → IRQ10
 
-!!! note "เป้าหมาย"
-    ใช้ RASC ตั้งค่า Pin P907 ให้ทำหน้าที่เป็น Interrupt IRQ10
+### เป้าหมาย
+ปุ่ม K1 บนบอร์ดเชื่อมกับ Pin P907 เราจะให้ Pin นี้สร้าง Interrupt เมื่อถูกกด
 
-1. กดที่ Tab **Pins** (ตำแหน่ง 1)
-2. เลือก Tab **Pin Function**
-3. เลือก **InterruptIRQ**
-4. เลือก **IRQ10**
-5. ผูก IRQ10 กับ Pin **P907**
-6. ไปที่ Tab **FSP Visualization** ด้านขวา กรอกชื่อ `P907`
-7. เลือกดู Pin Function เพื่อ Verify
+### ขั้นตอน
 
-![](./images/4_setpin.png){ width="600" }
+1. กดที่ Tab **Pins** → เลือก **Pin Function**
+2. หา Pin **P907** ในแผนที่ → คลิกเลือก
+3. เลือกฟังก์ชัน **InterruptIRQ** → **IRQ10**
 
----
+   !!! info "IRQ10 คืออะไร?"
+       IRQ = Interrupt ReQuest คือ "บรรทัดขัดจังหวะ" หมายเลข 10
+       มี IRQ0–IRQ15 ให้เลือก เราเลือก 10 เพราะเชื่อมกับ Pin P907 ได้
 
-## ขั้นตอนที่ 3: สร้าง New Stack
+4. ไปที่ Tab **FSP Visualization** ด้านขวา → กรอกชื่อ `P907`
 
-1. กดที่ Tab **Stacks**
-2. เลือก Tab **New Stack**
-3. เลือกเมนู **Input → External IRQ**
-4. เลือก **IRQ10**
-5. ผูกกับ Pin **P907**
-6. ไปที่ Tab **FSP Visualization** กรอกชื่อ `P907`
-7. เลือกดู Pin Function เพื่อ Verify
+   ![](./images/4_setpin.png){ width="600" }
 
-![](./images/4_create_newstack.png){ width="600" }
-
-8. Double Click New Stack → เปลี่ยน Trigger จาก **Rising** เป็น **Falling**
-9. กด **Generate Project Content**
-
-![](./images/4_setup_external.png){ width="500" }
-
-ย้ำให้ตั้งค่าให้ตรงตามนี้:
-
-![](./images/4_externalconfig.png){ width="500" }
+   !!! success "Checkpoint 2.3"
+       ✅ ด้านขวาเห็น Pin P907 ถูก mark ว่าใช้งานแล้ว
+       ❌ ไม่เห็น = ย้อนกลับไปตรวจสอบว่าเลือก IRQ10 ถูกต้อง
 
 ---
 
-## ขั้นตอนที่ 4: Build Project
+## Lab 2.4: สร้าง Interrupt Stack
 
-1. เลือก **Toolchain Version → GNU Tools for ARM → 13.2.1**
+### ทำอะไร
+บอก FSP ว่าเราจะใช้ External IRQ นี้จริง ๆ (ไม่ใช่แค่ assign pin)
 
-   !!! note "Location ของ Toolchain"
-       `C:\Renesas\RT-ThreadStudio\repo\Extract\ToolChain_Support_Packages\ARM\GNU_Tools_for_ARM_Embedded_Processors\13.2.1`
+### ขั้นตอน
+
+1. กดที่ Tab **Stacks** → กด **New Stack** → เลือก **Input → External IRQ**
+
+   ![](./images/4_create_newstack.png){ width="600" }
+
+2. Double-Click Stack ที่สร้าง → เปลี่ยน **Trigger** จาก Rising → **Falling**
+
+   !!! info "ทำไม Falling?"
+       ปุ่ม K1 เป็น Active-High (ปกติ HIGH เมื่อไม่กด) ตอนกดจะเปลี่ยนเป็น LOW
+       Falling Edge = จับตอนที่สัญญาณลงจาก HIGH → LOW = ตอนกดปุ่ม
+
+3. กด **Generate Project Content** (ปุ่มสีฟ้าด้านบน)
+
+   ![](./images/4_setup_external.png){ width="500" }
+
+   ตรวจสอบว่า Config ตรงนี้:
+
+   ![](./images/4_externalconfig.png){ width="500" }
+
+   !!! success "Checkpoint 2.4"
+       ✅ RASC ปิดลง หรือแจ้งว่า Generate สำเร็จ
+       ✅ ใน Project Explorer มีไฟล์ `hal_data.h` ถูกสร้าง/แก้ไข
+       ❌ ไม่ Generate = ตรวจสอบว่ามี Error สีแดงใน RASC หรือไม่
+
+---
+
+## Lab 2.5: เลือก Toolchain และแก้โค้ด
+
+### ขั้นตอน
+
+1. **เลือก Toolchain:**
+
+   คลิกขวาที่ Project → **Properties → C/C++ Build → Toolchain**
+
+   เลือก **GNU Tools for ARM → 13.2.1**
 
    ![](./images/4_select_gnu_version.png){ width="500" }
 
-2. แก้ไข Source code หลัก `hal_entry.c` (อยู่ในโฟลเดอร์ `/ex_01`)
+2. **แก้ไข `src/hal_entry.c`** — ลบโค้ดเดิมออก ใส่โค้ดนี้แทน:
 
 ``` C title="hal_entry.c — Workshop 2" linenums="1"
-/*
- * Copyright (c) 2006-2023, RT-Thread Development Team
- */
-
 #include <rtthread.h>
 #include <rtdevice.h>
 #include "hal_data.h"
 
-#define LED_PIN    BSP_IO_PORT_01_PIN_02 /* Onboard LED pins */
+#define LED_PIN    BSP_IO_PORT_01_PIN_02
 #define IRQ_TEST_PIN "p907"
 
+/* (1) Callback: ฟังก์ชันที่ถูกเรียกตอนกดปุ่ม */
 void irq_callback_test(void *args) {
-    rt_kprintf("\n IRQ10 triggered \n");  // (1)!
+    rt_kprintf("\n IRQ10 triggered \n");
 }
 
 void hal_entry(void)
 {
     rt_kprintf("\nHello RT-Thread!\n");
-    rt_uint32_t pin = rt_pin_get(IRQ_TEST_PIN);             // (2)!
-    rt_kprintf("\n pin number : 0x%04X \n", pin);
+
+    /* (2) หา Pin number จากชื่อ */
+    rt_uint32_t pin = rt_pin_get(IRQ_TEST_PIN);
+    rt_kprintf("pin number : 0x%04X\n", pin);
+
+    /* (3) ติดตั้ง Interrupt: Falling Edge = กดปุ่ม */
     rt_err_t err = rt_pin_attach_irq(
         pin,
-        PIN_IRQ_MODE_FALLING,                              // (3)!
-        irq_callback_test,
-        RT_NULL
+        PIN_IRQ_MODE_FALLING,
+        irq_callback_test,    /* เรียกฟังก์ชันนี้เมื่อกด */
+        RT_NULL               /* ไม่ส่ง argument พิเศษ */
     );
     if (RT_EOK != err) {
-        rt_kprintf("\n attach irq failed. \n");
+        rt_kprintf("attach irq failed\n");
     }
-    err = rt_pin_irq_enable(pin, PIN_IRQ_ENABLE);           // (4)!
+
+    /* (4) เปิดใช้งาน Interrupt */
+    err = rt_pin_irq_enable(pin, PIN_IRQ_ENABLE);
     if (RT_EOK != err) {
-        rt_kprintf("\n enable irq failed. \n");
+        rt_kprintf("enable irq failed\n");
     }
 
     while (1) {
@@ -147,58 +176,88 @@ void hal_entry(void)
 }
 ```
 
-1. Callback ที่จะถูกเรียกเมื่อเกิด Interrupt
-2. ดึงหมายเลข Pin จากชื่อ `"p907"`
-3. ตั้งค่า Interrupt แบบ Falling Edge (กดปุ่ม = ขอบลง)
-4. เปิดใช้งาน Interrupt
+1. **Callback** = ฟังก์ชันที่ kernel เรียกตอนเกิด Interrupt
+2. `rt_pin_get()` = แปลงชื่อ Pin `"p907"` เป็นตัวเลขที่ใช้งานได้
+3. `rt_pin_attach_irq()` = บอก OS ว่า "เมื่อ Pin นี้ถูกกด → เรียกฟังก์ชันนี้"
+4. `rt_pin_irq_enable()` = เปิดสวิตช์ให้ Interrupt ทำงาน (ไม่เปิด = ไม่ตอบสนอง)
 
-3. Copy ไปแทนที่ `hal_entry.c` เดิม
-
-   ![](./images/4_hal_entry_interupt.png){ width="500" }
-
-4. **Build Project**
-5. เชื่อมต่อ USB-DBG ของ Board กับ Computer
-6. กดปุ่ม **Flash Download**
-7. เปิด **Terminal** เชื่อมต่อ Serial Monitor
+!!! success "Checkpoint 2.5"
+    ✅ โค้ดมี `irq_callback_test()` ที่ print ข้อความ
+    ✅ มี `rt_pin_attach_irq()` และ `rt_pin_irq_enable()`
+    ❌ Build Error = ตรวจสอบว่า `hal_data.h` ถูก Generate จาก RASC แล้ว
 
 ---
 
-## ทดสอบ Interrupt
+## Lab 2.6: Build และ Flash
 
-กดปุ่ม **K1** บนบอร์ด
-
-![](./images/4_testinterrupt.png){ width="400" }
-
-**Screen Test:**
-
-![](./images/4_TestInterrupt.gif){ width="500" }
+1. **Build Project** (กด 🔨 หรือ ++ctrl+b++)
+2. **เชื่อมต่อ USB-DBG**
+3. **Flash Download** (กด ⬇️)
+4. **เปิด Terminal** (Baud 115200)
 
 ---
 
-## สรุปผลลัพธ์
+## Lab 2.7: ทดสอบ
 
-- [x] ตั้งค่า Pin P907 เป็น External Interrupt IRQ10
-- [x] ตั้งค่า Trigger เป็น Falling Edge
-- [x] เขียน Callback Function สำหรับ Interrupt
-- [x] ทดสอบกดปุ่มแล้วเห็นข้อความใน Terminal
+### ทำอะไร
+กดปุ่ม **K1** (ปุ่มด้านล่างบอร์ด ใกล้ ๆ LED) แล้วดู Terminal
+
+### ขั้นตอน
+
+1. ดู LED กะพริบปกติ
+2. กดปุ่ม **K1** หนึ่งครั้ง
+
+   ![ปุ่ม K1 บนบอร์ด](./images/4_testinterrupt.png){ width="400" }
+
+3. ดู Terminal → จะเห็น:
+   ```
+   IRQ10 triggered
+   ```
+
+   ![ทดสอบ Interrupt](./images/4_TestInterrupt.gif){ width="500" }
+
+   !!! success "Checkpoint 2.7"
+       ✅ Terminal แสดง "IRQ10 triggered" ทุกครั้งที่กด K1
+       ✅ LED ยังกะพริบต่อเนื่อง (ไม่สะดุด)
+       ❌ ไม่เห็นข้อความ = ตรวจสอบ Trigger เป็น Falling / Pin ถูกต้อง
 
 ---
 
-??? failure "พบปัญหา? (Troubleshooting)"
-    **Error: No response when pressing K1**
-    - ตรวจสอบว่าเลือก Pin **P907** ตรงกับ K1 บนบอร์ด
-    - ตรวจสอบว่าตั้ง Trigger เป็น **Falling** ไม่ใช่ Rising
-    - ตรวจสอบว่า IRQ10 ถูก Enable แล้ว
+## ทำไม LED ไม่สะดุด?
 
-    **Error: Upload failed**
-    ![](./images/4_error_upload.png){ width="400" }
-    - ตรวจสอบ Device Manager ว่าเจอ ART-Link CMSIS-DAP
-    - เปลี่ยน USB Port หรือสาย USB
+Interrupt ทำงาน **แยก** จาก main loop:
 
-    **Error: Toolchain version mismatch**
-    ![](./images/4_error2-change-version.png){ width="400" }
-    - ไปที่ Project → Properties → Toolchain → เลือก **13.2.1**
+```
+Main Loop:    LED ON → delay 500ms → LED OFF → delay 500ms → ...
+                       ↑
+Interrupt:             [กดปุ่ม K1] → หยุดชั่วคราว → เรียก callback → กลับต่อ
+```
 
-    **Error: GCC version not found**
-    ![](./images/4_error5-gcc13.png){ width="400" }
-    - ติดตั้ง Toolchain ผ่าน SDK Manager ให้เรียบร้อย
+ระบบปฏิบัติการ (RTOS) จัดการให้ Interrupt ทำงานเร็ว ๆ แล้วกลับไปทำ main loop ต่อ — ไม่ต้องรอ polling
+
+---
+
+## สรุป: คุณทำอะไรสำเร็จแล้ว
+
+- [x] ใช้ FSP ตั้งค่า Pin P907 เป็น External Interrupt IRQ10
+- [x] ตั้งค่า Trigger เป็น Falling Edge (กด = HIGH → LOW)
+- [x] เขียน Callback Function (`irq_callback_test`) ให้ print log
+- [x] เปิดใช้งาน Interrupt ด้วย `rt_pin_irq_enable()`
+- [x] ทดสอบกดปุ่มแล้วเห็นข้อความใน Terminal โดยไม่กระทบ LED
+
+---
+
+??? failure "แก้ปัญหาเบื้องต้น"
+    **กดปุ่มแล้วไม่มีอะไรเกิดขึ้น**
+    1. ตรวจสอบว่าเลือก Pin **P907** (ไม่ใช่ P907 คืออะไรอื่น)
+    2. ตรวจสอบว่า Trigger เป็น **Falling** (ไม่ใช่ Rising)
+    3. ตรวจสอบว่า `rt_pin_irq_enable(pin, PIN_IRQ_ENABLE)` อยู่ในโค้ด
+    4. ลองกดปุ่มค้างไว้ 1 วินาทีแล้วปล่อย
+
+    **"attach irq failed"**
+    - Pin ไม่ถูกต้อง ลอง `rt_kprintf("pin = 0x%04X\n", pin);` ดูค่า
+    - ตรวจสอบว่า RASC Generate แล้ว (มี `hal_data.h` อัปเดต)
+
+    **Build Error หลัง Generate**
+    - ตรวจสอบ Toolchain Version เป็น 13.2.1
+    - Clean Project แล้ว Build ใหม่ (Project → Clean → Build)

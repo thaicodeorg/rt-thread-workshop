@@ -30,6 +30,7 @@ nav:
   - "Workshop 7: MicroPython": 09_workshop7/workshop7.md
   - "Workshop 8: Face Detection": 10_workshop8/workshop8.md
   - "Workshop 9: Edge Impulse": 11_workshop9/workshop9.md
+  - "Workshop 10: Squareline Studio": 12_workshop10/squareline.md
 
 theme:
   custom_dir: overrides
