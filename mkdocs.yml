@@ -14,6 +14,7 @@ nav:
       - 01_rt-thread/01.3_stm_arm.md
       - 01_rt-thread/01.4_vision_board.md
       - 01_rt-thread/01.5_bsp_architecture.md
+      - 01_rt-thread/01.6_i2c_guide.md
   - การเตรียมการ:
       - 02_Preparation/02.1_install_rt_thread_ide.md
       - 02_Preparation/02.2_install_fsp.md
