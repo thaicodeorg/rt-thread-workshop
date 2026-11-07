@@ -90,26 +90,18 @@ hide:
 
 ## 🎓 จัดโดย
 
-<div class="grid" markdown>
+<div class="grid cards" markdown>
 
-<div class="card" style="text-align: center;">
+- ![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="200" }
 
-![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="200" }
+    **คณะเทคโนโลยีสารสนเทศและการสื่อสาร**  
+    มหาวิทยาลัยมหิดล  
+    Faculty of ICT, Mahidol University
 
-**คณะเทคโนโลยีสารสนเทศและการสื่อสาร**  
-มหาวิทยาลัยมหิดล  
-Faculty of ICT, Mahidol University
+- ![TESA Logo](./assets/TESA_LOGO.png){ width="200" }
 
-</div>
-
-<div class="card" style="text-align: center;">
-
-![TESA Logo](./assets/TESA_LOGO.png){ width="200" }
-
-**Thailand Embedded Systems Association**  
-สมาคมระบบฝังตัวประเทศไทย
-
-</div>
+    **Thailand Embedded Systems Association**  
+    สมาคมระบบฝังตัวประเทศไทย
 
 </div>
 
