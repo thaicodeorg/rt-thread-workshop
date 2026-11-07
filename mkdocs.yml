@@ -124,6 +124,7 @@ extra_css:
   - stylesheets/zoom.css
   - stylesheets/glightbox.min.css
   - stylesheets/home.css
+  - stylesheets/digital-pattern.css
 
 extra:
   generator: true

@@ -1,0 +1,166 @@
+/* ============================================================
+   Digital/Tech Pattern Overlay
+   Lightweight CSS-only pattern for Material theme
+   ============================================================ */
+
+/* ---------- Base Body Pattern ---------- */
+.md-main__inner,
+.mdx-container {
+  position: relative;
+}
+
+/* Subtle dot-grid background across the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    radial-gradient(circle, var(--md-default-fg-color--lightest) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 10%,
+    rgba(0,0,0,1) 90%,
+    rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 10%,
+    rgba(0,0,0,1) 90%,
+    rgba(0,0,0,0) 100%);
+}
+
+/* Dark mode: dimmer dots */
+[data-md-color-scheme="slate"] body::before {
+  opacity: 0.18;
+}
+
+/* ---------- Hero Section Digital Accent ---------- */
+.mdx-hero::before {
+  /* Keep existing background image, add a subtle circuit/grid overlay */
+  background-image:
+    url('../assets/hero_bg_light.jpg');
+}
+
+[data-md-color-scheme="slate"] .mdx-hero::before {
+  background-image:
+    url('../assets/hero_bg_dark.jpg');
+}
+
+/* Circuit trace lines on hero using pseudo element */
+.mdx-hero .mdx-hero__pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.15;
+  background:
+    linear-gradient(90deg, rgba(0,230,180,0.15) 1px, transparent 1px),
+    linear-gradient(rgba(0,230,180,0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+[data-md-color-scheme="slate"] .mdx-hero .mdx-hero__pattern {
+  opacity: 0.10;
+  background:
+    linear-gradient(90deg, rgba(0,230,180,0.20) 1px, transparent 1px),
+    linear-gradient(rgba(0,230,180,0.20) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ---------- Section Dividers (Circuit motif) ---------- */
+.digital-divider {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin: 2rem 0;
+  border: none;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--md-primary-fg-color) 20%,
+    var(--md-accent-fg-color) 50%,
+    var(--md-primary-fg-color) 80%,
+    transparent 100%
+  );
+  position: relative;
+}
+
+.digital-divider::after {
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--md-accent-fg-color);
+  font-size: 0.7rem;
+  background: var(--md-default-bg-color);
+  padding: 0 0.4rem;
+}
+
+/* ---------- Table Styling (Digital/Console feel) ---------- */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-bottom: 2px solid var(--md-accent-fg-color);
+}
+
+.md-typeset table:not([class]) tbody tr:nth-child(odd) {
+  background-color: var(--md-code-bg-color);
+}
+
+.md-typeset table:not([class]) tbody tr:hover {
+  background-color: var(--md-primary-fg-color--lightest);
+}
+
+/* ---------- Code blocks (Terminal vibe) ---------- */
+.md-typeset pre > code {
+  border-left: 3px solid var(--md-accent-fg-color);
+}
+
+/* ---------- Scrollbar (Tech style) ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--md-code-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--md-primary-fg-color--light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--md-primary-fg-color);
+}
+
+/* ---------- Status/Badge chips ---------- */
+.md-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--light);
+}
+
+/* ---------- Admonition left accent ---------- */
+.md-typeset :is(.admonition, details) {
+  border-left-width: 4px;
+}
