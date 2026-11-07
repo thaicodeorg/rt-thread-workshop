@@ -28,7 +28,8 @@ description: "รวบรวมเอกสารทางเทคนิค �
 | เอกสาร | รายละเอียด | เปิด |
 |--------|-----------|------|
 | 📘 **RT-Thread User Guide (General MCU)** | คู่มือการใช้งาน RT-Thread สำหรับ General MCU (ภาษาอังกฤษ) | [📄 PDF](./EN_UG_General_MCU_RT_Thread_User_Guide.pdf) |
-| 📗 **RT-Thread Board Port and Application Development** | คู่มือการพอร์ตบอร์ดและพัฒนาแอปพลิเคชันบน RT-Thread | [📄 PDF](./RT-Threod%20Board%20Port%20and%20Application%20Development.pdf) |
+| 📗 **RT-Thread Board Port and Application Development** | คู่มือการพอร์ตบอร์ดและพัฒนาแอปพลิเคชันบน RT-Thread | [📄 PDF](./RT-Thread%20Board%20Port%20and%20Application%20Development.pdf) |
+| 📙 **RT-Thread Documentation** | เอกสารฉบับสมบูรณ์ของ RT-Thread (ครอบคลุม Kernel, Driver, Component) | [📄 PDF](./rt-thread-documentation.pdf) |
 
 ---
 
