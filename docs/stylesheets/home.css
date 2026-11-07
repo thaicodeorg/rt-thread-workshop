@@ -1,0 +1,111 @@
+/* ===== Landing Page Hero Section ===== */
+.mdx-hero {
+  margin: -1rem -1.2rem 2rem;
+  padding: 3rem 1rem 3.5rem;
+  background: linear-gradient(135deg, var(--md-primary-fg-color) 0%, #00695c 100%);
+  color: var(--md-primary-bg-color);
+  text-align: center;
+}
+.mdx-hero h1 {
+  margin: 0 0 0.75rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--md-primary-bg-color);
+}
+.mdx-hero p {
+  margin: 0 auto 1.5rem;
+  max-width: 38rem;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  opacity: 0.92;
+}
+.mdx-hero .md-button {
+  display: inline-block;
+  margin: 0.25rem;
+  padding: 0.6rem 1.8rem;
+  border-radius: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: transform .2s, box-shadow .2s, background .2s;
+  text-decoration: none;
+}
+.mdx-hero .md-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  text-decoration: none;
+}
+.mdx-hero .md-button--primary {
+  background-color: var(--md-accent-fg-color);
+  color: var(--md-accent-bg-color) !important;
+  border: none;
+}
+.mdx-hero .md-button--secondary {
+  background-color: transparent;
+  color: var(--md-primary-bg-color) !important;
+  border: 2px solid var(--md-primary-bg-color);
+}
+.mdx-hero .md-button--secondary:hover {
+  background-color: rgba(255,255,255,0.12);
+}
+
+/* ===== Workshop Track Cards ===== */
+.landing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+.landing-card {
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background: var(--md-code-bg-color);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.landing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  border-color: var(--md-primary-fg-color);
+}
+.landing-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: var(--md-primary-fg-color);
+}
+.landing-card p {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--md-default-fg-color--light);
+}
+.landing-card a {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.time-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 1rem;
+  background: var(--md-primary-fg-color--light);
+  color: var(--md-primary-bg-color);
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== Full width when nav hidden ===== */
+.md-main__inner {
+  max-width: 100%;
+}
+.md-content {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+/* ===== Responsive ===== */
+@media screen and (max-width: 45em) {
+  .mdx-hero h1 { font-size: 1.8rem; }
+  .mdx-hero p  { font-size: 1rem; }
+}

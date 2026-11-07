@@ -1,71 +1,95 @@
 ---
 title: "RT-Thread Workshop MUICT 2026"
 description: "Workshop อบรมการใช้งาน RT-Thread RTOS บนบอร์ด Renesas Vision Board สำหรับนักศึกษาและผู้สนใจ"
+hide:
+  - navigation
+  - toc
 ---
 
-<span class="md-tag">Beginner Friendly</span> <span class="md-tag">Embedded Systems</span> <span class="md-tag">IoT</span>
+<div class="mdx-hero" markdown>
 
-<div class="grid" markdown>
+# 🚀 RT-Thread Workshop MUICT 2026
 
-![](./01_rt-thread/images/mahidol_logo.jpg)
-{ .card }
+อบรมการใช้งาน **RT-Thread RTOS** บนบอร์ด **Renesas RA8D1 Vision Board**  
+สำหรับนักศึกษาและผู้สนใจ Embedded Systems, IoT และ Edge AI
 
-**คณะเทคโนโลยีสารสนเทศและการสื่อสาร** มหาวิทยาลัยมหิดล
-(Faculty of Information and Communication Technology, Mahidol University)
-{ .card }
+[เริ่ม Workshop แรก →](./03_workshop1/03.1_workshop1.md){ .md-button .md-button--primary }
+[อ่านเอกสารพื้นฐาน](./01_rt-thread/01.0_rtthread_boot_flow.md){ .md-button .md-button--secondary }
 
 </div>
 
-## สวัสดีครับ ยินดีต้อนรับทุกท่าน
-#### (update Sep 2026)
+## เนื้อหา Workshop
 
-![](./01_rt-thread/images/3-Poster_RT-Thread%202569.jpg){ width="600" }
+<div class="landing-grid" markdown>
 
----
+<div class="landing-card" markdown>
 
-## :simple-readthedocs:{style="color: orange; font-size: 30px;"} พื้นฐาน RT-Thread
-!!! info "ระยะเวลา"
-    9.00–10.30 น.
+### 📘 พื้นฐาน RT-Thread
+<span class="time-badge">9.00–10.30 น.</span>
 
-- [พื้นฐาน RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
-- [พื้นฐาน Kernel](./01_rt-thread/01.2_basic_kernel.md)
-- [แนะนำ STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
-- [แนะนำ Renesas Vision Board](./01_rt-thread/01.4_vision_board.md)
+- [RT-Thread Boot Flow](./01_rt-thread/01.0_rtthread_boot_flow.md)
+- [RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
+- [STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
+- [Renesas Vision Board](./01_rt-thread/01.4_vision_board.md)
 
----
+</div>
 
-## :fontawesome-solid-list:{style="color: orange; font-size: 30px;"}  การเตรียมการ
-!!! info "ระยะเวลา"
-    10.40–12.00 น.
+<div class="landing-card" markdown>
+
+### 🛠️ การเตรียมการ
+<span class="time-badge">10.40–12.00 น.</span>
 
 - [ติดตั้ง RT-Thread IDE](./02_Preparation/02.1_install_rt_thread_ide.md)
 - [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
 - [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
 - [ติดตั้ง OpenMV](./02_Preparation/02.4_install_OpenMV.md)
 
+</div>
+
+<div class="landing-card" markdown>
+
+### ⚙️ Workshop: RT-Thread Core
+<span class="time-badge">13.00–14.30 น.</span>
+
+- [01 IDE Basic](./03_workshop1/03.1_workshop1.md) <span class="md-tag">Beginner</span>
+- [02 GPIO Interrupt](./04_workshop2/04.1_workshop2.md) <span class="md-tag">Intermediate</span>
+- [03 Dummy Device](./05_workshop3/05.1_workshop3.md) <span class="md-tag">Intermediate</span>
+- [04 WiFi RW007](./06_workshop4/06.1_workshop4.md) <span class="md-tag">Intermediate</span>
+- [05 IoT Programming](./07_workshop5/07.1_workshop5.md) <span class="md-tag">Advanced</span>
+- [06 OpenMV](./08_workshop6/08.1_workshop6.md) <span class="md-tag">Advanced</span>
+
+</div>
+
+<div class="landing-card" markdown>
+
+### 🤖 Workshop: AI & Edge
+<span class="time-badge">14.45–16.00 น.</span>
+
+- [07 MicroPython](./09_workshop7/09.1_workshop7.md) <span class="md-tag">Intermediate</span>
+- [08 Face Detection](./10_workshop8/10.1_workshop8.md) <span class="md-tag">Advanced</span>
+- [09 Edge Impulse](./11_workshop9/11.1_workshop9.md) <span class="md-tag">ML</span>
+- [10 Squareline Studio](./12_workshop10/12.1_squareline.md) <span class="md-tag">GUI</span>
+
+</div>
+
+</div>
+
 ---
 
-![](./assets/rt-thread.jpg){ width="300" }
+## 🎓 จัดโดย
 
-## :file_folder:{style="color: orange; font-size: 30px;"}   Workshop: RT-Thread
-!!! info "ระยะเวลา"
-    13.00–14.30 น.
+<div class="grid" markdown>
 
-- [Workshop 1: RT-Thread IDE Basic](./03_workshop1/03.1_workshop1.md) <span class="md-tag">Beginner</span> <span class="md-tag">30 นาที</span>
-- [Workshop 2: GPIO - Interrupt](./04_workshop2/04.1_workshop2.md) <span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
-- [Workshop 3: Dummy Device](./05_workshop3/05.1_workshop3.md) <span class="md-tag">Intermediate</span>
-- [Workshop 4: WiFi RW007](./06_workshop4/06.1_workshop4.md) <span class="md-tag">Intermediate</span>
-- [Workshop 5: IoT Programming](./07_workshop5/07.1_workshop5.md) <span class="md-tag">Advanced</span>
-- [Workshop 6: OpenMV](./08_workshop6/08.1_workshop6.md) <span class="md-tag">Advanced</span>
+![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="200" }
+{ .card }
 
-![](./assets/micropython-logo.png){ width="300" }
+**คณะเทคโนโลยีสารสนเทศและการสื่อสาร**  
+มหาวิทยาลัยมหิดล  
+Faculty of ICT, Mahidol University
+{ .card }
+
+</div>
 
 ---
 
-## :fontawesome-solid-microchip:{style="color: orange; font-size: 30px;"} Workshop: AI & Edge
-!!! info "ระยะเวลา"
-    14.45–16.00 น.
-
-- [Workshop 7: MicroPython](./09_workshop7/09.1_workshop7.md) <span class="md-tag">Intermediate</span>
-- [Workshop 8: Face Detection](./10_workshop8/10.1_workshop8.md) <span class="md-tag">Advanced</span>
-- [Workshop 9: Edge Impulse](./11_workshop9/11.1_workshop9.md) <span class="md-tag">Advanced</span> <span class="md-tag">Machine Learning</span>
+*Last updated: September 2026*
