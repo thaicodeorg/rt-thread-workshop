@@ -18,6 +18,10 @@ hide:
 
 </div>
 
+<div class="blog-layout" markdown>
+
+<div class="blog-main" markdown>
+
 ## เนื้อหา Workshop
 
 ### 🌅 ช่วงเช้า
@@ -52,13 +56,13 @@ hide:
 
 <div class="grid cards" markdown>
 
-- ![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="200" }
+- ![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="170" }
 
     **คณะเทคโนโลยีสารสนเทศและการสื่อสาร**  
     มหาวิทยาลัยมหิดล  
     Faculty of ICT, Mahidol University
 
-- ![TESA Logo](./assets/TESA_LOGO.png){ width="200" }
+- ![TESA Logo](./assets/TESA_LOGO.png){ width="170" }
 
     **Thailand Embedded Systems Association**  
     สมาคมระบบฝังตัวประเทศไทย
@@ -68,3 +72,47 @@ hide:
 ---
 
 *Last updated: September 2026*
+
+</div>
+
+<div class="blog-sidebar" markdown>
+
+### 🔗 ลิงก์ที่เกี่ยวข้อง
+
+- [RT-Thread 官方](https://www.rt-thread.io/) — เว็บไซต์หลัก
+- [RT-Thread GitHub](https://github.com/RT-Thread/rt-thread) — ซอร์สโค้ด
+- [RT-Thread 文档中心](https://www.rt-thread.io/document/site/) — เอกสารภาษาจีน
+- [RT-Thread Forum](https://club.rt-thread.org/) — ฟอรัมชุมชน
+- [RT-Thread official YouTube](https://www.youtube.com/@RT-ThreadIoTOS_) — วิดีโอสอนใช้งาน
+
+---
+
+### 🏛 สมาคม TESA
+
+- [TESA Official](https://www.tesa.or.th/) — เว็บไซต์สมาคม
+- [TESA Facebook](https://www.facebook.com/tesathailand/) — ข่าวสารและกิจกรรม
+
+---
+
+### 🛠 เครื่องมือ & SDK
+
+- [Renesas RA8D1](https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra8d1-480mhz-arm-cortex-m85-based-mcu-helium-and-trustzone) — ข้อมูลบอร์ด
+- [OpenMV](https://openmv.io/) — แพลตฟอร์ม Machine Vision
+- [Edge Impulse](https://edgeimpulse.com/) — Edge AI Platform
+
+---
+
+### 📌 Tags
+
+<span class="md-tag">RTOS</span>
+<span class="md-tag">Embedded</span>
+<span class="md-tag">IoT</span>
+<span class="md-tag">RA8D1</span>
+<span class="md-tag">Vision Board</span>
+<span class="md-tag">OpenMV</span>
+<span class="md-tag">Edge AI</span>
+<span class="md-tag">MicroPython</span>
+
+</div>
+
+</div>
