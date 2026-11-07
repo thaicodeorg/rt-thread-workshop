@@ -20,71 +20,31 @@ hide:
 
 ## เนื้อหา Workshop
 
-<div class="landing-grid" markdown>
+### 🌅 ช่วงเช้า
 
-<div class="landing-card" markdown>
+| เวลา | หัวข้อ | รายละเอียด |
+|:----:|:------|:-----------|
+| **09.00–10.30** | [**พื้นฐาน RT-Thread**](./01_rt-thread/01.0_rtthread_boot_flow.md) | Boot Flow · Kernel · STM/ARM · Vision Board · BSP · RA8D1 |
+| **10.40–12.00** | [**การเตรียมการ**](./02_Preparation/02.1_install_rt_thread_ide.md) | ติดตั้ง IDE · FSP · Env Tool · OpenMV · Developer Guide |
 
-### 📘 พื้นฐาน RT-Thread
-<span class="time-badge">9.00–10.30 น.</span>
+### 🌇 ช่วงบ่าย — Workshop Hands-on
 
-- [RT-Thread Boot Flow](./01_rt-thread/01.0_rtthread_boot_flow.md)
-- [RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
-- [พื้นฐาน Kernel](./01_rt-thread/01.2_basic_kernel.md)
-- [STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
-- [Renesas Vision Board](./01_rt-thread/01.4_vision_board.md)
-- [BSP Architecture](./01_rt-thread/01.5_bsp_architecture.md)
-- [Renesas RA8D1](./01_rt-thread/01.6_RA8D1.md)
-
-</div>
-
-<div class="landing-card" markdown>
-
-### 🛠️ การเตรียมการ
-<span class="time-badge">10.40–12.00 น.</span>
-
-- [ติดตั้ง RT-Thread IDE](./02_Preparation/02.1_install_rt_thread_ide.md)
-- [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
-- [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
-- [ติดตั้ง OpenMV](./02_Preparation/02.4_install_OpenMV.md)
-- [Developer Guide: เข้าสู่ชุมชนนักพัฒนา](./02_Preparation/02.5_Developer.md) <span class="md-tag">Upskill</span>
-
-</div>
-
-<div class="landing-card" markdown>
-
-### ⚙️ Workshop: RT-Thread Core
-<span class="time-badge">13.00–14.30 น.</span>
-
-- [01 IDE Basic](./03_workshop1/03.1_workshop1.md) <span class="md-tag">Beginner</span>
-- [02 GPIO Interrupt](./04_workshop2/04.1_workshop2.md) <span class="md-tag">Intermediate</span>
-- [03 Dummy Device](./05_workshop3/05.1_workshop3.md) <span class="md-tag">Intermediate</span>
-- [04 WiFi RW007](./06_workshop4/06.1_workshop4.md) <span class="md-tag">Intermediate</span>
-- [05 IoT Programming](./07_workshop5/07.1_workshop5.md) <span class="md-tag">Advanced</span>
-- [06 OpenMV](./08_workshop6/08.1_workshop6.md) <span class="md-tag">Advanced</span>
-
-</div>
-
-<div class="landing-card" markdown>
-
-### 🤖 Workshop: AI & Edge
-<span class="time-badge">14.45–16.00 น.</span>
-
-- [07 MicroPython](./09_workshop7/09.1_workshop7.md) <span class="md-tag">Intermediate</span>
-- [08 Face Detection](./10_workshop8/10.1_workshop8.md) <span class="md-tag">Advanced</span>
-- [09 Edge Impulse](./11_workshop9/11.1_workshop9.md) <span class="md-tag">ML</span>
-- [10 Squareline Studio](./12_workshop10/12.1_squareline.md) <span class="md-tag">GUI</span>
-
-</div>
-
-<div class="landing-card" markdown>
+| # | เวลา | Workshop | ระดับ |
+|:-:|------|----------|:-----:|
+| 01 | 13.00–14.30 | [IDE Basic](./03_workshop1/03.1_workshop1.md) | `Beginner` |
+| 02 | 13.00–14.30 | [GPIO Interrupt](./04_workshop2/04.1_workshop2.md) | `Intermediate` |
+| 03 | 13.00–14.30 | [Dummy Device](./05_workshop3/05.1_workshop3.md) | `Intermediate` |
+| 04 | 13.00–14.30 | [WiFi RW007](./06_workshop4/06.1_workshop4.md) | `Intermediate` |
+| 05 | 13.00–14.30 | [IoT Programming](./07_workshop5/07.1_workshop5.md) | `Advanced` |
+| 06 | 13.00–14.30 | [OpenMV](./08_workshop6/08.1_workshop6.md) | `Advanced` |
+| 07 | 14.45–16.00 | [MicroPython](./09_workshop7/09.1_workshop7.md) | `Intermediate` |
+| 08 | 14.45–16.00 | [Face Detection](./10_workshop8/10.1_workshop8.md) | `Advanced` |
+| 09 | 14.45–16.00 | [Edge Impulse](./11_workshop9/11.1_workshop9.md) | `ML` |
+| 10 | 14.45–16.00 | [Squareline Studio](./12_workshop10/12.1_squareline.md) | `GUI` |
 
 ### 📚 เอกสารอ้างอิง
 
-- [งานวิจัยและคู่มือ](./13_research_paper/Research_book.md)
-
-</div>
-
-</div>
+- [งานวิจัยและคู่มือ RT-Thread →](./13_research_paper/Research_book.md)
 
 ---
 
