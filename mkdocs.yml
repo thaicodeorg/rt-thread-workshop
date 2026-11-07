@@ -14,6 +14,7 @@ nav:
       - 01_rt-thread/01.3_stm_arm.md
       - 01_rt-thread/01.4_vision_board.md
       - 01_rt-thread/01.5_bsp_architecture.md
+      - 01_rt-thread/01.6_RA8D1.md
   - Setup Environment ติตตั้งโปรแกรม:
       - 02_Preparation/02.1_install_rt_thread_ide.md
       - 02_Preparation/02.2_install_fsp.md
@@ -41,6 +42,7 @@ nav:
   - "Workshop 8: Face Detection": 10_workshop8/10.1_workshop8.md
   - "Workshop 9: Edge Impulse": 11_workshop9/11.1_workshop9.md
   - "Workshop 10: Squareline Studio": 12_workshop10/12.1_squareline.md
+  - เอกสารอ้างอิงและงานวิจัย: 13_research_paper/Research_book.md
 
 theme:
   custom_dir: overrides
@@ -59,8 +61,7 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-  font:
-    text: Noto Sans Thai
+  font: false  # Disable auto-loading; custom fonts loaded via stylesheets/fonts.css
   language: th
   features:
     - navigation.instant
@@ -94,7 +95,11 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.emoji:
@@ -110,8 +115,11 @@ markdown_extensions:
 extra_javascript:
   - javascripts/glightbox-lib.min.js
   - javascripts/glightbox.js
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
 
 extra_css:
+  - stylesheets/fonts.css
   - stylesheets/zoom.css
   - stylesheets/glightbox.min.css
   - stylesheets/home.css

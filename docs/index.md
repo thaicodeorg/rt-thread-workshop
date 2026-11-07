@@ -29,8 +29,11 @@ hide:
 
 - [RT-Thread Boot Flow](./01_rt-thread/01.0_rtthread_boot_flow.md)
 - [RT-Thread Kernel](./01_rt-thread/01.1_rtthread_kernel.md)
+- [พื้นฐาน Kernel](./01_rt-thread/01.2_basic_kernel.md)
 - [STM และ ARM](./01_rt-thread/01.3_stm_arm.md)
 - [Renesas Vision Board](./01_rt-thread/01.4_vision_board.md)
+- [BSP Architecture](./01_rt-thread/01.5_bsp_architecture.md)
+- [Renesas RA8D1](./01_rt-thread/01.6_RA8D1.md)
 
 </div>
 
@@ -69,6 +72,14 @@ hide:
 - [08 Face Detection](./10_workshop8/10.1_workshop8.md) <span class="md-tag">Advanced</span>
 - [09 Edge Impulse](./11_workshop9/11.1_workshop9.md) <span class="md-tag">ML</span>
 - [10 Squareline Studio](./12_workshop10/12.1_squareline.md) <span class="md-tag">GUI</span>
+
+</div>
+
+<div class="landing-card" markdown>
+
+### 📚 เอกสารอ้างอิง
+
+- [งานวิจัยและคู่มือ](./13_research_paper/Research_book.md)
 
 </div>
 

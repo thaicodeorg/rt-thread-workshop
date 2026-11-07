@@ -1,0 +1,59 @@
+/* ===== Google Fonts: Noto Sans Thai (headings) + Sarabun (body) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+/* Override Material text font variable */
+:root {
+  --md-text-font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+}
+
+/* Headings: Noto Sans Thai (bold, distinct) */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6,
+.md-header__title,
+.md-nav__title,
+.md-tabs__link,
+.md-footer__title,
+.md-search-result__meta {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-weight: 600;
+}
+
+/* Body text: Sarabun (readable, elegant) */
+.md-typeset,
+.md-typeset p,
+.md-typeset li,
+.md-typeset td,
+.md-typeset th,
+.md-nav__link,
+.md-typeset code,
+.md-typeset pre {
+  font-family: 'Sarabun', 'Noto Sans Thai', sans-serif;
+}
+
+/* Slightly lighter weight for body paragraphs */
+.md-typeset p {
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Hero heading keeps Noto Sans Thai */
+.mdx-hero h1 {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-weight: 700;
+}
+
+/* Landing card headings */
+.landing-card h3 {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-weight: 600;
+}
+
+/* Admonition titles */
+.md-typeset .admonition-title {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-weight: 600;
+}
