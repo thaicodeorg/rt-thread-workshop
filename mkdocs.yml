@@ -20,6 +20,7 @@ nav:
       - 02_Preparation/02.2_install_fsp.md
       - 02_Preparation/02.3_install_env_tool.md
       - 02_Preparation/02.4_install_OpenMV.md
+      - 02_Preparation/02.5_Developer.md
   - "Workshop 1: RT-Thread IDE Basic": 
       - 03_workshop1/03.1_workshop1.md
 

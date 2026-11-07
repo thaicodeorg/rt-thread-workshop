@@ -46,6 +46,7 @@ hide:
 - [ติดตั้ง FSP](./02_Preparation/02.2_install_fsp.md)
 - [ติดตั้ง Env Tool](./02_Preparation/02.3_install_env_tool.md)
 - [ติดตั้ง OpenMV](./02_Preparation/02.4_install_OpenMV.md)
+- [Developer Guide: เข้าสู่ชุมชนนักพัฒนา](./02_Preparation/02.5_Developer.md) <span class="md-tag">Upskill</span>
 
 </div>
 
