@@ -95,15 +95,6 @@
   margin-bottom: 0.5rem;
 }
 
-/* ===== Full width when nav hidden ===== */
-.md-main__inner {
-  max-width: 100%;
-}
-.md-content {
-  max-width: 75rem;
-  margin: 0 auto;
-}
-
 /* ===== Responsive ===== */
 @media screen and (max-width: 45em) {
   .mdx-hero h1 { font-size: 1.8rem; }
