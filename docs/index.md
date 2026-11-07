@@ -92,13 +92,24 @@ hide:
 
 <div class="grid" markdown>
 
+<div class="card" style="text-align: center;">
+
 ![Mahidol Logo](./01_rt-thread/images/mahidol_logo.jpg){ width="200" }
-{ .card }
 
 **คณะเทคโนโลยีสารสนเทศและการสื่อสาร**  
 มหาวิทยาลัยมหิดล  
 Faculty of ICT, Mahidol University
-{ .card }
+
+</div>
+
+<div class="card" style="text-align: center;">
+
+![TESA Logo](./assets/TESA_LOGO.png){ width="200" }
+
+**Thailand Embedded Systems Association**  
+สมาคมระบบฝังตัวประเทศไทย
+
+</div>
 
 </div>
 
