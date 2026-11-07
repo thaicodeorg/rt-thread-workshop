@@ -14,30 +14,33 @@ nav:
       - 01_rt-thread/01.3_stm_arm.md
       - 01_rt-thread/01.4_vision_board.md
       - 01_rt-thread/01.5_bsp_architecture.md
-      - 01_rt-thread/01.6_i2c_guide.md
-      - 01_rt-thread/01.7_hal_entry_vs_main.md
-      - 01_rt-thread/01.8_uart_guide.md
-      - 01_rt-thread/01.9_i2c_sensor_lab.md
-      - 01_rt-thread/01.10_uart_max458.md
-  - การเตรียมการ:
+  - Setup Environment ติตตั้งโปรแกรม:
       - 02_Preparation/02.1_install_rt_thread_ide.md
       - 02_Preparation/02.2_install_fsp.md
       - 02_Preparation/02.3_install_env_tool.md
       - 02_Preparation/02.4_install_OpenMV.md
-  - "Workshop 1: RT-Thread IDE Basic": 03_workshop1/workshop1.md
-  - "Workshop 2: GPIO - Interrupt": 04_workshop2/workshop2.md
+  - "Workshop 1: RT-Thread IDE Basic": 
+      - 03_workshop1/03.1_workshop1.md
+
+  - "Workshop 2: Set GPIO/Interrupt pin": 
+      - 04_workshop2/04.1_workshop2.md
+      - 04_workshop2/04.2_i2c_guide.md
+      - 04_workshop2/04.3_hal_entry_vs_main.md
+      - 04_workshop2/04.4_uart_guide.md
+      - 04_workshop2/04.5_i2c_sensor_lab.md
+      - 04_workshop2/04.6_uart_max458.md
   - "Workshop 3: Dummy Device":
-      - 05_workshop3/workshop3.md
-      - 05_workshop3/msh.md
-  - "Workshop 4: WiFi RW007": 06_workshop4/workshop4.md
+      - 05_workshop3/05.1_workshop3.md
+      - 05_workshop3/05.2_msh.md
+  - "Workshop 4: WiFi RW007": 06_workshop4/06.1_workshop4.md
   - "Workshop 5: IoT Programming":
-      - 07_workshop5/workshop5.md
-      - 07_workshop5/mqwx.md
-  - "Workshop 6: OpenMV": 08_workshop6/workshop6.md
-  - "Workshop 7: MicroPython": 09_workshop7/workshop7.md
-  - "Workshop 8: Face Detection": 10_workshop8/workshop8.md
-  - "Workshop 9: Edge Impulse": 11_workshop9/workshop9.md
-  - "Workshop 10: Squareline Studio": 12_workshop10/squareline.md
+      - 07_workshop5/07.1_workshop5.md
+      - 07_workshop5/07.2_mqwx.md
+  - "Workshop 6: OpenMV": 08_workshop6/08.1_workshop6.md
+  - "Workshop 7: MicroPython": 09_workshop7/09.1_workshop7.md
+  - "Workshop 8: Face Detection": 10_workshop8/10.1_workshop8.md
+  - "Workshop 9: Edge Impulse": 11_workshop9/11.1_workshop9.md
+  - "Workshop 10: Squareline Studio": 12_workshop10/12.1_squareline.md
 
 theme:
   custom_dir: overrides

@@ -51,12 +51,12 @@ description: "Workshop อบรมการใช้งาน RT-Thread RTOS �
 !!! info "ระยะเวลา"
     13.00–14.30 น.
 
-- [Workshop 1: RT-Thread IDE Basic](./03_workshop1/workshop1.md) <span class="md-tag">Beginner</span> <span class="md-tag">30 นาที</span>
-- [Workshop 2: GPIO - Interrupt](./04_workshop2/workshop2.md) <span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
-- [Workshop 3: Dummy Device](./05_workshop3/workshop3.md) <span class="md-tag">Intermediate</span>
-- [Workshop 4: WiFi RW007](./06_workshop4/workshop4.md) <span class="md-tag">Intermediate</span>
-- [Workshop 5: IoT Programming](./07_workshop5/workshop5.md) <span class="md-tag">Advanced</span>
-- [Workshop 6: OpenMV](./08_workshop6/workshop6.md) <span class="md-tag">Advanced</span>
+- [Workshop 1: RT-Thread IDE Basic](./03_workshop1/03.1_workshop1.md) <span class="md-tag">Beginner</span> <span class="md-tag">30 นาที</span>
+- [Workshop 2: GPIO - Interrupt](./04_workshop2/04.1_workshop2.md) <span class="md-tag">Intermediate</span> <span class="md-tag">45 นาที</span>
+- [Workshop 3: Dummy Device](./05_workshop3/05.1_workshop3.md) <span class="md-tag">Intermediate</span>
+- [Workshop 4: WiFi RW007](./06_workshop4/06.1_workshop4.md) <span class="md-tag">Intermediate</span>
+- [Workshop 5: IoT Programming](./07_workshop5/07.1_workshop5.md) <span class="md-tag">Advanced</span>
+- [Workshop 6: OpenMV](./08_workshop6/08.1_workshop6.md) <span class="md-tag">Advanced</span>
 
 ![](./assets/micropython-logo.png){ width="300" }
 
@@ -66,6 +66,6 @@ description: "Workshop อบรมการใช้งาน RT-Thread RTOS �
 !!! info "ระยะเวลา"
     14.45–16.00 น.
 
-- [Workshop 7: MicroPython](./09_workshop7/workshop7.md) <span class="md-tag">Intermediate</span>
-- [Workshop 8: Face Detection](./10_workshop8/workshop8.md) <span class="md-tag">Advanced</span>
-- [Workshop 9: Edge Impulse](./11_workshop9/workshop9.md) <span class="md-tag">Advanced</span> <span class="md-tag">Machine Learning</span>
+- [Workshop 7: MicroPython](./09_workshop7/09.1_workshop7.md) <span class="md-tag">Intermediate</span>
+- [Workshop 8: Face Detection](./10_workshop8/10.1_workshop8.md) <span class="md-tag">Advanced</span>
+- [Workshop 9: Edge Impulse](./11_workshop9/11.1_workshop9.md) <span class="md-tag">Advanced</span> <span class="md-tag">Machine Learning</span>
