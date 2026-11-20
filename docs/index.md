@@ -96,7 +96,7 @@ hide:
 
 ### 🛠 เครื่องมือ & SDK
 
-- [Renesas RA8D1](https://www.renesas.com/en/products/microcontrollers-microprocessors/ra-cortex-m-mcus/ra8d1-480mhz-arm-cortex-m85-based-mcu-helium-and-trustzone) — ข้อมูลบอร์ด
+- [Renesas RA8D1](https://www.renesas.com/en/products/ra8d1) — ข้อมูลบอร์ด
 - [OpenMV](https://openmv.io/) — แพลตฟอร์ม Machine Vision
 - [Edge Impulse](https://edgeimpulse.com/) — Edge AI Platform
 
