@@ -8,6 +8,7 @@ strict: true
 nav:
   - หน้าหลัก: index.md
   - พื้นฐาน RT-Thread:
+      - 01_rt-thread/01.0-ra8d1-board.md
       - 01_rt-thread/01.0_rtthread_boot_flow.md
       - 01_rt-thread/01.1_rtthread_kernel.md
       - 01_rt-thread/01.2_basic_kernel.md
@@ -23,7 +24,7 @@ nav:
       - 02_Preparation/02.5_Developer.md
   - "Workshop 1: RT-Thread IDE Basic": 
       - 03_workshop1/03.1_workshop1.md
-
+      - 03_workshop1/03.1_ProjectStructure.md
   - "Workshop 2: Set GPIO/Interrupt pin": 
       - 04_workshop2/04.1_workshop2.md
       - 04_workshop2/04.2_i2c_guide.md

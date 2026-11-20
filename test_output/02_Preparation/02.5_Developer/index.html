@@ -1,0 +1,2984 @@
+
+<!doctype html>
+<html lang="th" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="แนวทางการเตรียมความพร้อมเป็น Developer ในโครงการ RT-Thread ตั้งแต่ Fork Repo จนถึงการส่ง PR">
+      
+      
+      
+        <link rel="canonical" href="https://thaicodeorg.github.io/rt-thread-workshop/02_Preparation/02.5_Developer/">
+      
+      
+        <link rel="prev" href="../02.4_install_OpenMV/">
+      
+      
+        <link rel="next" href="../../03_workshop1/03.1_workshop1/">
+      
+      
+        
+      
+      
+      
+      
+        
+        
+        
+          <link rel="icon" href="../../assets/images/favicon.png">
+        
+      
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-materialx-10.2.2">
+    
+    
+      
+        <title>Developer Guide: เข้าสู่ชุมชนนักพัฒนา RT-Thread - RT Thread Workshop MUICT 2026</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d60cbd7.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a45159b5.min.css">
+      
+    
+    
+
+    
+
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/fonts.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/zoom.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/glightbox.min.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/home.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/digital-pattern.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo" data-mx-topbar="glass">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="toc" type="checkbox" id="__toc" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__toc"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#developer-guide" class="md-skip">
+          ข้ามไปที่เนื้อหา
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="หัวข้อ">
+    <a href="../.." title="RT Thread Workshop MUICT 2026" class="md-header__button md-logo" aria-label="RT Thread Workshop MUICT 2026" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RT Thread Workshop MUICT 2026
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Developer Guide: เข้าสู่ชุมชนนักพัฒนา RT-Thread
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="ค้นหา" placeholder="ค้นหา" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.25 2a8.25 8.25 0 0 1 6.34 13.53l5.69 5.69a.749.749 0 0 1-.326 1.275.75.75 0 0 1-.734-.215l-5.69-5.69A8.25 8.25 0 1 1 10.25 2M3.5 10.25a6.75 6.75 0 1 0 13.5 0 6.75 6.75 0 0 0-13.5 0"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="ค้นหา">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="แบ่งปัน" aria-label="แบ่งปัน" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 5.5a3.498 3.498 0 0 1-6.062 2.385l-5.112 3.021a3.5 3.5 0 0 1 0 2.188l5.112 3.021a3.5 3.5 0 1 1-.764 1.29l-5.112-3.02a3.499 3.499 0 1 1-3.843-5.642 3.5 3.5 0 0 1 3.843.872l5.112-3.021A3.5 3.5 0 1 1 20 5.5m-1.5 13a2 2 0 1 0-3.999-.001 2 2 0 0 0 3.999.001m0-13a2 2 0 1 0-3.999-.001A2 2 0 0 0 18.5 5.5M5.5 14a2 2 0 1 0 .001-3.999A2 2 0 0 0 5.5 14"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="ล้าง" aria-label="ล้าง" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result md-search-result--pagefind" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            กำลังเริ่มต้นการค้นหา
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/thaicodeorg/rt-thread-workshop" title="ไปที่พื้นที่เก็บข้อมูล" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thaicodeorg/rt-thread-workshop
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="ตัวนำทาง" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="RT Thread Workshop MUICT 2026" class="md-nav__button md-logo" aria-label="RT Thread Workshop MUICT 2026" data-md-component="logo">
+      
+  <img src="../../assets/logo.png" alt="logo">
+
+    </a>
+    RT Thread Workshop MUICT 2026
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/thaicodeorg/rt-thread-workshop" title="ไปที่พื้นที่เก็บข้อมูล" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thaicodeorg/rt-thread-workshop
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    หน้าหลัก
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    พื้นฐาน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    พื้นฐาน RT-Thread
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.0_rtthread_boot_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RT-Thread Boot Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.1_rtthread_kernel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RT-Thread Realtime Kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.2_basic_kernel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    พื้นฐาน RT-Thread Kernel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.3_stm_arm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    แนะนำ STM และ ARM Cortex-M
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.4_vision_board/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    แนะนำ Renesas Vision Board
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.5_bsp_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP Architecture: สถาปัตยกรรม BSP และ FSP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_rt-thread/01.6_RA8D1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    บอร์ดพัฒนา Vision-Board (RA8D1)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Environment ติตตั้งโปรแกรม
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Setup Environment ติตตั้งโปรแกรม
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.1_install_rt_thread_ide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง RT-Thread IDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.2_install_fsp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง FSP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.3_install_env_tool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง Env Tool
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02.4_install_OpenMV/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ติดตั้ง OpenMV IDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide: เข้าสู่ชุมชนนักพัฒนา RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide: เข้าสู่ชุมชนนักพัฒนา RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ทำไมต้องเรียน? เรียนอย่างไร? และเรียนเพื่ออะไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ทำไมต้องเรียน? เรียนอย่างไร? และเรียนเพื่ออะไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 ทำไมต้องเรียน (Why Learn?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 เรียนอย่างไร (How to Learn?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 เรียนเพื่ออะไร (What For?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rt-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แนวทางการมีส่วนร่วมในโครงการ RT-Thread
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="แนวทางการมีส่วนร่วมในโครงการ RT-Thread">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fork-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 1: Fork Repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 1: Fork Repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธี Fork
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone ลงเครื่อง
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync กับ Upstream อย่างสม่ำเสมอ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-branch-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สร้าง Feature Branch (อย่าเขียนโค้ดบน master โดยตรง)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        เขียนโค้ดแล้ว Commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#push-branch-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Push Branch ขึ้น GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge-conflict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        จัดการ Merge Conflict (เมื่อโค้ดชนกัน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 2: เทคนิคการสร้าง Issue (ที่คนอยากช่วยแก้)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 2: เทคนิคการสร้าง Issue (ที่คนอยากช่วยแก้)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-issue-vs-bad-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 Good Issue vs 🔴 Bad Issue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template สร้าง Issue ที่ได้ผล
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label-rt-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ประเภท Label ที่ใช้ใน RT-Thread
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pull-request-pr-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 3: สร้าง Pull Request (PR) ที่ได้รับการ Merge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 3: สร้าง Pull Request (PR) ที่ได้รับการ Merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow แบบมืออาชีพ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ชื่อ Branch ที่ควรใช้
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit Message Convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr-github-git-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สร้าง PR บน GitHub (หลังจาก git push แล้ว)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แก้ไขตาม Review (ปกติเกิดเสมอ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upskill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แผนการ Upskill ต่อเนื่อง
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="แผนการ Upskill ต่อเนื่อง">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-contributor-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 1: Contributor (1-2 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-developer-3-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 2: Developer (3-6 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-active-member-6-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 3: Active Member (6-12 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ช่องทางเข้าร่วมชุมชน
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 1: RT-Thread IDE Basic
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 1: RT-Thread IDE Basic
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_workshop1/03.1_workshop1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 1: RT-Thread IDE Basic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 2: Set GPIO/Interrupt pin
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 2: Set GPIO/Interrupt pin
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.1_workshop2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 2: GPIO Interrupt
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.2_i2c_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ใช้งาน I2C บน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.3_hal_entry_vs_main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    hal_entry.c กับ main.c: โปรเจกต์แบบไหนใช้อันไหน
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.4_uart_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ใช้งาน UART (Tx/Rx) บน RT-Thread
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.5_i2c_sensor_lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    I2C Sensor Lab (สำหรับคนมีพื้นฐาน ESP32/Arduino)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_workshop2/04.6_uart_max458/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UART MAX458 (Tx/Rx) Communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 3: Dummy Device
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 3: Dummy Device
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_workshop3/05.1_workshop3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 3: Dummy Device
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_workshop3/05.2_msh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    msh Shell Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_workshop4/06.1_workshop4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 4: WiFi RW007
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 5: IoT Programming
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Workshop 5: IoT Programming
+  
+
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_workshop5/07.1_workshop5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 5: IoT Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_workshop5/07.2_mqwx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EMQX MQTT Broker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_workshop6/08.1_workshop6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 6: OpenMV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_workshop7/09.1_workshop7/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 7: MicroPython
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_workshop8/10.1_workshop8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 8: Face Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11_workshop9/11.1_workshop9/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 9: Edge Impulse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_workshop10/12.1_squareline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workshop 10: Squareline Studio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../13_research_paper/Research_book/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    เอกสารอ้างอิงและงานวิจัย
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="สารบัญ">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      สารบัญ
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ทำไมต้องเรียน? เรียนอย่างไร? และเรียนเพื่ออะไร?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ทำไมต้องเรียน? เรียนอย่างไร? และเรียนเพื่ออะไร?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 ทำไมต้องเรียน (Why Learn?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📖 เรียนอย่างไร (How to Learn?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 เรียนเพื่ออะไร (What For?)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rt-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แนวทางการมีส่วนร่วมในโครงการ RT-Thread
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="แนวทางการมีส่วนร่วมในโครงการ RT-Thread">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fork-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 1: Fork Repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 1: Fork Repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fork" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        วิธี Fork
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clone ลงเครื่อง
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sync-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sync กับ Upstream อย่างสม่ำเสมอ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-branch-master" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สร้าง Feature Branch (อย่าเขียนโค้ดบน master โดยตรง)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        เขียนโค้ดแล้ว Commit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#push-branch-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Push Branch ขึ้น GitHub
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#merge-conflict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        จัดการ Merge Conflict (เมื่อโค้ดชนกัน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 2: เทคนิคการสร้าง Issue (ที่คนอยากช่วยแก้)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 2: เทคนิคการสร้าง Issue (ที่คนอยากช่วยแก้)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#good-issue-vs-bad-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🟢 Good Issue vs 🔴 Bad Issue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#template-issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Template สร้าง Issue ที่ได้ผล
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#label-rt-thread" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ประเภท Label ที่ใช้ใน RT-Thread
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-pull-request-pr-merge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ขั้นตอนที่ 3: สร้าง Pull Request (PR) ที่ได้รับการ Merge
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ขั้นตอนที่ 3: สร้าง Pull Request (PR) ที่ได้รับการ Merge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow แบบมืออาชีพ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ชื่อ Branch ที่ควรใช้
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commit-message-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commit Message Convention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pr-github-git-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        สร้าง PR บน GitHub (หลังจาก git push แล้ว)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แก้ไขตาม Review (ปกติเกิดเสมอ)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upskill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        แผนการ Upskill ต่อเนื่อง
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="แผนการ Upskill ต่อเนื่อง">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-contributor-1-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 1: Contributor (1-2 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-developer-3-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 2: Developer (3-6 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-active-member-6-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ระดับที่ 3: Active Member (6-12 เดือน)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ช่องทางเข้าร่วมชุมชน
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              
+              
+              <article class="md-content__inner md-typeset" data-pagefind-body>
+                
+                  
+  
+  
+
+
+<h1 id="developer-guide">Developer Guide: จากผู้ใช้สู่นักพัฒนา<a class="headerlink" href="#developer-guide" title="Permanent link">&para;</a></h1>
+<p><span class="md-tag">Upskill</span> <span class="md-tag">Work-based Learning</span> <span class="md-tag">Open Source</span></p>
+<hr />
+<h2 id="_1">ทำไมต้องเรียน? เรียนอย่างไร? และเรียนเพื่ออะไร?<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="why-learn">🎯 ทำไมต้องเรียน (Why Learn?)<a class="headerlink" href="#why-learn" title="Permanent link">&para;</a></h3>
+<p>ถ้าคุณผ่าน Workshop 10 บทมาจนถึงตรงนี้ แปลว่าคุณมีทักษะ <strong>"ใช้งาน"</strong> RT-Thread ได้แล้ว แต่โลกจริงต้องการคนที่ <strong>"พัฒนา"</strong> ได้ — ไม่ใช่แค่ "ใช้เป็น"</p>
+<table>
+<thead>
+<tr>
+<th>ระดับ</th>
+<th>ความสามารถ</th>
+<th>ตัวอย่าง</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User</strong></td>
+<td>ใช้เครื่องมือที่มี</td>
+<td>สร้างโปรเจกต์จาก Template</td>
+</tr>
+<tr>
+<td><strong>Contributor</strong></td>
+<td>แก้ Bug เล็ก ๆ น้อย ๆ</td>
+<td>แก้ Typo, อัปเดตเอกสาร</td>
+</tr>
+<tr>
+<td><strong>Developer</strong></td>
+<td>เขียน Feature/ไดรเวอร์ใหม่</td>
+<td>พอร์ตบอร์ดใหม่, เพิ่ม Driver</td>
+</tr>
+<tr>
+<td><strong>Maintainer</strong></td>
+<td>รีวิว PR, วางแผน Roadmap</td>
+<td>ตัดสินใจว่า Feature ไหนเข้าไหม</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition success">
+<p class="admonition-title">จุดมุ่งหมายของบทนี้</p>
+<p>เปลี่ยนคุณจาก <strong>User</strong> ให้เป็น <strong>Contributor → Developer</strong> ได้ด้วยตนเอง ผ่านการเข้าร่วมชุมชน Open Source จริง ๆ</p>
+</div>
+<h3 id="how-to-learn">📖 เรียนอย่างไร (How to Learn?)<a class="headerlink" href="#how-to-learn" title="Permanent link">&para;</a></h3>
+<p>** Work-based Learning** — เรียนผ่านการทำจริง:</p>
+<ol>
+<li><strong>Read the Source</strong> → อ่านโค้ดจริงของ RT-Thread ไม่ใช่แค่เอกสาร</li>
+<li><strong>Break Things</strong> → แก้โค้ดแล้วดูว่าพังยังไง แล้วแก้อย่างไร</li>
+<li><strong>Contribute Back</strong> → สิ่งที่ค้นพบ ส่งกลับไปให้ชุมชน</li>
+</ol>
+<h3 id="what-for">🚀 เรียนเพื่ออะไร (What For?)<a class="headerlink" href="#what-for" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Portfolio ที่พิสูจน์ได้</strong> — PR ที่ถูก Merge คือหลักฐานว่าคุณทำได้จริง</li>
+<li><strong>Network ระดับโลก</strong> — รู้จักนักพัฒนาที่ด้านทั่วโลก</li>
+<li><strong>โอกาสในอาชีพ</strong> — บริษัท Tech หลายแห่งดู GitHub Profile ประกอบสัมภาษณ์</li>
+<li><strong>Self-branding</strong> — "ผมเคยพอร์ตบอร์ดใหม่ให้ RT-Thread" ฟังดูดีกว่า "ผมเคยใช้ RT-Thread"</li>
+</ul>
+<hr />
+<h2 id="rt-thread">แนวทางการมีส่วนร่วมในโครงการ RT-Thread<a class="headerlink" href="#rt-thread" title="Permanent link">&para;</a></h2>
+<h3 id="1-fork-repository">ขั้นตอนที่ 1: Fork Repository<a class="headerlink" href="#1-fork-repository" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph LR
+    A[RT-Thread&lt;br&gt;Official Repo] --&gt;|Fork| B[Your GitHub&lt;br&gt;Account]
+    B --&gt;|Clone| C[Local Machine]
+    C --&gt;|Edit + Commit| D[Your Feature Branch]
+    D --&gt;|Push| B
+    B --&gt;|Pull Request| A</code></pre>
+<h4 id="fork">วิธี Fork<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h4>
+<ol>
+<li>เข้าไปที่ <a href="https://github.com/RT-Thread/rt-thread">https://github.com/RT-Thread/rt-thread</a></li>
+<li>กดปุ่ม <strong>Fork</strong> มุมขวาบน</li>
+<li>ตั้งชื่อ Repo ของคุณ (แนะนำให้คงชื่อ <code>rt-thread</code>)</li>
+<li>ตั้งค่า:</li>
+<li>✅ Copy the <code>master</code> branch only (ไม่ต้องติ๊กถ้าต้องการทุก Branch)</li>
+</ol>
+<h4 id="clone">Clone ลงเครื่อง<a class="headerlink" href="#clone" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># แทน your-username ด้วยชื่อ GitHub ของคุณ</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># คำสั่งนี้จะดาวน์โหลด repo จาก GitHub ลงเครื่องของคุณ</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># สร้าง hidden folder .git/ เก็บประวัติทั้งหมด และสร้าง remote ชื่อ origin ชี้ไปยัง fork ของคุณ</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># origin = "แหล่งกำเนิด" ของคุณ (fork บน GitHub)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/your-username/rt-thread.git
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">cd</span><span class="w"> </span>rt-thread
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># เช็คว่า remote มีอะไรบ้างตอนนี้ (น่าจะมีแค่ origin)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>git<span class="w"> </span>remote<span class="w"> </span>-v
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="c1"># เพิ่ม remote อีกตัวชื่อ upstream ชี้ไปยัง official repo</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1"># upstream = "ต้นน้ำ" (repo หลักที่ RT-Thread ดูแล)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># ทำไมต้องมี 2 remote? เพราะ origin เปลี่ยนได้ตามใจคุณ</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="c1"># แต่ upstream คือของจริงที่คนอื่น commit เข้าไปเรื่อย ๆ</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/RT-Thread/rt-thread.git
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="c1"># เช็คอีกครั้ง ตอนนี้ต้องเห็น 2 คู่: origin + upstream</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>git<span class="w"> </span>remote<span class="w"> </span>-v
+</span></code></pre></div>
+<h4 id="sync-upstream">Sync กับ Upstream อย่างสม่ำเสมอ<a class="headerlink" href="#sync-upstream" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>⚠️ <strong>ทำไมต้อง sync?</strong> ถ้าคุณเขียนโค้ดบน master ที่ล้าหลัง official นาน ๆ
+เวลาสร้าง PR จะเกิด <strong>Merge Conflict</strong> (โค้ดชนกัน) ซึ่งแก้ยากกว่ามาก</p>
+</blockquote>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Step 1: ดึงข้อมูลล่าสุดจาก upstream มาเก็บในเครื่อง (ยังไม่แตะโค้ดที่คุณแก้)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># fetch = "ไปเอาข้อมูลมา" (safe — ไม่ทำอะไรเสียหาย)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Step 2: ย้ายตัวเองไปอยู่บน branch master (ถ้าอยู่ branch อื่นอยู่ ให้ commit หรือ stash ก่อน)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>git<span class="w"> </span>checkout<span class="w"> </span>master
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># Step 3: รวมโค้ดจาก upstream/master เข้า master ของคุณ</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># merge = "รวมกัน" (สร้าง merge commit ใหม่ บันทึกว่าเราเอาของ upstream มา)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>git<span class="w"> </span>merge<span class="w"> </span>upstream/master
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Step 4: ดัน master ที่อัปเดตแล้วไปยัง fork บน GitHub</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</span></code></pre></div>
+<p><strong>ทางลัด: <code>git pull</code> = <code>git fetch</code> + <code>git merge</code></strong>
+แต่สำหรับมือใหม่ แนะนำให้แยกทำ <code>fetch</code> ก่อนเสมอ เพราะคุณจะได้เห็นว่ามีอะไรเปลี่ยนแปลงก่อนตัดสินใจ merge</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># ทางลัด (ระวัง: ถ้ามี conflict จะตกใจ)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>master
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>git<span class="w"> </span>pull<span class="w"> </span>upstream<span class="w"> </span>master
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</span></code></pre></div>
+<h4 id="feature-branch-master">สร้าง Feature Branch (อย่าเขียนโค้ดบน master โดยตรง)<a class="headerlink" href="#feature-branch-master" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>⚠️ <strong>ทำไมต้องสร้าง branch แยก? ถ้าไม่ทำจะเกิดอะไรขึ้น?</strong></p>
+<p>สมมติคุณแก้โค้ดบน <code>master</code> โดยตรง แล้วส่ง PR ไป 1 อัน:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>master (ของคุณ):  A---B---C---D[แก้ UART]  ← เปิด PR #1 ไป upstream
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>                             ↑
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                           คุณอยู่ตรงนี้ มีโค้ดใหม่ที่ยังไม่ merge
+</span></code></pre></div></p>
+<p>หลังจากนั้นอีก 1 สัปดาห์ คุณอยากแก้ EEPROM อีกเรื่อง และเปิด PR #2:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>master (ของคุณ):  A---B---C---D[แก้ UART]---E[แก้ EEPROM]
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>                             ↑              ↑
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>                           PR #1 (รอ)   คุณอยู่ตรงนี้ แต่มีทั้ง D+E!
+</span></code></pre></div></p>
+<p><strong>ปัญหาคือ:</strong> PR #2 จะมีทั้งโค้ดแก้ UART + แก้ EEPROM ปนกัน
+เพราะ GitHub เปรียบเทียบ <code>master</code> ทั้งหมดของคุณ กับ <code>upstream/master</code>
+Maintainer จะบ่น: "ทำไม PR นี้มีโค้ด UART มาด้วย?"</p>
+<p>อีกปัญหา: ถ้า PR #1 ถูก reject หรือติดแก้ คุณจะต้องนั่งแก้บน master
+ซึ่งมีโค้ด EEPROM ปนอยู่ — งงและพังแน่นอน</p>
+</blockquote>
+<p><strong>หลักการสำคัญ: "1 branch = 1 งาน = 1 PR"</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>upstream/master:     A---B---C---F---G (official อัปเดตตลอด)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>                          ↑
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>master (ของคุณ):    A---B---C          ← sync แล้วทิ้งไว้ให้สะอาด
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>                          ↓
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>feature/uart:        A---B---C---D      ← PR #1: แก้ UART อย่างเดียว
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>                          ↓
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>feature/eeprom:      A---B---C---E      ← PR #2: แก้ EEPROM อย่างเดียว
+</span></code></pre></div>
+<p>แต่ละ branch เริ่มต้นจาก <code>master</code> ที่สะอาด (sync แล้ว)
+ถ้า PR #1 ถูก reject คุณก็แค่ลบ branch <code>feature/uart</code> แล้วสร้างใหม่
+ไม่กระทบ <code>master</code> หรือ PR #2 เลย</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># อยู่ที่ master ที่ sync แล้วก่อน (สำคัญ!)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="c1"># ถ้า master ไม่สะอาด branch ใหม่ของคุณจะเอาโค้ดเก่าที่ยังไม่ merge ติดมาด้วย</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>git<span class="w"> </span>checkout<span class="w"> </span>master
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># สร้าง branch ใหม่ชื่อ feature/uart-dma-support แล้วย้ายไปอยู่บนนั้นทันที</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># checkout = "ย้ายไปอยู่ที่" | -b = "สร้างใหม่ (branch)"</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feature/uart-dma-support
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1"># เช็คว่าตอนนี้อยู่ branch ไหน (ดูเครื่องหมาย * ด้านหน้า)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>git<span class="w"> </span>branch
+</span></code></pre></div>
+<p><strong>งานเสร็จแล้ว (PR merge แล้ว) ทำความสะอาด:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># กลับไป master</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>master
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># ดึงอัปเดตล่าสุด (ตอนนี้ upstream มี PR คุณแล้ว)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>git<span class="w"> </span>pull<span class="w"> </span>upstream<span class="w"> </span>master
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>master
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># ลบ branch เก่าที่ merge แล้ว (ลบทั้ง local และ remote)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>feature/uart-dma-support
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>--delete<span class="w"> </span>feature/uart-dma-support
+</span></code></pre></div>
+<h4 id="commit">เขียนโค้ดแล้ว Commit<a class="headerlink" href="#commit" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># เช็คว่ามีไฟล์อะไรเปลี่ยนแปลงบ้าง (ดูสีแดง = ยังไม่ staged, เขียว = พร้อม commit)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>git<span class="w"> </span>status
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># ดูความแตกต่างระหว่างไฟล์ในเครื่องกับ commit ล่าสุด</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>git<span class="w"> </span>diff
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># เลือกไฟล์ที่จะใส่เข้าไปใน commit (stage)</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># add = "เตรียมไฟล์นี้ไว้สำหรับ commit"</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>git<span class="w"> </span>add<span class="w"> </span>drivers/drv_uart.c
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># หรือถ้าต้องการ add ทุกไฟล์ที่แก้ (ระวังอย่าเอาไฟล์ build หรือเก่าเข้าไป)</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>git<span class="w"> </span>add<span class="w"> </span>.
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># Commit พร้อม sign-off (-s) ตามกฎของ RT-Thread</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># sign-off คือการยืนยัน "ฉันเป็นคนแต่งโค้ดนี้จริง ๆ" (Developer Certificate of Origin)</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>git<span class="w"> </span>commit<span class="w"> </span>-s<span class="w"> </span>-m<span class="w"> </span><span class="s2">"[bsp] ra8d1: add UART DMA support"</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="c1"># ถ้าลืมใส่ -s สามารถแก้ commit ล่าสุดได้</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-s
+</span></code></pre></div>
+<h4 id="push-branch-github">Push Branch ขึ้น GitHub<a class="headerlink" href="#push-branch-github" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># ดัน branch ปัจจุบันขึ้นไปยัง origin (fork ของคุณบน GitHub)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># -u (หรือ --set-upstream) = "จำคู่กันไว้" ครั้งหน้าใช้ git push อย่างเดียวได้เลย</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>feature/uart-dma-support
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># หลังจากนี้ถ้าแก้โค้ดอีกและ commit ใหม่ ใช้แค่</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>git<span class="w"> </span>push
+</span></code></pre></div>
+<h4 id="merge-conflict">จัดการ Merge Conflict (เมื่อโค้ดชนกัน)<a class="headerlink" href="#merge-conflict" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>⚠️ เกิดเมื่อไหร่? เมื่อ upstream มีคนแก้ไฟล์เดียวกัน ที่บรรทัดเดียวกันกับคุณ
+(โดยเฉพาะถ้าคุณไม่ได้ sync master นาน)</p>
+</blockquote>
+<p><strong>วิธีแก้:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># ตัวอย่าง: คุณอยู่บน feature/xxx แล้วอยากเอาโค้ดล่าสุดจาก upstream/master มารวม</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>git<span class="w"> </span>merge<span class="w"> </span>upstream/master
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># ถ้ามี conflict จะขึ้นประมาณนี้:</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Auto-merging drivers/drv_uart.c</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># CONFLICT (content): Merge conflict in drivers/drv_uart.c</span>
+</span></code></pre></div>
+<p>เปิดไฟล์ที่ conflict จะเห็น marker แบบนี้:</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span><span class="w"> </span><span class="n">HEAD</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1">// โค้ดของคุณ (ใน branch ปัจจุบัน)</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="o">=======</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">// โค้ดจาก upstream/master ที่เพิ่งดึงมา</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="o">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span><span class="w"> </span><span class="n">upstream</span><span class="o">/</span><span class="n">master</span>
+</span></code></pre></div>
+<p><strong>ขั้นตอนแก้:</strong>
+1. อ่านทั้ง 2 ฝั่ง ตัดสินใจว่าจะเอาฝั่งไหน หรือรวมกันอย่างไร
+2. <strong>ลบ marker</strong> <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> ออกให้หมด
+3. Save ไฟล์
+4. บอก Git ว่าแก้แล้ว:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>git<span class="w"> </span>add<span class="w"> </span>drivers/drv_uart.c
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># ทำให้ commit การ merge นี้เสร็จสิ้น (ไม่ต้องใส่ -m เพราะเป็น merge commit)</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>git<span class="w"> </span>commit
+</span></code></pre></div>
+<p><strong>ทางเลือกอื่น: Rebase (สำหรับคนที่อยากให้ประวัติสะอาด)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># rebase = "ย้าย commit ของคุณไปต่อท้าย upstream/master ล่าสุด"</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1"># ผลลัพธ์คือไม่มี merge commit เกิดขึ้น ประวัติเป็นเส้นตรง (clean history)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>git<span class="w"> </span>rebase<span class="w"> </span>upstream/master
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># ถ้าเกิด conflict ระหว่าง rebase ให้แก้ไฟล์ -&gt; add -&gt; แล้วต่อด้วย</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1"># ถ้ารู้สึกว่าพังแล้วอยากกลับไปก่อน rebase</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+</span></code></pre></div>
+<blockquote>
+<p>💡 <strong>มือใหม่ใช้ merge ก่อน</strong> เพราะ rebase ถ้าทำผิดจะงงกว่า
+แต่ถ้าจริงจังกับ Open Source ต้องรู้จัก rebase เพราะ Maintainer หลายคนชอบ history สะอาด</p>
+</blockquote>
+<hr />
+<h3 id="2-issue">ขั้นตอนที่ 2: เทคนิคการสร้าง Issue (ที่คนอยากช่วยแก้)<a class="headerlink" href="#2-issue" title="Permanent link">&para;</a></h3>
+<p>Issue ไม่ใช่แค่ "รายงาน Bug" — มันคือ <strong>จุดเริ่มต้นของการสนทนา</strong></p>
+<h4 id="good-issue-vs-bad-issue">🟢 Good Issue vs 🔴 Bad Issue<a class="headerlink" href="#good-issue-vs-bad-issue" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>🔴 Bad</th>
+<th>🟢 Good</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Build ไม่ผ่าน"</td>
+<td>"Build failed on RA8D1 with GCC 13.2: undefined reference to <code>__rt_ffs</code>"</td>
+</tr>
+<tr>
+<td>"UART ไม่ทำงาน"</td>
+<td>"UART0 ส่งข้อมูลออกไม่ครบบน Vision-Board: ส่ง 32 bytes ได้ 28 bytes"</td>
+</tr>
+<tr>
+<td>"เอกสารผิด"</td>
+<td>"Docs: <code>rt_thread_mdelay()</code> parameter unit ขาดระบุว่าเป็น milliseconds"</td>
+</tr>
+</tbody>
+</table>
+<h4 id="template-issue">Template สร้าง Issue ที่ได้ผล<a class="headerlink" href="#template-issue" title="Permanent link">&para;</a></h4>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="gu">## ปัญหาที่พบ (Problem)</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>&lt;!-- อธิบายสั้น ๆ ว่าเกิดอะไรขึ้น --&gt;
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="gu">## สภาพแวดล้อม (Environment)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="k">-</span><span class="w"> </span>บอร์ด: [ระบุ เช่น RA8D1 Vision Board]
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="k">-</span><span class="w"> </span>Toolchain: [เช่น GCC 13.2.1]
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="k">-</span><span class="w"> </span>RT-Thread Version: [เช่น v5.1.0]
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="k">-</span><span class="w"> </span>IDE: [เช่น RT-Thread Studio 2.2.7]
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="gu">## ขั้นตอน Reproduce</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="k">1.</span> สร้างโปรเจกต์ใหม่ด้วย Template <span class="sb">`ra8d1-vision-board`</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="k">2.</span> เปิดใช้ UART0 ใน menuconfig
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="k">3.</span> Build และ Flash
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="k">4.</span> สังเกตว่า...
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="gu">## ผลลัพธ์ที่คาดหวัง (Expected)</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>&lt;!-- ควรเป็นอย่างไร --&gt;
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="gu">## ผลลัพธ์ที่ได้จริง (Actual)</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>&lt;!-- เป็นอย่างไร --&gt;
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="gu">## Log / Screenshot</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>&lt;!-- แนบข้อความ Error หรือรูปภาพ --&gt;
+</span></code></pre></div>
+<h4 id="label-rt-thread">ประเภท Label ที่ใช้ใน RT-Thread<a class="headerlink" href="#label-rt-thread" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>ความหมาย</th>
+<th>ใช้เมื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bug</code></td>
+<td>มี Bug จริง ๆ</td>
+<td>โปรแกรม Crash / ผิดพลาด</td>
+</tr>
+<tr>
+<td><code>enhancement</code></td>
+<td>ขอ Feature ใหม่</td>
+<td>อยากได้ความสามารถเพิ่ม</td>
+</tr>
+<tr>
+<td><code>documentation</code></td>
+<td>เอกสารผิด/ขาด</td>
+<td>คำอธิบายไม่ชัดเจน</td>
+</tr>
+<tr>
+<td><code>good first issue</code></td>
+<td>เหมาะสำหรับมือใหม่</td>
+<td>อยากเริ่ม Contribute</td>
+</tr>
+<tr>
+<td><code>BSP</code></td>
+<td>เกี่ยวกับบอร์ด</td>
+<td>ปัญหาเฉพาะบอร์ด</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">ทริค: หา Issue ที่ใช่</p>
+<p>ค้นหา <code>label:"good first issue"</code> ใน <a href="https://github.com/RT-Thread/rt-thread/issues">Issues</a> — นี่คืองานที่ Maintainer แบ่งไว้ให้มือใหม่โดยเฉพาะ</p>
+</div>
+<hr />
+<h3 id="3-pull-request-pr-merge">ขั้นตอนที่ 3: สร้าง Pull Request (PR) ที่ได้รับการ Merge<a class="headerlink" href="#3-pull-request-pr-merge" title="Permanent link">&para;</a></h3>
+<h4 id="workflow">Workflow แบบมืออาชีพ<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h4>
+<pre class="mermaid"><code>graph TD
+    Start[พบปัญหา/อยากเพิ่ม Feature] --&gt; Check{มี Issue แล้ว?}
+    Check --&gt;|ไม่มี| CreateIssue[สร้าง Issue ก่อน]
+    Check --&gt;|มีแล้ว| Branch[สร้าง Branch ใหม่]
+    CreateIssue --&gt; Branch
+    Branch --&gt; Code[เขียนโค้ด + Test]
+    Code --&gt; Commit[Commit ตาม Convention]
+    Commit --&gt; Push[Push ไป Fork]
+    Push --&gt; PR[สร้าง PR]
+    PR --&gt; Review[รอ Maintainer Review]
+    Review --&gt;|ติดแก้| Code
+    Review --&gt;|ผ่าน| Merge[Merge! 🎉]</code></pre>
+<h4 id="branch">ชื่อ Branch ที่ควรใช้<a class="headerlink" href="#branch" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>feature/uart-dma-support      ← เพิ่ม Feature
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>fix/ra8d1-clock-init          ← แก้ Bug
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>docs/rt-spi-api               ← แก้เอกสาร
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>bsp/ra8d1-gpio-update         ← ปรับปรุง BSP
+</span></code></pre></div>
+<h4 id="commit-message-convention">Commit Message Convention<a class="headerlink" href="#commit-message-convention" title="Permanent link">&para;</a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>[type]: คำอธิบายสั้น ๆ ภาษาอังกฤษ
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>[รายละเอียดเพิ่มเติม ถ้ามี]
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Signed-off-by: ชื่อ &lt;email@example.com&gt;
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>ใช้เมื่อ</th>
+<th>ตัวอย่าง</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[bsp]</code></td>
+<td>แก้ไข BSP</td>
+<td><code>[bsp] ra8d1: fix GPIO interrupt config</code></td>
+</tr>
+<tr>
+<td><code>[component]</code></td>
+<td>แก้ Component</td>
+<td><code>[component] add lwIP 2.1.3 support</code></td>
+</tr>
+<tr>
+<td><code>[doc]</code></td>
+<td>แก้เอกสาร</td>
+<td><code>[doc] update build guide for Linux</code></td>
+</tr>
+<tr>
+<td><code>[fix]</code></td>
+<td>แก้ Bug ทั่วไป</td>
+<td><code>[fix] scheduler: priority inversion in mutex</code></td>
+</tr>
+<tr>
+<td><code>[tool]</code></td>
+<td>แก้เครื่องมือ</td>
+<td><code>[tool] env: support python3.12</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">อย่าลืม Sign-off</p>
+<p>RT-Thread ต้องการ <code>Signed-off-by</code> ใน Commit เพื่อยืนยันว่าคุณเป็นผู้แต่งจริง ๆ:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-s<span class="w"> </span>-m<span class="w"> </span><span class="s2">"[bsp] ra8d1: add SPI0 support"</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="c1"># หรือ</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>git<span class="w"> </span>commit<span class="w"> </span>--signoff
+</span></code></pre></div></p>
+</div>
+<h4 id="pr-github-git-push">สร้าง PR บน GitHub (หลังจาก <code>git push</code> แล้ว)<a class="headerlink" href="#pr-github-git-push" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># ถ้าคุณเพิ่ง push branch ใหม่ GitHub จะแสดงปุ่มสีเหลือง "Compare &amp; pull request"</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="c1"># กดปุ่มนั้น หรือเข้าไปที่หน้า repo ของคุณแล้วเลือก branch ของคุณ &gt; กด "Pull request"</span>
+</span></code></pre></div>
+<p><strong>Title ต้องชัดเจน:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>[bsp] ra8d1-vision-board: Add support for onboard EEPROM
+</span></code></pre></div></p>
+<p><strong>Description ต้องครบ:</strong>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="gu">## เปลี่ยนแปลง (Changes)</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">-</span><span class="w"> </span>เพิ่มไดรเวอร์ I2C EEPROM (AT24C02)
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="k">-</span><span class="w"> </span>อัปเดต <span class="sb">`board/Kconfig`</span> ให้เลือกใช้ได้
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="k">-</span><span class="w"> </span>เพิ่มตัวอย่างโค้ดใน <span class="sb">`applications/eeprom_demo.c`</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="gu">## ทดสอบแล้ว (Tested)</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="k">- [x]</span> Build ผ่านบน RT-Thread Studio 2.2.7
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="k">- [x]</span> อ่าน/เขียน EEPROM 32 bytes ผ่าน I2C0
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="k">- [x]</span> ทดสอบบน Vision-Board (RA8D1)
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="gu">## อ้างอิง (Related)</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="k">-</span><span class="w"> </span>Fixes <span class="ni">#1234</span> (ถ้าแก้ Issue ที่มีอยู่)
+</span></code></pre></div></p>
+<h4 id="review">แก้ไขตาม Review (ปกติเกิดเสมอ)<a class="headerlink" href="#review" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p>Maintainer จะ comment บน PR ว่าให้แก้อะไร เช่น "rename variable" หรือ "add null check"
+คุณแก้บนเครื่อง แล้ว push ขึ้นไปใหม่ PR จะอัปเดตอัตโนมัติ</p>
+</blockquote>
+<p><strong>แบบที่ 1: เพิ่ม Commit ใหม่ (ง่ายสุด แนะนำสำหรับมือใหม่)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># แก้โค้ดตาม feedback</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>add<span class="w"> </span>.
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-s<span class="w"> </span>-m<span class="w"> </span><span class="s2">"[bsp] ra8d1: fix review comments (rename var, add null check)"</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>git<span class="w"> </span>push
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="c1"># PR บน GitHub จะเห็น commit ใหม่ทันที</span>
+</span></code></pre></div>
+<p><strong>แบบที่ 2: แก้ Commit เดิมแล้ว Force Push (history สะอาด แต่ระวัง)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># แก้โค้ดตาม feedback</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>git<span class="w"> </span>add<span class="w"> </span>.
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># --amend = "ฉันไม่ได้ทำใหม่ ฉันแค่แก้ commit เดิม"</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-s
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="c1"># ต้อง force push เพราะ history เปลี่ยน (SHA ของ commit เปลี่ยน)</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># --force-with-lease = "บังคับดัน แต่ขอเช็คก่อนว่าไม่มีใคร push ทับในระหว่างที่ฉันแก้"</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>git<span class="w"> </span>push<span class="w"> </span>--force-with-lease
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="c1"># ⚠️ อย่าใช้ --force เปล่า ๆ บน branch ที่มีคนอื่นใช้ร่วม</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="c1"># แต่บน feature branch ของตัวเองใช้ --force-with-lease ได้ปลอดภัย</span>
+</span></code></pre></div>
+<hr />
+<h2 id="upskill">แผนการ Upskill ต่อเนื่อง<a class="headerlink" href="#upskill" title="Permanent link">&para;</a></h2>
+<h3 id="1-contributor-1-2">ระดับที่ 1: Contributor (1-2 เดือน)<a class="headerlink" href="#1-contributor-1-2" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Fork + Clone + Sync ได้คล่อง</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> แก้ Typo / อัปเดตเอกสาร แล้วส่ง PR 1-2 ครั้ง</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ตอบ Issue ที่คนอื่นถาม (ถ้ารู้คำตอบ)</li>
+</ul>
+<h3 id="2-developer-3-6">ระดับที่ 2: Developer (3-6 เดือน)<a class="headerlink" href="#2-developer-3-6" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> เพิ่ม Feature เล็ก ๆ น้อย ๆ เช่น ไดรเวอร์ใหม่</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Review PR ของคนอื่น (comment ได้)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Debug ปัญหาซับซ้อนแล้วส่ง Patch</li>
+</ul>
+<h3 id="3-active-member-6-12">ระดับที่ 3: Active Member (6-12 เดือน)<a class="headerlink" href="#3-active-member-6-12" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> พอร์ตบอร์ดใหม่เข้า Mainline</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> เป็น Maintainer ของ BSP ที่ตัวเองสนใจ</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ช่วยตอบคำถามใน Forum / Issues</li>
+</ul>
+<hr />
+<h2 id="_2">ช่องทางเข้าร่วมชุมชน<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ช่องทาง</th>
+<th>ลิงก์</th>
+<th>ใช้ทำอะไร</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Issues</td>
+<td><a href="https://github.com/RT-Thread/rt-thread/issues">github.com/RT-Thread/rt-thread/issues</a></td>
+<td>แจ้ง Bug / ขอ Feature</td>
+</tr>
+<tr>
+<td>GitHub Discussions</td>
+<td><a href="https://github.com/RT-Thread/rt-thread/discussions">github.com/RT-Thread/rt-thread/discussions</a></td>
+<td>ถามคำถามทั่วไป</td>
+</tr>
+<tr>
+<td>Forum (中文)</td>
+<td><a href="https://club.rt-thread.org">club.rt-thread.org</a></td>
+<td>ฟอรัมภาษาจีน (ใหญ่สุด)</td>
+</tr>
+<tr>
+<td>Discord / QQ</td>
+<td>ค้นหาในเอกสาร</td>
+<td>แชทเร็ว</td>
+</tr>
+<tr>
+<td>WeChat Official</td>
+<td>RT-Thread (官方)</td>
+<td>ข่าวสาร</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div class="admonition quote">
+<p class="admonition-title">คำจำไว้</p>
+<p><strong>"ไม่มีใครเกิดมาเป็น Developer — ทุกคนเริ่มจากการกด Fork ครั้งแรก"</strong></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">ขั้นตอนถัดไป</p>
+<p>ลอง Fork <a href="https://github.com/RT-Thread/rt-thread">rt-thread</a> ตอนนี้เลย แล้วหา Issue ที่มี Label <code>good first issue</code> สัก 1 อัน เริ่มจากการอ่านโค้ดและพยายามเข้าใจว่าปัญหาอยู่ตรงไหน — นั่นคือจุดเริ่มต้นของการเป็น Developer จริง ๆ</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+          <div class="md-top" data-md-component="top" hidden>
+  <div class="md-top__center">
+    <button type="button" class="md-top__button md-top__button--main" data-md-action="top">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+      <span>กลับไปด้านบนสุด</span>
+    </button>
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--nav" for="__drawer" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-left" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+      </label>
+    
+    
+      
+      
+      <label class="md-top__button md-top__side md-top__side--toc" for="__toc" >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-panel-right" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/></svg>
+      </label>
+    
+  </div>
+</div>
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="ส่วนท้าย" >
+        
+          
+          <a href="../02.4_install_OpenMV/" class="md-footer__link md-footer__link--prev" aria-label="ก่อนหน้า: ติดตั้ง OpenMV IDE">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                ก่อนหน้า
+              </span>
+              <div class="md-ellipsis">
+                ติดตั้ง OpenMV IDE
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../03_workshop1/03.1_workshop1/" class="md-footer__link md-footer__link--next" aria-label="ต่อไป: Workshop 1: RT-Thread IDE Basic">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                ต่อไป
+              </span>
+              <div class="md-ellipsis">
+                Workshop 1: RT-Thread IDE Basic
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025-2026 Sawangpong muadphet <sawangpongm@gmail.com>
+    </div>
+  
+  
+    Made with
+    <a href="https://jaywhj.github.io/mkdocs-materialx/" target="_blank" rel="noopener">
+      MaterialX
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/thaicodeorg/rt-thread-workshop" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      
+      
+        
+        
+          
+          
+        
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "code": null, "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.top", "navigation.footer", "navigation.indexes", "content.code.copy", "content.code.annotate", "content.footnote.tooltips", "header.autohide", "search.suggest", "search.highlight", "search.share"], "search": {"options": {"baseUrl": "../..", "bundleUrl": "../../search/", "highlight": true, "searchOptions": {}}, "provider": "pagefind"}, "tags": null, "translations": {"clipboard.copied": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e41\u0e25\u0e49\u0e27", "clipboard.copy": "\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01", "code.collapse": "Collapse", "code.download": "Download", "code.expand": "Expand remaining # lines", "code.select": "Toggle line selection", "search.offline": "Switch to Lunr for offline search", "search.result.more.one": "\u0e2d\u0e35\u0e01\u0e2b\u0e19\u0e36\u0e48\u0e07\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.more.other": "# \u0e40\u0e1e\u0e34\u0e48\u0e21\u0e40\u0e15\u0e34\u0e21\u0e43\u0e19\u0e2b\u0e19\u0e49\u0e32\u0e19\u0e35\u0e49", "search.result.none": "\u0e44\u0e21\u0e48\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.one": "\u0e1e\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.other": "\u0e1e\u0e1a # \u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e01\u0e31\u0e19", "search.result.placeholder": "\u0e1e\u0e34\u0e21\u0e1e\u0e4c\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e40\u0e23\u0e34\u0e48\u0e21\u0e04\u0e49\u0e19\u0e2b\u0e32", "search.result.term.missing": "\u0e44\u0e21\u0e48\u0e1e\u0e1a", "select.version": "\u0e40\u0e25\u0e37\u0e2d\u0e01\u0e40\u0e27\u0e2d\u0e23\u0e4c\u0e0a\u0e31\u0e19"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.19ace10b.min.js"></script>
+      
+        <script src="../../javascripts/glightbox-lib.min.js"></script>
+      
+        <script src="../../javascripts/glightbox.js"></script>
+      
+        <script src="https://unpkg.com/mermaid@10/dist/mermaid.min.js"></script>
+      
+        <script src="../../javascripts/mermaid-init.js"></script>
+      
+    
+  </body>
+</html>

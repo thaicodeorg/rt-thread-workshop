@@ -1,0 +1,16 @@
+/* Click-to-zoom indicator on images */
+.md-content img {
+    cursor: zoom-in;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 4px;
+}
+
+.md-content img:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
+}
+
+/* Dark mode support */
+[data-md-color-scheme="slate"] .md-content img:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
