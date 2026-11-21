@@ -44,7 +44,7 @@ hide:
 | 07 | 14.45–16.00 | [MicroPython](./09_workshop7/09.1_workshop7.md) | `Intermediate` |
 | 08 | 14.45–16.00 | [Face Detection](./10_workshop8/10.1_workshop8.md) | `Advanced` |
 | 09 | 14.45–16.00 | [Edge Impulse](./11_workshop9/11.1_workshop9.md) | `ML` |
-| 10 | 14.45–16.00 | [Squareline Studio](./12_workshop10/12.1_squareline.md) | `GUI` |
+
 
 ### 📚 เอกสารอ้างอิง
 

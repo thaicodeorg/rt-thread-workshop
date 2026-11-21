@@ -16,6 +16,9 @@ nav:
       - 01_rt-thread/01.4_vision_board.md
       - 01_rt-thread/01.5_bsp_architecture.md
       - 01_rt-thread/01.6_RA8D1.md
+      - 01_rt-thread/01.7_scons.md 
+      - 01_rt-thread/01.8_rt-thread-programming.md
+
   - Setup Environment ติตตั้งโปรแกรม:
       - 02_Preparation/02.1_install_rt_thread_ide.md
       - 02_Preparation/02.2_install_fsp.md
@@ -28,9 +31,11 @@ nav:
   - "Workshop 2: Set GPIO/Interrupt pin": 
       - 04_workshop2/04.1_workshop2.md
       - 04_workshop2/04.2_i2c_guide.md
+      - 04_workshop2/04.5_i2c_sensor_lab.md
+      - 04_workshop2/04.5_i2c_sensor_lab2.md
       - 04_workshop2/04.3_hal_entry_vs_main.md
       - 04_workshop2/04.4_uart_guide.md
-      - 04_workshop2/04.5_i2c_sensor_lab.md
+
       - 04_workshop2/04.6_uart_max458.md
   - "Workshop 3: Dummy Device":
       - 05_workshop3/05.1_workshop3.md
@@ -43,7 +48,9 @@ nav:
   - "Workshop 7: MicroPython": 09_workshop7/09.1_workshop7.md
   - "Workshop 8: Face Detection": 10_workshop8/10.1_workshop8.md
   - "Workshop 9: Edge Impulse": 11_workshop9/11.1_workshop9.md
-  - "Workshop 10: Squareline Studio": 12_workshop10/12.1_squareline.md
+  - "Workshop 10 :SquareLine Studio": 
+      - 12_workshop10/12_1_install_square.md
+      - 12_workshop10/12_2_squreline_basic.md
   - เอกสารอ้างอิงและงานวิจัย: 13_research_paper/Research_book.md
 
 theme:
