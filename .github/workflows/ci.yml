@@ -38,7 +38,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: './public'
+          path: .
+        working-directory: ./public
 
   deploy:
     needs: build
