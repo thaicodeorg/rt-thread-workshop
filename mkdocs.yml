@@ -51,6 +51,7 @@ nav:
   - "Workshop 10 :SquareLine Studio": 
       - 12_workshop10/12_1_install_square.md
       - 12_workshop10/12_2_squreline_basic.md
+      - 12_workshop10/12_3_squreline_integration.md
   - เอกสารอ้างอิงและงานวิจัย: 13_research_paper/Research_book.md
 
 theme:
