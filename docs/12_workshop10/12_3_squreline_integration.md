@@ -306,24 +306,25 @@ void hal_entry(void)
 
 ![](./images/search_ctrl_h1.png)
 
+## Version Conflict
 
-1. ห้ามแก้ในโฟลเดอร์ libraries (และต้องลบ LVGL-v9.1.0 ออก)
+1. ห้ามแก้ในโฟลเดอร์ libraries (และต้องลบ LVGL-v9.1.0 ออก)  
+    • ในผลลัพธ์การค้นหา มีไฟล์ที่อยู่ใน libraries/components/LVGL-v9.1.0 ติดมาด้วย ซึ่ง ห้ามไปแก้โค้ดข้างในตัวไลบรารี LVGL เอง   
+    • ยิ่งไปกว่านั้น สังเกตว่าใน libraries/components/ มี LVGL-v9.1.0 ติดตั้งมากับ BSP ของบอร์ดอยู่แล้ว ซึ่งเวอร์ชัน 9.1.0 จะขัดแย้ง (Conflict) และเข้ากันไม่ได้กับโค้ดจาก SquareLine Studio ที่เป็นเวอร์ชัน 8.3.11  
 
-• ในผลลัพธ์การค้นหา มีไฟล์ที่อยู่ใน libraries/components/LVGL-v9.1.0 ติดมาด้วย ซึ่ง ห้ามไปแก้โค้ดข้างในตัวไลบรารี LVGL เอง
-• ยิ่งไปกว่านั้น สังเกตว่าใน libraries/components/ มี LVGL-v9.1.0 ติดตั้งมากับ BSP ของบอร์ดอยู่แล้ว ซึ่งเวอร์ชัน 9.1.0 จะขัดแย้ง (Conflict) และเข้ากันไม่ได้กับโค้ดจาก SquareLine Studio ที่เป็นเวอร์ชัน 8.3.11
+2. วิธีแก้ lvgl/lvgl.h เฉพาะในโฟลเดอร์ ui เท่านั้น  
 
-2. วิธีแก้ lvgl/lvgl.h เฉพาะในโฟลเดอร์ ui เท่านั้น
+    • ในหน้าต่าง Search (Ctrl + H) ให้เลือก Scope เป็น Selected resources (โดยคลิกเลือกเฉพาะโฟลเดอร์ ui ใน Project Explorer ก่อน) หรือในหน้าต่าง Search ตอนนี้ ให้คลิกขวาที่โฟลเดอร์ ui ด้านล่างสุดของรายการค้นหา แล้วเลือก Replace Selected... เพื่อแก้เฉพาะในโฟลเดอร์ ui เท่านั้น  
 
-• ในหน้าต่าง Search (Ctrl + H) ให้เลือก Scope เป็น Selected resources (โดยคลิกเลือกเฉพาะโฟลเดอร์ ui ใน Project Explorer ก่อน) หรือในหน้าต่าง Search ตอนนี้ ให้คลิกขวาที่โฟลเดอร์ ui ด้านล่างสุดของรายการค้นหา แล้วเลือก Replace Selected... เพื่อแก้เฉพาะในโฟลเดอร์ ui เท่านั้น
+3. จัดการเวอร์ชัน LVGL ไม่ให้ชนกัน (v9.1.0 vs v8.3.11)  
 
-3. จัดการเวอร์ชัน LVGL ไม่ให้ชนกัน (v9.1.0 vs v8.3.11)
+เนื่องจากบอร์ด RA8D1 Vision Board มีโฟลเดอร์ LVGL-v9.1.0 แถมมาใน libraries/components/ และคุณเพิ่งเพิ่มแพ็กเกจ LVGL เข้าไปใน packages/ ให้ตรวจสอบดังนี้:  
 
-เนื่องจากบอร์ด RA8D1 Vision Board มีโฟลเดอร์ LVGL-v9.1.0 แถมมาใน libraries/components/ และคุณเพิ่งเพิ่มแพ็กเกจ LVGL เข้าไปใน packages/ ให้ตรวจสอบดังนี้:
-1. ปิด LVGL v9.1.0 ที่ติดมากับบอร์ด (ถ้าเปิดอยู่):
-	• เปิด RT-Thread Settings > กดลูกศร << (มุมขวาบน) เพื่อเข้าหน้าตั้งค่าละเอียด
-	• ไปที่แท็บ Hardware (หรือ Components) ตรวจสอบว่าไม่ได้ติ๊กเปิดใช้ LVGL v9.1.0 ของบอร์ดซ้ำซ้อนกับแพ็กเกจใน packages
-2. ตั้งค่าแพ็กเกจใน packages ให้เป็น v8.3.11:
-	• ในหน้า RT-Thread Settings คลิกที่กล่อง LVGL (official) เปลี่ยนเวอร์ชันจาก latest เป็น v8.3.11 แล้วกด Ctrl + S
-3. อัปเดตโปรเจกต์และ Build:
-	• คลิกขวาที่โปรเจกต์ LVGL_Dashboard > Update All Projects แล้วกด Build
-หากแก้เฉพาะในโฟลเดอร์ ui และเปลี่ยนแพ็กเกจเป็น v8.3.11 แล้ว กด Build มี Error แจ้งเตือนเรื่องไฟล์ซ้ำซ้อน (Multiple definition) ระหว่าง libraries กับ packages หรือไม่ครับ สามารถแจ้งผลลัพธ์ใน Console ได้เลยครับ
+1. ปิด LVGL v9.1.0 ที่ติดมากับบอร์ด (ถ้าเปิดอยู่):    
+	• เปิด RT-Thread Settings > กดลูกศร << (มุมขวาบน) เพื่อเข้าหน้าตั้งค่าละเอียด  
+	• ไปที่แท็บ Hardware (หรือ Components) ตรวจสอบว่าไม่ได้ติ๊กเปิดใช้ LVGL v9.1.0 ของบอร์ดซ้ำซ้อนกับแพ็กเกจใน packages  
+2. ตั้งค่าแพ็กเกจใน packages ให้เป็น v8.3.11:  
+	• ในหน้า RT-Thread Settings คลิกที่กล่อง LVGL (official) เปลี่ยนเวอร์ชันจาก latest เป็น v8.3.11 แล้วกด Ctrl + S  
+3. อัปเดตโปรเจกต์และ Build:  
+	• คลิกขวาที่โปรเจกต์ LVGL_Dashboard > Update All Projects แล้วกด Build  
+หากแก้เฉพาะในโฟลเดอร์ ui และเปลี่ยนแพ็กเกจเป็น v8.3.11 แล้ว กด Build มี Error แจ้งเตือนเรื่องไฟล์ซ้ำซ้อน (Multiple definition) ระหว่าง libraries กับ packages หรือไม่ครับ สามารถแจ้งผลลัพธ์ใน Console ได้เลยครับ  
