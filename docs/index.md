@@ -8,7 +8,8 @@ hide:
 
 <div class="mdx-hero" markdown>
 
-# 🚀 RT-Thread Workshop MUICT 2026
+![](./assets/rt-thread-logo.png)
+# Mastering Advanced IoT: RT-Thread Stack Developer Training” เสริมทักษะนักพัฒนาไทยสู่ยุค Intelligent IoT บน ARM Cortex-M85
 
 อบรมการใช้งาน **RT-Thread RTOS** บนบอร์ด **Renesas RA8D1 Vision Board**  
 สำหรับนักศึกษาและผู้สนใจ Embedded Systems, IoT และ Edge AI
@@ -91,7 +92,7 @@ hide:
 
 - [TESA Official](https://www.tesa.or.th/) — เว็บไซต์สมาคม
 - [TESA Facebook](https://www.facebook.com/tesathailand/) — ข่าวสารและกิจกรรม
-
+- [Supachai Vorapojpisut on Cnx-software.com](https://www.cnx-software.com/2024/06/13/rt-thread-vision-board-review-openmv-on-renesas-ra8d1-cortex-m85-microcontroller/)
 ---
 
 ### 🛠 เครื่องมือ & SDK

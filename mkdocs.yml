@@ -8,6 +8,7 @@ strict: true
 nav:
   - หน้าหลัก: index.md
   - พื้นฐาน RT-Thread:
+      - 01_rt-thread/01.0_pin_out.md
       - 01_rt-thread/01.0-ra8d1-board.md
       - 01_rt-thread/01.0_rtthread_boot_flow.md
       - 01_rt-thread/01.1_rtthread_kernel.md
@@ -26,6 +27,7 @@ nav:
       - 02_Preparation/02.4_install_OpenMV.md
       - 02_Preparation/02.5_Developer.md
   - "Workshop 1: RT-Thread IDE Basic": 
+      - 03_workshop1/03.1_intro_development.md
       - 03_workshop1/03.1_workshop1.md
       - 03_workshop1/03.1_ProjectStructure.md
   - "Workshop 2: Set GPIO/Interrupt pin": 
@@ -53,6 +55,9 @@ nav:
       - 12_workshop10/12_2_squreline_basic.md
       - 12_workshop10/12_3_squreline_integration.md
   - เอกสารอ้างอิงและงานวิจัย: 13_research_paper/Research_book.md
+  - การพัฒนาเฟิร์มแวร์บนบอร์ด Renesas RA8D1 Vision Board ด้วย RT-Thread RTOS:
+      - 14_developer/01_build_from_source.md
+      - 14_developer/02_pyOCD.md
 
 theme:
   custom_dir: overrides
