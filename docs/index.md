@@ -92,7 +92,10 @@ hide:
 
 - [TESA Official](https://www.tesa.or.th/) — เว็บไซต์สมาคม
 - [TESA Facebook](https://www.facebook.com/tesathailand/) — ข่าวสารและกิจกรรม
+
+### RT-Thread by TESA
 - [Supachai Vorapojpisut on Cnx-software.com](https://www.cnx-software.com/2024/06/13/rt-thread-vision-board-review-openmv-on-renesas-ra8d1-cortex-m85-microcontroller/)
+- [University Programe](https://dev.tesa.or.th/tesa-developer/tesa-university-program/rt-thread-iot-os/university-program)
 ---
 
 ### 🛠 เครื่องมือ & SDK
